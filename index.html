@@ -13,24 +13,20 @@
       padding: 20px;
       margin: 0;
     }
-
     h1 {
       color: #4fd266;
       font-size: 58px;
       margin-bottom: 8px;
     }
-
     .subtitle {
       font-size: 18px;
       color: #dbeafe;
       margin-bottom: 26px;
     }
-
     .container {
       max-width: 760px;
       margin: 0 auto;
     }
-
     input {
       width: 100%;
       padding: 18px;
@@ -41,7 +37,6 @@
       box-sizing: border-box;
       color: #111827;
     }
-
     button {
       background: #4fd266;
       border: none;
@@ -54,16 +49,11 @@
       font-weight: bold;
       cursor: pointer;
     }
-
-    button:disabled {
-      opacity: 0.7;
-    }
-
+    button:disabled { opacity: 0.7; }
     .toggle {
       margin: 22px 0;
       font-size: 20px;
     }
-
     .results {
       margin-top: 30px;
       background: #1f2d45;
@@ -71,19 +61,16 @@
       border-radius: 18px;
       min-height: 200px;
     }
-
     .metric {
       margin: 10px 0;
       font-size: 22px;
       line-height: 1.5;
     }
-
     .heat {
       font-size: 24px;
       font-weight: bold;
       margin-top: 10px;
     }
-
     .title-box {
       background: rgba(255, 255, 255, 0.08);
       padding: 14px;
@@ -93,23 +80,21 @@
       line-height: 1.5;
       word-break: break-word;
     }
-
     .decision {
       font-size: 42px;
       margin-top: 20px;
       font-weight: bold;
     }
-
     .buy { color: #4fd266; }
     .maybe { color: #facc15; }
     .pass { color: #ef4444; }
-
-    .error {
-      color: #fca5a5;
-    }
-
-    .loading {
-      color: #93c5fd;
+    .error { color: #fca5a5; }
+    .loading { color: #93c5fd; }
+    .note {
+      font-size: 16px;
+      color: #cbd5e1;
+      margin-top: 14px;
+      line-height: 1.5;
     }
   </style>
 </head>
@@ -143,6 +128,7 @@
       <div class="heat" id="demandHeat"></div>
       <div class="heat" id="profitHeat"></div>
       <div class="title-box" id="titleBox" style="display:none;"></div>
+      <div class="note" id="note"></div>
       <div class="decision" id="decision"></div>
     </div>
   </div>
@@ -166,6 +152,7 @@
       const demandHeat = document.getElementById("demandHeat");
       const profitHeat = document.getElementById("profitHeat");
       const titleBox = document.getElementById("titleBox");
+      const note = document.getElementById("note");
       const decision = document.getElementById("decision");
 
       status.className = "metric loading";
@@ -179,6 +166,7 @@
       profitHeat.innerHTML = "";
       titleBox.style.display = "none";
       titleBox.innerHTML = "";
+      note.innerHTML = "";
       decision.innerHTML = "";
       decision.className = "decision";
 
@@ -212,7 +200,7 @@
         status.className = "metric";
         status.innerHTML = data.query || `${brand} ${item} ${size}`;
 
-        str.innerHTML = `Sell Through Rate: ${data.sellThroughPercent}%`;
+        str.innerHTML = `Demand Proxy: ${data.demandProxyPercent}%`;
         prices.innerHTML = `Low: $${data.lowSoldPrice} | Avg: $${data.avgSoldPrice} | High: $${data.highSoldPrice}`;
         listPrice.innerHTML = `Recommended Price: $${data.recommendedListingPrice}`;
         profit.innerHTML = `Estimated Profit: $${data.estimatedProfit}`;
@@ -225,6 +213,8 @@
           titleBox.style.display = "block";
           titleBox.innerHTML = `<strong>Suggested Title:</strong><br>${data.suggestedTitle}`;
         }
+
+        note.innerHTML = data.note || "";
 
         decision.innerHTML = data.decision || "PASS";
         if (data.decision === "BUY") decision.className = "decision buy";

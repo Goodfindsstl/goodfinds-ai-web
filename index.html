@@ -1,124 +1,219 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GoodFinds AI</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #08122e;
-      color: white;
-      text-align: center;
-      padding: 20px;
-      margin: 0;
-    }
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GoodFinds AI</title>
 
-    h1 {
-      color: #22c55e;
-      margin-bottom: 8px;
-      font-size: 56px;
-    }
+<style>
 
-    .subtitle {
-      margin-bottom: 24px;
-      color: #dbeafe;
-      font-size: 18px;
-    }
+body{
+font-family:Arial;
+background:#0f172a;
+color:white;
+text-align:center;
+padding:20px;
+}
 
-    .container {
-      max-width: 760px;
-      margin: 0 auto;
-    }
+h1{
+color:#22c55e;
+}
 
-    input {
-      width: 100%;
-      padding: 16px;
-      margin: 10px 0;
-      border-radius: 14px;
-      border: none;
-      font-size: 22px;
-      box-sizing: border-box;
-    }
+.container{
+max-width:500px;
+margin:auto;
+}
 
-    button {
-      background: #22c55e;
-      color: #0b1220;
-      border: none;
-      padding: 18px;
-      width: 100%;
-      font-size: 24px;
-      border-radius: 14px;
-      margin-top: 20px;
-      cursor: pointer;
-      font-weight: bold;
-    }
+input{
+width:95%;
+padding:14px;
+margin:10px;
+border-radius:10px;
+border:none;
+font-size:18px;
+}
 
-    button:disabled {
-      opacity: 0.7;
-      cursor: wait;
-    }
+button{
+background:#22c55e;
+border:none;
+padding:16px;
+width:95%;
+font-size:20px;
+border-radius:12px;
+margin-top:15px;
+color:black;
+font-weight:bold;
+}
 
-    .toggle {
-      margin: 22px 0;
-      font-size: 20px;
-    }
+.results{
+margin-top:25px;
+background:#1e293b;
+padding:20px;
+border-radius:15px;
+}
 
-    .results {
-      margin-top: 30px;
-      background: #1e293b;
-      padding: 28px;
-      border-radius: 18px;
-      min-height: 180px;
-    }
+.metric{
+margin:8px 0;
+font-size:18px;
+}
 
-    .metric {
-      margin: 12px 0;
-      font-size: 22px;
-      line-height: 1.5;
-    }
+.decision{
+font-size:34px;
+margin-top:15px;
+font-weight:bold;
+}
 
-    .decision {
-      font-size: 42px;
-      margin-top: 18px;
-      font-weight: bold;
-    }
+.buy{ color:#22c55e; }
+.maybe{ color:#eab308; }
+.pass{ color:#ef4444; }
 
-    .buy { color: #22c55e; }
-    .maybe { color: #eab308; }
-    .pass { color: #ef4444; }
-    .loading { color: #93c5fd; }
-    .error { color: #fca5a5; }
+.heat{
+font-size:22px;
+margin:8px 0;
+font-weight:bold;
+}
 
-    .small {
-      font-size: 18px;
-      color: #cbd5e1;
-      line-height: 1.5;
-    }
+.titleBox{
+background:#0f172a;
+padding:10px;
+border-radius:10px;
+margin-top:10px;
+font-size:16px;
+}
 
-    .heat {
-      font-size: 24px;
-      font-weight: bold;
-      margin-top: 10px;
-    }
-
-    .title-box {
-      margin-top: 16px;
-      padding: 14px;
-      background: rgba(255,255,255,0.06);
-      border-radius: 12px;
-      font-size: 18px;
-      line-height: 1.5;
-    }
-  </style>
+</style>
 </head>
-<body>
-  <div class="container">
-    <h1>GoodFinds AI</h1>
-    <div class="subtitle">Thrift Sourcing Tool</div>
 
-    <input id="brand" placeholder="Brand (Nike)" />
-    <input id="item" placeholder="Item (Golf Polo)" />
-    <input id="size" placeholder="Size (XL)" />
-    <input id="cost" placeholder="Buy Cost ($)" type="number" step="0.01" />
-    <input id="shipping" placeholder="Shipping Cost ($)" type="number" step="0.01" value="6.25"
+<body>
+
+<div class="container">
+
+<h1>GoodFinds AI</h1>
+<p>Thrift Sourcing Tool</p>
+
+<input id="brand" placeholder="Brand (Nike)">
+<input id="item" placeholder="Item (Golf Polo)">
+<input id="size" placeholder="Size (XL)">
+<input id="cost" placeholder="Buy Cost ($)">
+<input id="shipping" placeholder="Shipping Cost ($)" value="6.25">
+
+<button onclick="runResearch()">Run Research</button>
+
+<div class="results">
+
+<div class="metric" id="str"></div>
+<div class="metric" id="prices"></div>
+<div class="metric" id="listPrice"></div>
+<div class="metric" id="profit"></div>
+<div class="metric" id="roi"></div>
+
+<div class="heat" id="demand"></div>
+<div class="heat" id="profitHeat"></div>
+
+<div class="titleBox" id="title"></div>
+
+<div class="decision" id="decision"></div>
+
+</div>
+
+</div>
+
+<script>
+
+async function runResearch(){
+
+const brand = document.getElementById("brand").value
+const item = document.getElementById("item").value
+const size = document.getElementById("size").value
+const cost = document.getElementById("cost").value
+
+const url =
+"https://goodfinds-backend.vercel.app/api/research" +
+`?brand=${brand}&item=${item}&size=${size}&buyCost=${cost}`
+
+try{
+
+const res = await fetch(url)
+const data = await res.json()
+
+if(data.error){
+document.getElementById("str").innerHTML = "Error: "+data.error
+return
+}
+
+const str = data.sellThroughPercent || 0
+const low = data.lowSoldPrice || 0
+const avg = data.avgSoldPrice || 0
+const high = data.highSoldPrice || 0
+const list = data.recommendedListingPrice || 0
+const profit = data.estimatedProfit || 0
+const roi = data.roiPercent || 0
+
+document.getElementById("str").innerHTML =
+"Sell Through Rate: "+str+"%"
+
+document.getElementById("prices").innerHTML =
+"Low: $"+low+" | Avg: $"+avg+" | High: $"+high
+
+document.getElementById("listPrice").innerHTML =
+"Recommended Price: $"+list
+
+document.getElementById("profit").innerHTML =
+"Estimated Profit: $"+profit
+
+document.getElementById("roi").innerHTML =
+"ROI: "+roi+"%"
+
+/* DEMAND HEAT */
+
+let demandText=""
+
+if(str > 200) demandText="🔥 VERY HOT DEMAND"
+else if(str > 120) demandText="🔥 HOT DEMAND"
+else if(str > 80) demandText="⚠️ MEDIUM DEMAND"
+else demandText="❄️ LOW DEMAND"
+
+document.getElementById("demand").innerHTML = demandText
+
+/* PROFIT HEAT */
+
+let profitText=""
+
+if(profit > 20) profitText="🔥 HOT DEAL"
+else if(profit > 10) profitText="👍 GOOD PROFIT"
+else if(profit > 5) profitText="⚠️ SMALL PROFIT"
+else profitText="❌ LOW PROFIT"
+
+document.getElementById("profitHeat").innerHTML = profitText
+
+/* TITLE */
+
+document.getElementById("title").innerHTML =
+"Suggested Title:<br>"+(data.suggestedTitle || "")
+
+/* DECISION */
+
+let decision = data.decision || "PASS"
+let decisionClass="pass"
+
+if(decision==="BUY") decisionClass="buy"
+if(decision==="MAYBE") decisionClass="maybe"
+
+const d = document.getElementById("decision")
+
+d.innerHTML = decision
+d.className = "decision "+decisionClass
+
+}
+catch(err){
+
+document.getElementById("str").innerHTML =
+"Error connecting to API"
+
+}
+
+}
+
+</script>
+
+</body>
+</html>

@@ -107,67 +107,101 @@ Buyer Pays Shipping
 </div>
 
 <script>
+async function runCalc() {
+  const brand = document.getElementById("brand").value.trim();
+  const item = document.getElementById("item").value.trim();
+  const size = document.getElementById("size").value.trim();
+  const cost = parseFloat(document.getElementById("cost").value || 0);
+  const shipping = parseFloat(document.getElementById("shipping").value || 0);
+  const buyerPays = document.getElementById("buyerShipping").checked;
 
-function runCalc(){
+  if (!brand || !item || !size) {
+    document.getElementById("str").innerHTML = "Please enter brand, item, and size.";
+    document.getElementById("prices").innerHTML = "";
+    document.getElementById("profit").innerHTML = "";
+    document.getElementById("decision").innerHTML = "";
+    return;
+  }
 
-let cost = parseFloat(document.getElementById("cost").value);
-let shipping = parseFloat(document.getElementById("shipping").value);
-let buyerPays = document.getElementById("buyerShipping").checked;
+  document.getElementById("str").innerHTML = "Loading live eBay data...";
+  document.getElementById("prices").innerHTML = "";
+  document.getElementById("profit").innerHTML = "";
+  document.getElementById("decision").innerHTML = "";
 
-/* Demo data until eBay API is connected */
+  try {
+    const url =
+      `https://goodfinds-backend.vercel.app/api/research` +
+      `?brand=${encodeURIComponent(brand)}` +
+      `&item=${encodeURIComponent(item)}` +
+      `&size=${encodeURIComponent(size)}` +
+      `&buyCost=${encodeURIComponent(cost)}`;
 
-let sold = 45;
-let active = 30;
+    const response = await fetch(url);
+    const data = await response.json();
 
-let low = 18;
-let avg = 24;
-let high = 32;
+    if (!response.ok) {
+      throw new Error(data.error || "API request failed");
+    }
 
-let str = (sold/active)*100;
+    const low = Number(
+      data.lowSoldPrice ?? data.lowPrice ?? 0
+    );
+    const avg = Number(
+      data.avgSoldPrice ?? data.avgPrice ?? 0
+    );
+    const high = Number(
+      data.highSoldPrice ?? data.highPrice ?? 0
+    );
 
-let price = avg;
+    const str =
+      Number(data.sellThroughPercent ?? data.sellThrough ?? 0);
 
-let ebayFee = price * 0.1325;
+    const recommendedPrice = Number(
+      data.recommendedListingPrice ?? data.recommendedPrice ?? avg
+    );
 
-let supplies = 0.50;
+    const ebayFee = recommendedPrice * 0.1325;
+    const supplies = 0.50;
+    const shippingCost = buyerPays ? 0 : shipping;
+    const profit = recommendedPrice - ebayFee - supplies - shippingCost - cost;
 
-let shippingCost = buyerPays ? 0 : shipping;
+    let decisionText;
+    let decisionClass;
 
-let profit = price - ebayFee - supplies - shippingCost - cost;
+    if (profit >= 8 && str >= 100) {
+      decisionText = "BUY";
+      decisionClass = "buy";
+    } else if (profit >= 5) {
+      decisionText = "MAYBE";
+      decisionClass = "maybe";
+    } else {
+      decisionText = "PASS";
+      decisionClass = "pass";
+    }
 
-/* Decision Logic */
+    document.getElementById("str").innerHTML =
+      "Sell Through Rate: " + (str ? str.toFixed(0) : "N/A") + (str ? "%" : "");
 
-let decisionText;
-let decisionClass;
+    document.getElementById("prices").innerHTML =
+      "Low: $" + low.toFixed(2) +
+      " | Avg: $" + avg.toFixed(2) +
+      " | High: $" + high.toFixed(2);
 
-if(profit >= 8 && str >= 100){
-decisionText="BUY";
-decisionClass="buy";
+    document.getElementById("profit").innerHTML =
+      "Estimated Profit: $" + profit.toFixed(2) +
+      " | List Price: $" + recommendedPrice.toFixed(2);
+
+    document.getElementById("decision").innerHTML = decisionText;
+    document.getElementById("decision").className = "decision " + decisionClass;
+
+  } catch (error) {
+    document.getElementById("str").innerHTML = "Error: " + error.message;
+    document.getElementById("prices").innerHTML = "";
+    document.getElementById("profit").innerHTML = "";
+    document.getElementById("decision").innerHTML = "";
+    document.getElementById("decision").className = "decision";
+  }
 }
-else if(profit >=5){
-decisionText="MAYBE";
-decisionClass="maybe";
-}
-else{
-decisionText="PASS";
-decisionClass="pass";
-}
-
-document.getElementById("str").innerHTML =
-"Sell Through Rate: " + str.toFixed(0) + "%";
-
-document.getElementById("prices").innerHTML =
-"Low: $" + low + " | Avg: $" + avg + " | High: $" + high;
-
-document.getElementById("profit").innerHTML =
-"Estimated Profit: $" + profit.toFixed(2);
-
-document.getElementById("decision").innerHTML = decisionText;
-
-document.getElementById("decision").className = "decision " + decisionClass;
-
-}
-
 </script>
 
 </body>

@@ -90,6 +90,12 @@
     .pass { color: #ef4444; }
     .error { color: #fca5a5; }
     .loading { color: #93c5fd; }
+    .note {
+      font-size: 16px;
+      color: #cbd5e1;
+      margin-top: 14px;
+      line-height: 1.5;
+    }
   </style>
 </head>
 <body>
@@ -122,6 +128,7 @@
       <div class="heat" id="demandHeat"></div>
       <div class="heat" id="profitHeat"></div>
       <div class="title-box" id="titleBox" style="display:none;"></div>
+      <div class="note" id="note"></div>
       <div class="decision" id="decision"></div>
     </div>
   </div>
@@ -145,6 +152,7 @@
       const demandHeat = document.getElementById("demandHeat");
       const profitHeat = document.getElementById("profitHeat");
       const titleBox = document.getElementById("titleBox");
+      const note = document.getElementById("note");
       const decision = document.getElementById("decision");
 
       status.className = "metric loading";
@@ -158,6 +166,7 @@
       profitHeat.innerHTML = "";
       titleBox.style.display = "none";
       titleBox.innerHTML = "";
+      note.innerHTML = "";
       decision.innerHTML = "";
       decision.className = "decision";
 
@@ -191,7 +200,7 @@
         status.className = "metric";
         status.innerHTML = data.query || `${brand} ${item} ${size}`;
 
-        str.innerHTML = `Sell Through Rate: ${data.sellThroughPercent}%`;
+        str.innerHTML = `Demand Proxy: ${data.demandProxyPercent}%`;
         prices.innerHTML = `Low: $${data.lowSoldPrice} | Avg: $${data.avgSoldPrice} | High: $${data.highSoldPrice}`;
         listPrice.innerHTML = `Recommended Price: $${data.recommendedListingPrice}`;
         profit.innerHTML = `Estimated Profit: $${data.estimatedProfit}`;
@@ -204,6 +213,8 @@
           titleBox.style.display = "block";
           titleBox.innerHTML = `<strong>Suggested Title:</strong><br>${data.suggestedTitle}`;
         }
+
+        note.innerHTML = data.note || "";
 
         decision.innerHTML = data.decision || "PASS";
         if (data.decision === "BUY") decision.className = "decision buy";

@@ -4,14 +4,13 @@
 <head>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
 <title>GoodFinds AI</title>
 
 <style>
 
 body{
 font-family:Arial;
-background:#0f172a;
+background:#020617;
 color:white;
 text-align:center;
 padding:20px;
@@ -22,13 +21,13 @@ color:#22c55e;
 }
 
 .container{
-max-width:500px;
+max-width:520px;
 margin:auto;
 }
 
 input,select{
 width:95%;
-padding:12px;
+padding:14px;
 margin:8px;
 border-radius:8px;
 border:none;
@@ -45,8 +44,16 @@ border-radius:10px;
 margin-top:10px;
 }
 
+.scanBtn{
+background:#0ea5e9;
+}
+
+.thriftBtn{
+background:#7c3aed;
+}
+
 .results{
-margin-top:25px;
+margin-top:20px;
 background:#1e293b;
 padding:20px;
 border-radius:12px;
@@ -58,24 +65,14 @@ font-size:18px;
 }
 
 .decision{
-font-size:32px;
+font-size:30px;
 margin-top:15px;
 font-weight:bold;
 }
 
-.buy{ color:#22c55e; }
-.maybe{ color:#eab308; }
-.pass{ color:#ef4444; }
-
-.heat{
-font-size:20px;
-margin-top:10px;
-}
-
-.thriftMode{
-background:#0ea5e9;
-margin-top:20px;
-}
+.buy{ color:#22c55e }
+.maybe{ color:#eab308 }
+.pass{ color:#ef4444 }
 
 </style>
 
@@ -87,11 +84,9 @@ margin-top:20px;
 
 <h1>GoodFinds AI</h1>
 
-<p>Thrift Sourcing Tool</p>
-
-<input id="brand" placeholder="Brand (Nike)">
-<input id="item" placeholder="Item (Golf Polo)">
-<input id="size" placeholder="Size (XL)">
+<input id="brand" placeholder="Brand">
+<input id="item" placeholder="Item">
+<input id="size" placeholder="Size">
 
 <select id="condition">
 
@@ -102,43 +97,31 @@ margin-top:20px;
 </select>
 
 <input id="cost" placeholder="Buy Cost ($)">
-
-<input id="shipping" placeholder="Shipping Cost ($)" value="6.25">
+<input id="shipping" value="6.25">
 
 <label>
 <input type="checkbox" id="buyerShipping">
 Buyer Pays Shipping
 </label>
 
-<button onclick="runCalc()">Run Research</button>
+<button onclick="runResearch()">Run Research</button>
 
-<button class="thriftMode" onclick="toggleThrift()">THRIFT MODE</button>
+<button class="scanBtn" onclick="scanPhoto()">📸 Scan Item</button>
+
+<button class="thriftBtn" onclick="toggleThrift()">⚡ Thrift Mode</button>
 
 <div class="results">
 
-<div class="metric" id="prices"></div>
+<div id="prices" class="metric"></div>
+<div id="profit" class="metric"></div>
+<div id="roi" class="metric"></div>
+<div id="flip" class="metric"></div>
+<div id="demand" class="metric"></div>
+<div id="competition" class="metric"></div>
+<div id="confidence" class="metric"></div>
+<div id="title" class="metric"></div>
 
-<div class="metric" id="profit"></div>
-
-<div class="metric" id="roi"></div>
-
-<div class="metric" id="flip"></div>
-
-<div class="metric" id="demand"></div>
-
-<div class="metric" id="saturation"></div>
-
-<div class="metric" id="competition"></div>
-
-<div class="metric" id="confidence"></div>
-
-<div class="metric" id="fastflip"></div>
-
-<div class="heat" id="profitHeat"></div>
-
-<div class="metric" id="title"></div>
-
-<div class="decision" id="decision"></div>
+<div id="decision" class="decision"></div>
 
 </div>
 
@@ -146,48 +129,26 @@ Buyer Pays Shipping
 
 <script>
 
-let thriftMode=false
-
-function toggleThrift(){
-
-thriftMode=!thriftMode
-
-if(thriftMode){
-
-document.body.style.background="#020617"
-
-alert("Thrift Mode Activated — Fast scanning mode")
-
-}else{
-
-document.body.style.background="#0f172a"
-
-}
-
-}
-
-async function runCalc(){
+async function runResearch(){
 
 let brand=document.getElementById("brand").value
 let item=document.getElementById("item").value
 let size=document.getElementById("size").value
+let condition=document.getElementById("condition").value
 let cost=document.getElementById("cost").value
 let shipping=document.getElementById("shipping").value
-let condition=document.getElementById("condition").value
-
 let buyerShipping=document.getElementById("buyerShipping").checked
 
 let url=`https://goodfinds-backend.vercel.app/api/research?brand=${brand}&item=${item}&size=${size}&condition=${condition}&buyCost=${cost}&shippingCost=${shipping}&buyerPaysShipping=${buyerShipping}`
 
 let res=await fetch(url)
-
 let data=await res.json()
 
 document.getElementById("prices").innerHTML=
 `Low: $${data.lowSoldPrice} | Avg: $${data.avgSoldPrice} | High: $${data.highSoldPrice}`
 
 document.getElementById("profit").innerHTML=
-`Estimated Profit: $${data.estimatedProfit}`
+`Profit: $${data.estimatedProfit}`
 
 document.getElementById("roi").innerHTML=
 `ROI: ${data.roiPercent}%`
@@ -198,40 +159,26 @@ document.getElementById("flip").innerHTML=
 document.getElementById("demand").innerHTML=
 `Demand Score: ${data.demandScore}/10`
 
-document.getElementById("saturation").innerHTML=
-`Saturation Score: ${data.saturationScore}/10`
-
 document.getElementById("competition").innerHTML=
 `Competition Score: ${data.competitionScore}/10`
 
 document.getElementById("confidence").innerHTML=
 `Profit Confidence: ${data.profitConfidence}/10`
 
-document.getElementById("fastflip").innerHTML=
-`Fast Flip Probability: ${data.fastFlipProbability}%`
-
-document.getElementById("profitHeat").innerHTML=
-`${data.profitHeat}`
-
 document.getElementById("title").innerHTML=
-`Suggested Title: ${data.suggestedTitle}`
+`Title: ${data.suggestedTitle}`
 
-let decision=data.decision
+document.getElementById("decision").innerHTML=data.decision
 
-let decisionClass="pass"
+}
 
-if(decision==="BUY") decisionClass="buy"
+function toggleThrift(){
 
-if(decision==="MAYBE") decisionClass="maybe"
-
-document.getElementById("decision").innerHTML=decision
-
-document.getElementById("decision").className="decision "+decisionClass
+alert("Thrift Mode Activated")
 
 }
 
 </script>
 
 </body>
-
 </html>

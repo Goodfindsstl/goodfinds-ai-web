@@ -1,233 +1,237 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GoodFinds AI</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #0b1533;
-      color: white;
-      text-align: center;
-      padding: 20px;
-      margin: 0;
-    }
-    h1 {
-      color: #4fd266;
-      font-size: 58px;
-      margin-bottom: 8px;
-    }
-    .subtitle {
-      font-size: 18px;
-      color: #dbeafe;
-      margin-bottom: 26px;
-    }
-    .container {
-      max-width: 760px;
-      margin: 0 auto;
-    }
-    input {
-      width: 100%;
-      padding: 18px;
-      margin: 10px 0;
-      border-radius: 14px;
-      border: none;
-      font-size: 22px;
-      box-sizing: border-box;
-      color: #111827;
-    }
-    button {
-      background: #4fd266;
-      border: none;
-      padding: 18px;
-      width: 100%;
-      font-size: 24px;
-      border-radius: 14px;
-      margin-top: 18px;
-      color: #0b1533;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    button:disabled { opacity: 0.7; }
-    .toggle {
-      margin: 22px 0;
-      font-size: 20px;
-    }
-    .results {
-      margin-top: 30px;
-      background: #1f2d45;
-      padding: 24px;
-      border-radius: 18px;
-      min-height: 200px;
-    }
-    .metric {
-      margin: 10px 0;
-      font-size: 22px;
-      line-height: 1.5;
-    }
-    .heat {
-      font-size: 24px;
-      font-weight: bold;
-      margin-top: 10px;
-    }
-    .title-box {
-      background: rgba(255, 255, 255, 0.08);
-      padding: 14px;
-      border-radius: 12px;
-      margin-top: 16px;
-      font-size: 18px;
-      line-height: 1.5;
-      word-break: break-word;
-    }
-    .decision {
-      font-size: 42px;
-      margin-top: 20px;
-      font-weight: bold;
-    }
-    .buy { color: #4fd266; }
-    .maybe { color: #facc15; }
-    .pass { color: #ef4444; }
-    .error { color: #fca5a5; }
-    .loading { color: #93c5fd; }
-    .note {
-      font-size: 16px;
-      color: #cbd5e1;
-      margin-top: 14px;
-      line-height: 1.5;
-    }
-  </style>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>GoodFinds AI</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#0f172a;
+color:white;
+text-align:center;
+padding:20px;
+}
+
+h1{
+color:#22c55e;
+}
+
+.container{
+max-width:500px;
+margin:auto;
+}
+
+input,select{
+width:95%;
+padding:12px;
+margin:8px;
+border-radius:8px;
+border:none;
+font-size:16px;
+}
+
+button{
+background:#22c55e;
+border:none;
+padding:14px;
+width:95%;
+font-size:18px;
+border-radius:10px;
+margin-top:10px;
+}
+
+.results{
+margin-top:25px;
+background:#1e293b;
+padding:20px;
+border-radius:12px;
+}
+
+.metric{
+margin:8px 0;
+font-size:18px;
+}
+
+.decision{
+font-size:32px;
+margin-top:15px;
+font-weight:bold;
+}
+
+.buy{ color:#22c55e; }
+.maybe{ color:#eab308; }
+.pass{ color:#ef4444; }
+
+.heat{
+font-size:20px;
+margin-top:10px;
+}
+
+.thriftMode{
+background:#0ea5e9;
+margin-top:20px;
+}
+
+</style>
+
 </head>
+
 <body>
-  <div class="container">
-    <h1>GoodFinds AI</h1>
-    <div class="subtitle">Thrift Sourcing Tool</div>
 
-    <input id="brand" placeholder="Brand (Nike)" />
-    <input id="item" placeholder="Item (Golf Polo)" />
-    <input id="size" placeholder="Size (XL)" />
-    <input id="cost" placeholder="Buy Cost ($)" type="number" step="0.01" />
-    <input id="shipping" placeholder="Shipping Cost ($)" type="number" step="0.01" value="6.25" />
+<div class="container">
 
-    <div class="toggle">
-      <label>
-        <input type="checkbox" id="buyerShipping" />
-        Buyer Pays Shipping
-      </label>
-    </div>
+<h1>GoodFinds AI</h1>
 
-    <button id="runBtn" onclick="runResearch()">Run Research</button>
+<p>Thrift Sourcing Tool</p>
 
-    <div class="results">
-      <div class="metric" id="status">Enter an item and tap Run Research</div>
-      <div class="metric" id="str"></div>
-      <div class="metric" id="prices"></div>
-      <div class="metric" id="listPrice"></div>
-      <div class="metric" id="profit"></div>
-      <div class="metric" id="roi"></div>
-      <div class="heat" id="demandHeat"></div>
-      <div class="heat" id="profitHeat"></div>
-      <div class="title-box" id="titleBox" style="display:none;"></div>
-      <div class="note" id="note"></div>
-      <div class="decision" id="decision"></div>
-    </div>
-  </div>
+<input id="brand" placeholder="Brand (Nike)">
+<input id="item" placeholder="Item (Golf Polo)">
+<input id="size" placeholder="Size (XL)">
 
-  <script>
-    async function runResearch() {
-      const brand = document.getElementById("brand").value.trim();
-      const item = document.getElementById("item").value.trim();
-      const size = document.getElementById("size").value.trim();
-      const cost = document.getElementById("cost").value.trim();
-      const shipping = document.getElementById("shipping").value.trim();
-      const buyerPaysShipping = document.getElementById("buyerShipping").checked;
+<select id="condition">
 
-      const runBtn = document.getElementById("runBtn");
-      const status = document.getElementById("status");
-      const str = document.getElementById("str");
-      const prices = document.getElementById("prices");
-      const listPrice = document.getElementById("listPrice");
-      const profit = document.getElementById("profit");
-      const roi = document.getElementById("roi");
-      const demandHeat = document.getElementById("demandHeat");
-      const profitHeat = document.getElementById("profitHeat");
-      const titleBox = document.getElementById("titleBox");
-      const note = document.getElementById("note");
-      const decision = document.getElementById("decision");
+<option value="preowned">Preowned</option>
+<option value="new_with_tags">New With Tags</option>
+<option value="new_without_tags">New Without Tags</option>
 
-      status.className = "metric loading";
-      status.innerHTML = "Loading live eBay data...";
-      str.innerHTML = "";
-      prices.innerHTML = "";
-      listPrice.innerHTML = "";
-      profit.innerHTML = "";
-      roi.innerHTML = "";
-      demandHeat.innerHTML = "";
-      profitHeat.innerHTML = "";
-      titleBox.style.display = "none";
-      titleBox.innerHTML = "";
-      note.innerHTML = "";
-      decision.innerHTML = "";
-      decision.className = "decision";
+</select>
 
-      if (!brand || !item) {
-        status.className = "metric error";
-        status.innerHTML = "Please enter at least brand and item.";
-        return;
-      }
+<input id="cost" placeholder="Buy Cost ($)">
 
-      runBtn.disabled = true;
+<input id="shipping" placeholder="Shipping Cost ($)" value="6.25">
 
-      try {
-        const url =
-          "https://goodfinds-backend.vercel.app/api/research" +
-          `?brand=${encodeURIComponent(brand)}` +
-          `&item=${encodeURIComponent(item)}` +
-          `&size=${encodeURIComponent(size)}` +
-          `&buyCost=${encodeURIComponent(cost || 0)}` +
-          `&shippingCost=${encodeURIComponent(shipping || 0)}` +
-          `&buyerPaysShipping=${buyerPaysShipping}`;
+<label>
+<input type="checkbox" id="buyerShipping">
+Buyer Pays Shipping
+</label>
 
-        const res = await fetch(url);
-        const data = await res.json();
+<button onclick="runCalc()">Run Research</button>
 
-        if (!res.ok || data.error) {
-          status.className = "metric error";
-          status.innerHTML = `Error: ${data.error || "Unable to run research"}`;
-          return;
-        }
+<button class="thriftMode" onclick="toggleThrift()">THRIFT MODE</button>
 
-        status.className = "metric";
-        status.innerHTML = data.query || `${brand} ${item} ${size}`;
+<div class="results">
 
-        str.innerHTML = `Demand Proxy: ${data.demandProxyPercent}%`;
-        prices.innerHTML = `Low: $${data.lowSoldPrice} | Avg: $${data.avgSoldPrice} | High: $${data.highSoldPrice}`;
-        listPrice.innerHTML = `Recommended Price: $${data.recommendedListingPrice}`;
-        profit.innerHTML = `Estimated Profit: $${data.estimatedProfit}`;
-        roi.innerHTML = `ROI: ${data.roiPercent}%`;
+<div class="metric" id="prices"></div>
 
-        demandHeat.innerHTML = data.demandHeat || "";
-        profitHeat.innerHTML = data.profitHeat || "";
+<div class="metric" id="profit"></div>
 
-        if (data.suggestedTitle) {
-          titleBox.style.display = "block";
-          titleBox.innerHTML = `<strong>Suggested Title:</strong><br>${data.suggestedTitle}`;
-        }
+<div class="metric" id="roi"></div>
 
-        note.innerHTML = data.note || "";
+<div class="metric" id="flip"></div>
 
-        decision.innerHTML = data.decision || "PASS";
-        if (data.decision === "BUY") decision.className = "decision buy";
-        else if (data.decision === "MAYBE") decision.className = "decision maybe";
-        else decision.className = "decision pass";
+<div class="metric" id="demand"></div>
 
-      } catch (err) {
-        status.className = "metric error";
-        status.innerHTML = "Error connecting to API";
-      } finally {
-        runBtn.disabled = false;
-      }
-    }
-  </script>
+<div class="metric" id="saturation"></div>
+
+<div class="metric" id="competition"></div>
+
+<div class="metric" id="confidence"></div>
+
+<div class="metric" id="fastflip"></div>
+
+<div class="heat" id="profitHeat"></div>
+
+<div class="metric" id="title"></div>
+
+<div class="decision" id="decision"></div>
+
+</div>
+
+</div>
+
+<script>
+
+let thriftMode=false
+
+function toggleThrift(){
+
+thriftMode=!thriftMode
+
+if(thriftMode){
+
+document.body.style.background="#020617"
+
+alert("Thrift Mode Activated — Fast scanning mode")
+
+}else{
+
+document.body.style.background="#0f172a"
+
+}
+
+}
+
+async function runCalc(){
+
+let brand=document.getElementById("brand").value
+let item=document.getElementById("item").value
+let size=document.getElementById("size").value
+let cost=document.getElementById("cost").value
+let shipping=document.getElementById("shipping").value
+let condition=document.getElementById("condition").value
+
+let buyerShipping=document.getElementById("buyerShipping").checked
+
+let url=`https://goodfinds-backend.vercel.app/api/research?brand=${brand}&item=${item}&size=${size}&condition=${condition}&buyCost=${cost}&shippingCost=${shipping}&buyerPaysShipping=${buyerShipping}`
+
+let res=await fetch(url)
+
+let data=await res.json()
+
+document.getElementById("prices").innerHTML=
+`Low: $${data.lowSoldPrice} | Avg: $${data.avgSoldPrice} | High: $${data.highSoldPrice}`
+
+document.getElementById("profit").innerHTML=
+`Estimated Profit: $${data.estimatedProfit}`
+
+document.getElementById("roi").innerHTML=
+`ROI: ${data.roiPercent}%`
+
+document.getElementById("flip").innerHTML=
+`Flip Speed: ${data.flipSpeed}`
+
+document.getElementById("demand").innerHTML=
+`Demand Score: ${data.demandScore}/10`
+
+document.getElementById("saturation").innerHTML=
+`Saturation Score: ${data.saturationScore}/10`
+
+document.getElementById("competition").innerHTML=
+`Competition Score: ${data.competitionScore}/10`
+
+document.getElementById("confidence").innerHTML=
+`Profit Confidence: ${data.profitConfidence}/10`
+
+document.getElementById("fastflip").innerHTML=
+`Fast Flip Probability: ${data.fastFlipProbability}%`
+
+document.getElementById("profitHeat").innerHTML=
+`${data.profitHeat}`
+
+document.getElementById("title").innerHTML=
+`Suggested Title: ${data.suggestedTitle}`
+
+let decision=data.decision
+
+let decisionClass="pass"
+
+if(decision==="BUY") decisionClass="buy"
+
+if(decision==="MAYBE") decisionClass="maybe"
+
+document.getElementById("decision").innerHTML=decision
+
+document.getElementById("decision").className="decision "+decisionClass
+
+}
+
+</script>
+
 </body>
+
 </html>

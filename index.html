@@ -4,6 +4,7 @@
 <head>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <title>GoodFinds AI</title>
 
 <style>
@@ -27,7 +28,7 @@ margin:auto;
 
 input,select{
 width:95%;
-padding:14px;
+padding:12px;
 margin:8px;
 border-radius:8px;
 border:none;
@@ -35,22 +36,17 @@ font-size:16px;
 }
 
 button{
-background:#22c55e;
-border:none;
-padding:14px;
 width:95%;
-font-size:18px;
+padding:14px;
 border-radius:10px;
+font-size:18px;
+border:none;
 margin-top:10px;
 }
 
-.scanBtn{
-background:#0ea5e9;
-}
-
-.thriftBtn{
-background:#7c3aed;
-}
+.run{background:#22c55e;}
+.scan{background:#0ea5e9;}
+.thrift{background:#7c3aed;}
 
 .results{
 margin-top:20px;
@@ -60,19 +56,13 @@ border-radius:12px;
 }
 
 .metric{
-margin:8px 0;
+margin:6px 0;
 font-size:18px;
 }
 
-.decision{
-font-size:30px;
-margin-top:15px;
-font-weight:bold;
-}
-
-.buy{ color:#22c55e }
-.maybe{ color:#eab308 }
-.pass{ color:#ef4444 }
+.buy{color:#22c55e;font-size:30px;}
+.maybe{color:#facc15;font-size:30px;}
+.pass{color:#ef4444;font-size:30px;}
 
 </style>
 
@@ -85,7 +75,9 @@ font-weight:bold;
 <h1>GoodFinds AI</h1>
 
 <input id="brand" placeholder="Brand">
+
 <input id="item" placeholder="Item">
+
 <input id="size" placeholder="Size">
 
 <select id="condition">
@@ -96,7 +88,8 @@ font-weight:bold;
 
 </select>
 
-<input id="cost" placeholder="Buy Cost ($)">
+<input id="cost" placeholder="Buy Cost">
+
 <input id="shipping" value="6.25">
 
 <label>
@@ -104,30 +97,45 @@ font-weight:bold;
 Buyer Pays Shipping
 </label>
 
-<button onclick="runResearch()">Run Research</button>
+<button class="run" onclick="runResearch()">Run Research</button>
 
-<button class="scanBtn" onclick="scanPhoto()">📸 Scan Item</button>
+<button class="scan" onclick="scanPhoto()">📸 Scan Item</button>
 
-<button class="thriftBtn" onclick="toggleThrift()">⚡ Thrift Mode</button>
+<button class="thrift" onclick="toggleThrift()">⚡ Thrift Mode</button>
 
 <div class="results">
 
 <div id="prices" class="metric"></div>
-<div id="profit" class="metric"></div>
-<div id="roi" class="metric"></div>
-<div id="flip" class="metric"></div>
-<div id="demand" class="metric"></div>
-<div id="competition" class="metric"></div>
-<div id="confidence" class="metric"></div>
-<div id="title" class="metric"></div>
 
-<div id="decision" class="decision"></div>
+<div id="listprice" class="metric"></div>
+
+<div id="profit" class="metric"></div>
+
+<div id="roi" class="metric"></div>
+
+<div id="heat" class="metric"></div>
+
+<div id="flip" class="metric"></div>
+
+<div id="demand" class="metric"></div>
+
+<div id="competition" class="metric"></div>
+
+<div id="confidence" class="metric"></div>
+
+<div id="decision"></div>
 
 </div>
 
 </div>
 
 <script>
+
+function toggleThrift(){
+
+alert("⚡ Thrift Mode Activated")
+
+}
 
 async function runResearch(){
 
@@ -142,16 +150,23 @@ let buyerShipping=document.getElementById("buyerShipping").checked
 let url=`https://goodfinds-backend.vercel.app/api/research?brand=${brand}&item=${item}&size=${size}&condition=${condition}&buyCost=${cost}&shippingCost=${shipping}&buyerPaysShipping=${buyerShipping}`
 
 let res=await fetch(url)
+
 let data=await res.json()
 
 document.getElementById("prices").innerHTML=
 `Low: $${data.lowSoldPrice} | Avg: $${data.avgSoldPrice} | High: $${data.highSoldPrice}`
+
+document.getElementById("listprice").innerHTML=
+`Recommended Listing Price: $${data.recommendedListingPrice}`
 
 document.getElementById("profit").innerHTML=
 `Profit: $${data.estimatedProfit}`
 
 document.getElementById("roi").innerHTML=
 `ROI: ${data.roiPercent}%`
+
+document.getElementById("heat").innerHTML=
+`${data.profitHeat}`
 
 document.getElementById("flip").innerHTML=
 `Flip Speed: ${data.flipSpeed}`
@@ -165,16 +180,64 @@ document.getElementById("competition").innerHTML=
 document.getElementById("confidence").innerHTML=
 `Profit Confidence: ${data.profitConfidence}/10`
 
-document.getElementById("title").innerHTML=
-`Title: ${data.suggestedTitle}`
+let decision=data.decision
 
-document.getElementById("decision").innerHTML=data.decision
+let el=document.getElementById("decision")
+
+if(decision==="BUY"){
+el.className="buy"
+el.innerHTML="👍 BUY"
+}
+
+if(decision==="MAYBE"){
+el.className="maybe"
+el.innerHTML="⚠️ MAYBE"
+}
+
+if(decision==="PASS"){
+el.className="pass"
+el.innerHTML="👎 PASS"
+}
 
 }
 
-function toggleThrift(){
+async function scanPhoto(){
 
-alert("Thrift Mode Activated")
+const input=document.createElement("input")
+input.type="file"
+input.accept="image/*"
+
+input.onchange=function(){
+
+const file=input.files[0]
+
+const reader=new FileReader()
+
+reader.onload=async function(){
+
+const base64=reader.result.split(",")[1]
+
+const res=await fetch(
+"https://goodfinds-backend.vercel.app/api/photo-scan",
+{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({imageBase64:base64})
+}
+)
+
+const data=await res.json()
+
+document.getElementById("brand").value=data.brandGuess||""
+document.getElementById("item").value=data.itemGuess||""
+
+}
+
+reader.readAsDataURL(file)
+
+}
+
+input.click()
 
 }
 

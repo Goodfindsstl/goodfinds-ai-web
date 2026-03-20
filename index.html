@@ -7,26 +7,18 @@
   <style>
     :root {
       --bg: #040816;
-      --bg2: #09112b;
       --panel: rgba(10, 18, 45, 0.72);
-      --panel-2: rgba(255, 255, 255, 0.04);
       --border: rgba(96, 165, 250, 0.14);
       --text: #f8fbff;
       --muted: rgba(255, 255, 255, 0.68);
       --muted2: rgba(255, 255, 255, 0.46);
       --blue: #5cb7ff;
-      --blue2: #2f7cff;
-      --cyan: #8cecff;
       --green: #34d399;
       --greenText: #b8ffe4;
-      --amber: #fbbf24;
       --amberText: #fde68a;
-      --rose: #fb7185;
       --roseText: #fecdd3;
       --shadow: 0 25px 70px rgba(0, 0, 0, 0.42);
       --radius-xl: 34px;
-      --radius-lg: 24px;
-      --radius-md: 18px;
     }
 
     * {
@@ -82,35 +74,15 @@
     .brand-row {
       display: flex;
       align-items: center;
-      gap: 16px;
       margin-bottom: 18px;
     }
 
     .brand-logo {
-      height: 64px;
+      height: 92px;
       width: auto;
       display: block;
+      object-fit: contain;
       filter: drop-shadow(0 0 28px rgba(92, 183, 255, 0.22));
-    }
-
-    .brand-lockup {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .brand-title {
-      font-size: 28px;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      line-height: 1;
-    }
-
-    .brand-subtitle {
-      font-size: 12px;
-      letter-spacing: 0.28em;
-      text-transform: uppercase;
-      color: var(--muted2);
     }
 
     .hero-top {
@@ -589,16 +561,8 @@
         padding: 18px;
       }
 
-      .brand-row {
-        align-items: flex-start;
-      }
-
       .brand-logo {
-        height: 52px;
-      }
-
-      .brand-title {
-        font-size: 22px;
+        height: 72px;
       }
 
       .hero-copy h1 {
@@ -621,11 +585,7 @@
   <div class="container">
     <section class="hero">
       <div class="brand-row">
-        <img src="./logo.png" alt="GoodFinds AI logo" class="brand-logo" />
-        <div class="brand-lockup">
-          <div class="brand-title">GoodFinds AI</div>
-          <div class="brand-subtitle">Reseller Intelligence Platform</div>
-        </div>
+        <img src="logo.png" alt="GoodFinds AI logo" class="brand-logo" />
       </div>
 
       <div class="hero-top">

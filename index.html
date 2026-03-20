@@ -27,8 +27,12 @@
 
     * { box-sizing:border-box; }
 
-    body{
+    html, body{
       margin:0;
+      padding:0;
+    }
+
+    body{
       font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
       color:var(--text);
       background:
@@ -52,71 +56,137 @@
     }
 
     .hero{
-      padding:18px 34px 28px;
-      margin-bottom:24px;
-      overflow:hidden;
       position:relative;
+      overflow:hidden;
+      padding:28px 34px 32px;
+      margin-bottom:24px;
+      isolation:isolate;
     }
 
-    .hero:before{
+    .hero::before{
       content:"";
       position:absolute;
-      right:-90px;
+      right:-100px;
+      top:-80px;
+      width:440px;
+      height:440px;
+      background:radial-gradient(circle, rgba(92,183,255,.18), transparent 62%);
+      pointer-events:none;
+      z-index:0;
+    }
+
+    .hero::after{
+      content:"";
+      position:absolute;
+      left:-80px;
       bottom:-120px;
-      width:460px;
-      height:460px;
-      background:radial-gradient(circle, rgba(92,183,255,.16), transparent 60%);
+      width:340px;
+      height:340px;
+      background:radial-gradient(circle, rgba(109,60,255,.16), transparent 60%);
+      pointer-events:none;
+      z-index:0;
+    }
+
+    .hero-inner{
+      position:relative;
+      z-index:2;
+      display:grid;
+      grid-template-columns:minmax(300px, 390px) minmax(0, 1fr);
+      gap:26px;
+      align-items:center;
+    }
+
+    .hero-logo-wrap{
+      position:relative;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      min-height:250px;
+      padding:12px 8px;
+      border-radius:28px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)),
+        radial-gradient(circle at center, rgba(92,183,255,.12), transparent 62%);
+      border:1px solid rgba(255,255,255,.06);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.03);
+    }
+
+    .hero-logo-glow{
+      position:absolute;
+      inset:0;
+      background:radial-gradient(circle at center, rgba(92,183,255,.22), transparent 55%);
+      filter:blur(24px);
       pointer-events:none;
     }
 
-    .logo-row{
-      display:flex;
-      justify-content:flex-start;
-      align-items:center;
-      margin-bottom:-18px;
-      position:relative;
-      z-index:3;
-    }
-
     .logo{
-      height:300px;
-      width:auto;
-      display:block;
-      object-fit:contain;
-      filter:drop-shadow(0 0 40px rgba(92,183,255,.3));
-    }
-
-    .hero-top{
-      display:flex;
-      justify-content:space-between;
-      gap:24px;
-      align-items:flex-start;
-      flex-wrap:wrap;
-      margin-top:-42px;
       position:relative;
       z-index:2;
+      width:min(100%, 360px);
+      max-height:250px;
+      object-fit:contain;
+      display:block;
+      filter:
+        drop-shadow(0 0 28px rgba(92,183,255,.24))
+        drop-shadow(0 0 60px rgba(92,183,255,.12));
     }
 
     .hero-copy{
-      flex:1;
-      min-width:280px;
+      min-width:0;
+    }
+
+    .hero-kicker{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      margin-bottom:14px;
+      border-radius:999px;
+      padding:10px 14px;
+      background:rgba(92,183,255,.09);
+      border:1px solid rgba(92,183,255,.18);
+      color:#d8f2ff;
+      font-weight:700;
+      font-size:13px;
+      letter-spacing:.04em;
+    }
+
+    .hero-kicker .mini-dot{
+      width:8px;
+      height:8px;
+      border-radius:999px;
+      background:#37df95;
+      box-shadow:0 0 0 6px rgba(55,223,149,.12);
+    }
+
+    .headline-stack{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
     }
 
     .hero-copy h1{
       margin:0;
-      font-size:clamp(30px, 4vw, 58px);
-      line-height:.98;
-      letter-spacing:-.05em;
-      max-width:980px;
-      text-align:left;
+      font-size:clamp(36px, 4.8vw, 74px);
+      line-height:.94;
+      letter-spacing:-.06em;
+      max-width:900px;
     }
 
     .hero-copy p{
-      margin:14px 0 0;
-      max-width:860px;
+      margin:8px 0 0;
+      max-width:820px;
       color:var(--muted);
-      line-height:1.6;
+      line-height:1.65;
       font-size:16px;
+    }
+
+    .hero-bottom{
+      margin-top:18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:18px;
+      flex-wrap:wrap;
     }
 
     .pill{
@@ -124,14 +194,40 @@
       align-items:center;
       justify-content:center;
       border-radius:999px;
-      padding:13px 18px;
-      background:rgba(92,183,255,.1);
-      border:1px solid rgba(92,183,255,.2);
+      padding:11px 16px;
+      background:rgba(92,183,255,.08);
+      border:1px solid rgba(92,183,255,.18);
       color:#d8f2ff;
       font-weight:700;
       white-space:nowrap;
-      align-self:flex-start;
-      margin-top:72px;
+    }
+
+    .hero-stats{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    .hero-stat{
+      min-width:120px;
+      border-radius:18px;
+      padding:12px 14px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.03);
+    }
+
+    .hero-stat small{
+      display:block;
+      font-size:10px;
+      color:var(--muted2);
+      letter-spacing:.22em;
+      text-transform:uppercase;
+      margin-bottom:6px;
+    }
+
+    .hero-stat strong{
+      font-size:15px;
+      color:#fff;
     }
 
     .grid{
@@ -245,15 +341,37 @@
       font-size:16px;
       font-weight:800;
       cursor:pointer;
-      transition:transform .16s ease,opacity .16s ease;
+      transition:transform .16s ease,opacity .16s ease,box-shadow .16s ease;
     }
 
-    button:hover{ transform:translateY(-1px); opacity:.97; }
-    button:disabled{ opacity:.65; cursor:not-allowed; transform:none; }
+    button:hover{
+      transform:translateY(-1px);
+      opacity:.98;
+    }
 
-    .btn-run{ background:linear-gradient(135deg,#37df95,#1bcf7a); color:#03291b; }
-    .btn-scan{ background:linear-gradient(135deg,#5cb7ff,#4b8dff); color:#04152f; }
-    .btn-thrift{ background:linear-gradient(135deg,#9a6bff,#6d3cff); color:#f3ecff; }
+    button:disabled{
+      opacity:.65;
+      cursor:not-allowed;
+      transform:none;
+    }
+
+    .btn-run{
+      background:linear-gradient(135deg,#37df95,#1bcf7a);
+      color:#03291b;
+      box-shadow:0 18px 40px rgba(28,207,122,.18);
+    }
+
+    .btn-scan{
+      background:linear-gradient(135deg,#5cb7ff,#4b8dff);
+      color:#04152f;
+      box-shadow:0 18px 40px rgba(92,183,255,.18);
+    }
+
+    .btn-thrift{
+      background:linear-gradient(135deg,#9a6bff,#6d3cff);
+      color:#f3ecff;
+      box-shadow:0 18px 40px rgba(109,60,255,.18);
+    }
 
     .verdict-card{
       margin-top:22px;
@@ -363,6 +481,7 @@
       display:flex;
       justify-content:space-between;
       align-items:center;
+      gap:16px;
       margin-bottom:16px;
     }
 
@@ -417,6 +536,13 @@
       height:3px;
       background:linear-gradient(90deg,transparent,rgba(92,183,255,.95),transparent);
       box-shadow:0 0 18px rgba(92,183,255,.42);
+      animation:scanMove 3.5s ease-in-out infinite;
+    }
+
+    @keyframes scanMove{
+      0%{ transform:translateY(-110px); opacity:.72; }
+      50%{ transform:translateY(110px); opacity:1; }
+      100%{ transform:translateY(-110px); opacity:.72; }
     }
 
     .mock-card{
@@ -529,23 +655,36 @@
     @media (max-width:1180px){
       .grid{ grid-template-columns:1fr; }
       .metrics{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .hero-inner{
+        grid-template-columns:1fr;
+      }
+      .hero-logo-wrap{
+        min-height:220px;
+      }
     }
 
     @media (max-width:760px){
       .wrap{ padding:14px; }
       .hero,.panel{ padding:18px; }
-      .logo{
-        height:190px;
-      }
-      .logo-row{
-        justify-content:center;
-        margin-bottom:-8px;
-      }
-      .hero-top{
-        margin-top:-12px;
-      }
       .hero-copy h1{
-        font-size:34px;
+        font-size:40px;
+      }
+      .logo{
+        width:min(100%, 280px);
+        max-height:180px;
+      }
+      .hero-logo-wrap{
+        min-height:180px;
+      }
+      .hero-bottom{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+      .hero-stats{
+        width:100%;
+      }
+      .hero-stat{
+        flex:1 1 140px;
       }
       .form-grid,.buttons,.metrics{
         grid-template-columns:1fr;
@@ -553,22 +692,51 @@
       .sku{
         font-size:40px;
       }
+      .preview-head{
+        flex-wrap:wrap;
+      }
     }
   </style>
 </head>
 <body>
   <div class="wrap">
     <section class="hero">
-      <div class="logo-row">
-        <img src="logo.png" alt="GoodFinds AI logo" class="logo" />
-      </div>
-
-      <div class="hero-top">
-        <div class="hero-copy">
-          <h1>Scan smarter. Price faster. Know before you buy.</h1>
-          <p>A reseller decision engine built to analyze resale demand, profit, and sell-through at a glance.</p>
+      <div class="hero-inner">
+        <div class="hero-logo-wrap">
+          <div class="hero-logo-glow"></div>
+          <img src="logo.png" alt="GoodFinds AI logo" class="logo" />
         </div>
-        <div class="pill">Built by resellers for resellers</div>
+
+        <div class="hero-copy">
+          <div class="hero-kicker">
+            <span class="mini-dot"></span>
+            GoodFinds AI Scanner
+          </div>
+
+          <div class="headline-stack">
+            <h1>Scan smarter. Price faster. Know before you buy.</h1>
+            <p>A reseller decision engine built to analyze resale demand, profit, and sell-through at a glance with live photo scan, UPC lookup, and premium market signals.</p>
+          </div>
+
+          <div class="hero-bottom">
+            <div class="pill">Built by resellers for resellers</div>
+
+            <div class="hero-stats">
+              <div class="hero-stat">
+                <small>Mode</small>
+                <strong>Thrift Pro</strong>
+              </div>
+              <div class="hero-stat">
+                <small>Vision</small>
+                <strong>Live Scan</strong>
+              </div>
+              <div class="hero-stat">
+                <small>Lookup</small>
+                <strong>UPC Ready</strong>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -609,11 +777,11 @@
           </div>
           <div class="field">
             <label for="buyCost">Buy Cost</label>
-            <input id="buyCost" value="0">
+            <input id="buyCost" value="0" inputmode="decimal">
           </div>
           <div class="field">
             <label for="shippingCost">Shipping Cost</label>
-            <input id="shippingCost" value="6.25">
+            <input id="shippingCost" value="6.25" inputmode="decimal">
           </div>
           <div class="field full">
             <label for="shippingType">Shipping Type</label>
@@ -661,8 +829,8 @@
             </div>
             <div class="metric">
               <div class="k">ROI</div>
-              <div class="v" id="roi">404%</div>
-              <div class="n">Margin strength</div>
+              <div class="v" id="roi">0%</div>
+              <div class="n">Profit / buy cost</div>
             </div>
             <div class="metric">
               <div class="k">Demand Heat</div>
@@ -720,8 +888,8 @@
               <div class="right" id="buyCostDisplay">-$0.00</div>
             </div>
             <div class="line">
-              <div class="left">Shipping estimate</div>
-              <div class="right" id="shippingCostDisplay">-$6.25</div>
+              <div class="left">Shipping burden</div>
+              <div class="right" id="shippingCostDisplay">-$0.00</div>
             </div>
             <div class="line">
               <div class="left">Marketplace fees</div>
@@ -793,17 +961,28 @@
       comps: document.getElementById("comps")
     };
 
+    let researchTimer = null;
+
     function money(v){
-      return new Intl.NumberFormat("en-US",{style:"currency",currency:"USD",maximumFractionDigits:2}).format(Number(v || 0));
+      return new Intl.NumberFormat("en-US", {
+        style:"currency",
+        currency:"USD",
+        maximumFractionDigits:2
+      }).format(Number(v || 0));
     }
 
     function clamp(value,min,max){
-      return Math.max(min,Math.min(max,value));
+      return Math.max(min,Math.min(max, value));
+    }
+
+    function num(value){
+      const parsed = Number(value);
+      return Number.isFinite(parsed) ? parsed : 0;
     }
 
     function setBadge(node, verdict){
       node.classList.remove("buy","risky","pass");
-      const v = (verdict || "PASS").toUpperCase();
+      const v = String(verdict || "PASS").toUpperCase();
       if(v === "BUY") node.classList.add("buy");
       else if(v === "RISKY") node.classList.add("risky");
       else node.classList.add("pass");
@@ -816,8 +995,8 @@
         title: els.title.value.trim(),
         size: els.size.value.trim(),
         condition: els.condition.value.trim(),
-        buyCost: Number(els.buyCost.value || 0),
-        shippingCost: Number(els.shippingCost.value || 0),
+        buyCost: num(els.buyCost.value),
+        shippingCost: num(els.shippingCost.value),
         shippingType: els.shippingType.value
       };
     }
@@ -839,6 +1018,16 @@
         "Buyer Pays Shipping": 0
       };
       return map[shippingType] ?? 0;
+    }
+
+    function sellerShippingBurden(shippingType, shippingCost){
+      const cost = num(shippingCost);
+      const map = {
+        "Free Shipping": cost,
+        "Buyer Pays Shipping": 0,
+        "Flat Shipping": Number((cost * 0.45).toFixed(2))
+      };
+      return map[shippingType] ?? cost;
     }
 
     function brandBase(brand,title){
@@ -867,6 +1056,17 @@
       if(t.includes("golf")) return 2;
       if(t.includes("tee")) return 0;
       return 1;
+    }
+
+    function normalizeConditionGuess(conditionGuess){
+      const allowed = [
+        "Preowned",
+        "New With Tags",
+        "New Without Tags",
+        "Used - Fair"
+      ];
+      if(allowed.includes(conditionGuess)) return conditionGuess;
+      return null;
     }
 
     function buildLocalResult(payload){
@@ -898,8 +1098,9 @@
       if(String(payload.brand).toLowerCase().includes("nike")) avgDays -= 1;
       avgDays = clamp(avgDays,3,24);
 
+      const sellerShip = sellerShippingBurden(payload.shippingType, payload.shippingCost);
       const fees = Number((listingPrice * 0.13).toFixed(2));
-      const estimatedProfit = Number((listingPrice - payload.buyCost - payload.shippingCost - fees).toFixed(2));
+      const estimatedProfit = Number((listingPrice - payload.buyCost - sellerShip - fees).toFixed(2));
       const roi = payload.buyCost > 0 ? Math.round((estimatedProfit / payload.buyCost) * 100) : 0;
 
       let verdict = "BUY";
@@ -917,10 +1118,12 @@
 
       return {
         listingPrice,
+        estimatedValue: listingPrice,
         lowPrice,
         highPrice,
         sellThroughRate: sellThrough,
         avgDaysToSell: avgDays,
+        shippingBurden: sellerShip,
         marketplaceFees: fees,
         estimatedProfit,
         roi,
@@ -953,28 +1156,81 @@
       };
     }
 
+    function mergeResearchData(local, backend){
+      const merged = {
+        ...local,
+        ...(backend || {})
+      };
+
+      const listingPrice = num(
+        merged.listingPrice ??
+        merged.estimatedValue ??
+        local.listingPrice
+      );
+
+      const lowPrice = num(merged.lowPrice ?? (listingPrice - 3.75));
+      const highPrice = num(merged.highPrice ?? (listingPrice + 4.8));
+      const sellThroughRate = clamp(num(merged.sellThroughRate ?? local.sellThroughRate), 0, 100);
+      const avgDaysToSell = Math.max(0, Math.round(num(merged.avgDaysToSell ?? local.avgDaysToSell)));
+
+      const payload = getPayload();
+      const shippingBurden = sellerShippingBurden(payload.shippingType, payload.shippingCost);
+      const marketplaceFees = Number((listingPrice * 0.13).toFixed(2));
+      const estimatedProfit = Number((listingPrice - payload.buyCost - shippingBurden - marketplaceFees).toFixed(2));
+      const roi = payload.buyCost > 0 ? Math.round((estimatedProfit / payload.buyCost) * 100) : 0;
+
+      let verdict = String(merged.verdict || local.verdict || "PASS").toUpperCase();
+      if(!["BUY","RISKY","PASS"].includes(verdict)){
+        verdict = estimatedProfit >= 15 && sellThroughRate >= 65 ? "BUY" : estimatedProfit >= 6 ? "RISKY" : "PASS";
+      }
+
+      let demandHeat = merged.demandHeat;
+      if(!demandHeat){
+        demandHeat = sellThroughRate >= 70 ? "HOT" : sellThroughRate >= 45 ? "WARM" : "COOL";
+      }
+
+      return {
+        ...merged,
+        listingPrice,
+        estimatedValue: listingPrice,
+        lowPrice,
+        highPrice,
+        sellThroughRate,
+        avgDaysToSell,
+        shippingBurden,
+        marketplaceFees,
+        estimatedProfit,
+        roi,
+        verdict,
+        confidence: num(merged.confidence || local.confidence || 90),
+        demandHeat,
+        insights: Array.isArray(merged.insights) && merged.insights.length ? merged.insights : local.insights,
+        comps: Array.isArray(merged.comps) && merged.comps.length ? merged.comps : local.comps
+      };
+    }
+
     function render(data){
       const payload = getPayload();
-      els.resultTitle.textContent = `${payload.brand} ${payload.title}`.trim();
-      els.resultMeta.textContent = `${payload.size} • ${payload.condition} • Confidence ${data.confidence ?? 90}%`;
+      els.resultTitle.textContent = `${payload.brand} ${payload.title}`.trim() || "Untitled item";
+      els.resultMeta.textContent = `${payload.size || "No size"} • ${payload.condition} • Confidence ${data.confidence ?? 90}%`;
 
       setBadge(els.verdictBadge, data.verdict);
       setBadge(els.profitBadge, data.verdict);
 
       els.listingPrice.textContent = money(data.listingPrice ?? data.estimatedValue);
       els.valueRange.textContent = `${money(data.lowPrice)}–${money(data.highPrice)}`;
-      els.sellThroughRate.textContent = `${data.sellThroughRate ?? 0}%`;
-      els.avgDaysToSell.textContent = `${data.avgDaysToSell ?? 0}`;
-      els.roi.textContent = `${data.roi ?? 0}%`;
+      els.sellThroughRate.textContent = `${Math.round(num(data.sellThroughRate))}%`;
+      els.avgDaysToSell.textContent = `${Math.round(num(data.avgDaysToSell))}`;
+      els.roi.textContent = `${Math.round(num(data.roi))}%`;
 
-      const heatValue = Number(data.sellThroughRate ?? 0);
-      els.heatBar.style.width = `${clamp(heatValue,0,100)}%`;
+      const heatValue = clamp(num(data.sellThroughRate), 0, 100);
+      els.heatBar.style.width = `${heatValue}%`;
       els.demandHeatLabel.textContent = data.demandHeat || (heatValue >= 70 ? "HOT" : heatValue >= 45 ? "WARM" : "COOL");
       els.heatNote.textContent = heatValue >= 70 ? "Strong buyer momentum" : heatValue >= 45 ? "Moderate buyer pull" : "Slower demand zone";
 
       els.expectedSalePrice.textContent = money(data.listingPrice ?? data.estimatedValue);
       els.buyCostDisplay.textContent = `-${money(payload.buyCost)}`;
-      els.shippingCostDisplay.textContent = `-${money(payload.shippingCost)}`;
+      els.shippingCostDisplay.textContent = `-${money(data.shippingBurden ?? 0)}`;
       els.marketplaceFees.textContent = `-${money(data.marketplaceFees ?? 0)}`;
       els.estimatedProfit.textContent = money(data.estimatedProfit ?? 0);
 
@@ -1006,35 +1262,44 @@
       els.runBtn.disabled = true;
       els.statusText.textContent = "Analyzing resale demand and estimating profit...";
 
+      const local = buildLocalResult(payload);
+
       try{
-        const res = await fetch(BACKEND,{
+        const res = await fetch(BACKEND, {
           method:"POST",
           headers:{"Content-Type":"application/json"},
           body:JSON.stringify(payload)
         });
 
         if(!res.ok) throw new Error("Research request failed");
+
         const backendData = await res.json();
-        const local = buildLocalResult(payload);
+        const merged = mergeResearchData(local, backendData);
 
-        render({
-          ...backendData,
-          ...local
-        });
+        render(merged);
 
-        els.statusText.textContent = `Research complete. Demand signal: ${local.sellThroughRate >= 70 ? "High Demand" : local.sellThroughRate >= 45 ? "Moderate" : "Low Demand"}.`;
+        els.statusText.textContent =
+          `Research complete. Demand signal: ${
+            merged.sellThroughRate >= 70 ? "High Demand" :
+            merged.sellThroughRate >= 45 ? "Moderate Demand" :
+            "Low Demand"
+          }.`;
       }catch(err){
         console.error(err);
-        const local = buildLocalResult(payload);
         render(local);
-        els.statusText.textContent = "Using live local estimate.";
+        els.statusText.textContent = "Using local estimate. Backend research unavailable.";
       }finally{
         els.runBtn.disabled = false;
       }
     }
 
+    function scheduleResearch(){
+      clearTimeout(researchTimer);
+      researchTimer = setTimeout(runResearch, 280);
+    }
+
     function readFileAsBase64(file){
-      return new Promise((resolve,reject)=>{
+      return new Promise((resolve,reject) => {
         const reader = new FileReader();
         reader.onload = () => {
           const result = String(reader.result || "");
@@ -1056,7 +1321,7 @@
         els.previewImage.style.display = "block";
         els.mockCard.style.display = "none";
 
-        const res = await fetch(PHOTO,{
+        const res = await fetch(PHOTO, {
           method:"POST",
           headers:{"Content-Type":"application/json"},
           body:JSON.stringify({ imageBase64 })
@@ -1068,10 +1333,13 @@
         }
 
         const data = await res.json();
+
         if(data.brand) els.brand.value = data.brand;
         if(data.title) els.title.value = data.title;
         if(data.size) els.size.value = data.size;
-        if(data.condition_guess) els.condition.value = data.condition_guess;
+
+        const normalizedCondition = normalizeConditionGuess(data.condition_guess);
+        if(normalizedCondition) els.condition.value = normalizedCondition;
 
         await runResearch();
         els.statusText.textContent = "Photo scan complete.";
@@ -1087,10 +1355,11 @@
 
       try{
         els.statusText.textContent = "Looking up UPC...";
-        const res = await fetch(UPC,{
+
+        const res = await fetch(UPC, {
           method:"POST",
           headers:{"Content-Type":"application/json"},
-          body:JSON.stringify({ upc: code })
+          body:JSON.stringify({ upc: code.trim() })
         });
 
         if(!res.ok){
@@ -1099,8 +1368,10 @@
         }
 
         const data = await res.json();
+
         if(data.brand) els.brand.value = data.brand;
         if(data.title) els.title.value = data.title;
+        if(data.size) els.size.value = data.size;
 
         await runResearch();
         els.statusText.textContent = data.found ? `UPC match found: ${data.title}` : "UPC not found.";
@@ -1111,18 +1382,19 @@
     }
 
     ["input","change"].forEach(evt => {
-      els.brand.addEventListener(evt, runResearch);
-      els.title.addEventListener(evt, runResearch);
-      els.size.addEventListener(evt, runResearch);
-      els.condition.addEventListener(evt, runResearch);
-      els.buyCost.addEventListener(evt, runResearch);
-      els.shippingCost.addEventListener(evt, runResearch);
-      els.shippingType.addEventListener(evt, runResearch);
+      els.brand.addEventListener(evt, scheduleResearch);
+      els.title.addEventListener(evt, scheduleResearch);
+      els.size.addEventListener(evt, scheduleResearch);
+      els.condition.addEventListener(evt, scheduleResearch);
+      els.buyCost.addEventListener(evt, scheduleResearch);
+      els.shippingCost.addEventListener(evt, scheduleResearch);
+      els.shippingType.addEventListener(evt, scheduleResearch);
     });
 
     els.runBtn.addEventListener("click", runResearch);
     els.scanBtn.addEventListener("click", () => els.fileInput.click());
     els.thriftBtn.addEventListener("click", thriftMode);
+
     els.fileInput.addEventListener("change", e => {
       const file = e.target.files && e.target.files[0];
       if(file) scanPhoto(file);

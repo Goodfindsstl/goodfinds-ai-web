@@ -1,51 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GoodFinds AI</title>
 
 <style>
 body {
   margin: 0;
   font-family: Inter, sans-serif;
-  background: #040816;
+  background: radial-gradient(circle at top, #0b1a3a, #020617);
   color: white;
 }
 
 .container {
-  max-width: 1100px;
+  max-width: 1200px;
   margin: auto;
   padding: 20px;
 }
 
-/* 🔥 BIG LOGO FIX */
-.brand-logo {
-  height: 120px;
-  margin-bottom: 10px;
+/* 🔥 BIG LOGO */
+.logo {
+  display: block;
+  margin: 0 auto 10px auto;
+  height: 180px;
 }
 
-/* inputs */
+/* HERO */
+.hero {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.hero h1 {
+  font-size: 40px;
+}
+
+/* GRID */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* CARD */
+.card {
+  background: #0b1733;
+  padding: 20px;
+  border-radius: 20px;
+}
+
+/* INPUTS */
 input, select {
   width: 100%;
   padding: 12px;
+  margin-bottom: 10px;
   border-radius: 10px;
-  background: #0c1633;
+  background: #0f1f44;
   border: 1px solid rgba(255,255,255,0.1);
   color: white;
 }
 
-/* 🔥 DROPDOWN FIX */
+/* FIX DROPDOWN */
 select option {
   background: white;
   color: black;
 }
 
+/* BUTTONS */
 button {
-  padding: 14px;
-  border-radius: 12px;
+  padding: 12px;
+  border-radius: 10px;
   border: none;
   font-weight: bold;
+  margin-right: 5px;
   cursor: pointer;
 }
 
@@ -53,27 +81,34 @@ button {
 .scan { background: #3b82f6; }
 .thrift { background: #8b5cf6; }
 
-.card {
-  margin-top: 20px;
-  padding: 20px;
-  border-radius: 20px;
-  background: #0c1633;
+/* ANALYTICS */
+.metric {
+  font-size: 22px;
+  font-weight: bold;
 }
-
 </style>
 </head>
 
 <body>
+
 <div class="container">
 
-<img src="logo.png" class="brand-logo" />
+<img src="logo.png" class="logo">
 
-<h1>Scan smarter. Price faster. Know before you buy.</h1>
+<div class="hero">
+  <h1>Scan smarter. Price faster. Know before you buy.</h1>
+</div>
 
-<!-- FORM -->
-<input id="brand" placeholder="Brand" value="Nike" />
-<input id="title" placeholder="Item" value="Golf Polo" />
-<input id="size" placeholder="Size" value="XXL" />
+<div class="grid">
+
+<!-- LEFT PANEL -->
+<div class="card">
+
+<h2>Scanner Workspace</h2>
+
+<input id="brand" value="Nike">
+<input id="title" value="Golf Polo">
+<input id="size" value="XXL">
 
 <select id="condition">
   <option>Preowned</option>
@@ -82,40 +117,45 @@ button {
   <option>Used - Fair</option>
 </select>
 
-<input id="buyCost" value="5.93" />
-<input id="shippingCost" value="6.25" />
+<input id="buyCost" value="5.93">
+<input id="shippingCost" value="6.25">
 
 <select id="shippingType">
   <option>Free Shipping</option>
   <option>Buyer Pays Shipping</option>
 </select>
 
-<br><br>
-
 <button id="runBtn" class="run">Run Research</button>
 <button id="scanBtn" class="scan">Scan Item</button>
 <button id="thriftBtn" class="thrift">Thrift Mode</button>
 
-<input id="fileInput" type="file" accept="image/*" style="display:none;" />
+<input id="fileInput" type="file" accept="image/*" style="display:none;">
 
-<!-- RESULTS -->
+</div>
+
+<!-- RIGHT PANEL -->
 <div class="card">
-  <h2 id="verdict">BUY</h2>
-  <p>Value: <span id="value">$30</span></p>
-  <p>Profit: <span id="profit">$15</span></p>
-  <p>ROI: <span id="roi">200%</span></p>
+
+<h2>Analytics</h2>
+
+<p class="metric" id="verdict">BUY</p>
+
+<p>Value: <span id="value">$30</span></p>
+<p>Profit: <span id="profit">$14</span></p>
+<p>ROI: <span id="roi">200%</span></p>
+
+</div>
+
 </div>
 
 </div>
 
 <script>
 
-/* 🔥 BACKEND URLS — ALREADY WIRED */
 const BACKEND = "https://goodfinds-backend.vercel.app/api/research";
 const PHOTO = "https://goodfinds-backend.vercel.app/api/photo-scan";
 const UPC = "https://goodfinds-backend.vercel.app/api/upc";
 
-/* ELEMENTS */
 const brand = document.getElementById("brand");
 const title = document.getElementById("title");
 const size = document.getElementById("size");
@@ -131,11 +171,10 @@ const roi = document.getElementById("roi");
 
 const fileInput = document.getElementById("fileInput");
 
-/* 🔥 RUN RESEARCH */
 async function runResearch() {
   const res = await fetch(BACKEND, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {"Content-Type":"application/json"},
     body: JSON.stringify({
       brand: brand.value,
       title: title.value,
@@ -155,65 +194,63 @@ async function runResearch() {
   roi.innerText = data.roi + "%";
 }
 
-/* 🔥 PHOTO SCAN */
-function readFile(file) {
-  return new Promise(r => {
+function readFile(file){
+  return new Promise(r=>{
     const reader = new FileReader();
     reader.onload = () => r(reader.result.split(",")[1]);
     reader.readAsDataURL(file);
   });
 }
 
-async function scanPhoto(file) {
+async function scanPhoto(file){
   const base64 = await readFile(file);
 
-  const res = await fetch(PHOTO, {
-    method: "POST",
-    headers: {"Content-Type":"application/json"},
+  const res = await fetch(PHOTO,{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
     body: JSON.stringify({ imageBase64: base64 })
   });
 
   const data = await res.json();
 
-  if (data.brand) brand.value = data.brand;
-  if (data.title) title.value = data.title;
-  if (data.size) size.value = data.size;
-  if (data.condition_guess) condition.value = data.condition_guess;
+  if(data.brand) brand.value = data.brand;
+  if(data.title) title.value = data.title;
+  if(data.size) size.value = data.size;
+  if(data.condition_guess) condition.value = data.condition_guess;
 
   runResearch();
 }
 
-/* 🔥 UPC */
-async function lookupUPC() {
-  const code = prompt("Scan or enter barcode");
-  if (!code) return;
+async function lookupUPC(){
+  const code = prompt("Enter barcode");
+  if(!code) return;
 
-  const res = await fetch(UPC, {
-    method: "POST",
-    headers: {"Content-Type":"application/json"},
+  const res = await fetch(UPC,{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
     body: JSON.stringify({ upc: code })
   });
 
   const data = await res.json();
 
-  if (data.brand) brand.value = data.brand;
-  if (data.title) title.value = data.title;
+  if(data.brand) brand.value = data.brand;
+  if(data.title) title.value = data.title;
 
   runResearch();
 }
 
-/* BUTTONS */
 document.getElementById("runBtn").onclick = runResearch;
-document.getElementById("scanBtn").onclick = () => fileInput.click();
+document.getElementById("scanBtn").onclick = ()=>fileInput.click();
 document.getElementById("thriftBtn").onclick = lookupUPC;
 
-fileInput.onchange = e => {
+fileInput.onchange = e=>{
   const file = e.target.files[0];
-  if (file) scanPhoto(file);
+  if(file) scanPhoto(file);
 };
 
 runResearch();
 
 </script>
+
 </body>
 </html>

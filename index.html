@@ -91,7 +91,7 @@
       position:relative;
       z-index:2;
       display:grid;
-      grid-template-columns:minmax(300px, 390px) minmax(0, 1fr);
+      grid-template-columns:minmax(330px, 430px) minmax(0, 1fr);
       gap:26px;
       align-items:center;
     }
@@ -101,12 +101,12 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      min-height:250px;
-      padding:12px 8px;
+      min-height:290px;
+      padding:10px 8px;
       border-radius:28px;
       background:
         linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)),
-        radial-gradient(circle at center, rgba(92,183,255,.12), transparent 62%);
+        radial-gradient(circle at center, rgba(92,183,255,.14), transparent 62%);
       border:1px solid rgba(255,255,255,.06);
       box-shadow:inset 0 1px 0 rgba(255,255,255,.03);
     }
@@ -122,13 +122,13 @@
     .logo{
       position:relative;
       z-index:2;
-      width:min(100%, 360px);
-      max-height:250px;
+      width:min(100%, 430px);
+      max-height:290px;
       object-fit:contain;
       display:block;
       filter:
-        drop-shadow(0 0 28px rgba(92,183,255,.24))
-        drop-shadow(0 0 60px rgba(92,183,255,.12));
+        drop-shadow(0 0 34px rgba(92,183,255,.26))
+        drop-shadow(0 0 74px rgba(92,183,255,.14));
     }
 
     .hero-copy{
@@ -373,7 +373,7 @@
       box-shadow:0 18px 40px rgba(109,60,255,.18);
     }
 
-    .verdict-card{
+    .saved-scans-card{
       margin-top:22px;
       border-radius:26px;
       padding:20px;
@@ -381,87 +381,98 @@
       background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(0,0,0,.14));
     }
 
-    .verdict-top{
+    .saved-scans-top{
       display:flex;
       justify-content:space-between;
       gap:16px;
       align-items:flex-start;
       flex-wrap:wrap;
+      margin-bottom:14px;
     }
 
-    .verdict-top h3{
+    .saved-scans-top h3{
       margin:8px 0 0;
       font-size:24px;
       letter-spacing:-.025em;
     }
 
-    .meta{
-      margin-top:6px;
-      color:var(--muted);
-      font-size:14px;
-    }
-
-    .badge{
-      border-radius:18px;
-      padding:11px 15px;
-      font-size:14px;
-      font-weight:800;
-      border:1px solid transparent;
-      white-space:nowrap;
-    }
-
-    .buy{ background:rgba(52,211,153,.14); border-color:rgba(52,211,153,.28); color:var(--greenText); }
-    .risky{ background:rgba(251,191,36,.14); border-color:rgba(251,191,36,.28); color:var(--amberText); }
-    .pass{ background:rgba(251,113,133,.14); border-color:rgba(251,113,133,.28); color:var(--roseText); }
-
-    .metrics{
-      display:grid;
-      grid-template-columns:repeat(5,minmax(0,1fr));
-      gap:14px;
-      margin-top:18px;
-    }
-
-    .metric{
-      border-radius:20px;
-      padding:16px;
+    .clear-saved-btn{
       border:1px solid rgba(255,255,255,.08);
-      background:var(--panel2);
-    }
-
-    .metric .k{
-      font-size:10px;
-      letter-spacing:.22em;
-      text-transform:uppercase;
-      color:var(--muted2);
-    }
-
-    .metric .v{
-      margin-top:12px;
-      font-size:28px;
+      background:rgba(255,255,255,.04);
+      color:#fff;
+      padding:10px 14px;
+      border-radius:14px;
+      font-size:14px;
       font-weight:800;
-      letter-spacing:-.03em;
+      cursor:pointer;
     }
 
-    .metric .n{
+    .saved-scans-list{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      margin-top:14px;
+    }
+
+    .saved-scan-item{
+      border-radius:18px;
+      background:var(--panel2);
+      border:1px solid rgba(255,255,255,.06);
+      padding:14px 16px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:14px;
+      cursor:pointer;
+      transition:transform .16s ease, border-color .16s ease, background .16s ease;
+    }
+
+    .saved-scan-item:hover{
+      transform:translateY(-1px);
+      border-color:rgba(92,183,255,.26);
+      background:rgba(255,255,255,.05);
+    }
+
+    .saved-scan-left{
+      min-width:0;
+    }
+
+    .saved-scan-title{
+      font-size:15px;
+      font-weight:800;
+      color:#fff;
+      margin:0;
+    }
+
+    .saved-scan-meta{
       margin-top:4px;
       font-size:12px;
       color:var(--muted);
-    }
-
-    .heat-wrap{
-      margin-top:10px;
-      height:10px;
-      border-radius:999px;
-      background:rgba(255,255,255,.08);
+      white-space:nowrap;
       overflow:hidden;
+      text-overflow:ellipsis;
     }
 
-    .heat-bar{
-      height:100%;
-      border-radius:999px;
-      background:linear-gradient(90deg,#22c55e,#5cb7ff,#8b5cf6);
-      width:0%;
-      transition:width .25s ease;
+    .saved-scan-right{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-shrink:0;
+    }
+
+    .saved-scan-price{
+      font-size:16px;
+      font-weight:800;
+      color:#fff;
+    }
+
+    .empty-saved{
+      border-radius:18px;
+      background:rgba(255,255,255,.03);
+      border:1px dashed rgba(255,255,255,.08);
+      padding:18px;
+      color:var(--muted);
+      font-size:14px;
     }
 
     .status{
@@ -583,6 +594,96 @@
       box-shadow:0 30px 70px rgba(0,0,0,.35);
     }
 
+    .analysis-summary{
+      border-radius:24px;
+      padding:20px;
+      border:1px solid rgba(255,255,255,.08);
+      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(0,0,0,.14));
+    }
+
+    .analysis-top{
+      display:flex;
+      justify-content:space-between;
+      gap:16px;
+      align-items:flex-start;
+      flex-wrap:wrap;
+    }
+
+    .analysis-top h3{
+      margin:8px 0 0;
+      font-size:24px;
+      letter-spacing:-.025em;
+    }
+
+    .meta{
+      margin-top:6px;
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    .badge{
+      border-radius:18px;
+      padding:11px 15px;
+      font-size:14px;
+      font-weight:800;
+      border:1px solid transparent;
+      white-space:nowrap;
+    }
+
+    .buy{ background:rgba(52,211,153,.14); border-color:rgba(52,211,153,.28); color:var(--greenText); }
+    .risky{ background:rgba(251,191,36,.14); border-color:rgba(251,191,36,.28); color:var(--amberText); }
+    .pass{ background:rgba(251,113,133,.14); border-color:rgba(251,113,133,.28); color:var(--roseText); }
+
+    .metrics{
+      display:grid;
+      grid-template-columns:repeat(5,minmax(0,1fr));
+      gap:14px;
+      margin-top:18px;
+    }
+
+    .metric{
+      border-radius:20px;
+      padding:16px;
+      border:1px solid rgba(255,255,255,.08);
+      background:var(--panel2);
+    }
+
+    .metric .k{
+      font-size:10px;
+      letter-spacing:.22em;
+      text-transform:uppercase;
+      color:var(--muted2);
+    }
+
+    .metric .v{
+      margin-top:12px;
+      font-size:28px;
+      font-weight:800;
+      letter-spacing:-.03em;
+    }
+
+    .metric .n{
+      margin-top:4px;
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    .heat-wrap{
+      margin-top:10px;
+      height:10px;
+      border-radius:999px;
+      background:rgba(255,255,255,.08);
+      overflow:hidden;
+    }
+
+    .heat-bar{
+      height:100%;
+      border-radius:999px;
+      background:linear-gradient(90deg,#22c55e,#5cb7ff,#8b5cf6);
+      width:0%;
+      transition:width .25s ease;
+    }
+
     .line-items,.insights,.comps{
       display:flex;
       flex-direction:column;
@@ -659,7 +760,7 @@
         grid-template-columns:1fr;
       }
       .hero-logo-wrap{
-        min-height:220px;
+        min-height:240px;
       }
     }
 
@@ -670,11 +771,11 @@
         font-size:40px;
       }
       .logo{
-        width:min(100%, 280px);
-        max-height:180px;
+        width:min(100%, 330px);
+        max-height:220px;
       }
       .hero-logo-wrap{
-        min-height:180px;
+        min-height:220px;
       }
       .hero-bottom{
         flex-direction:column;
@@ -694,6 +795,11 @@
       }
       .preview-head{
         flex-wrap:wrap;
+      }
+      .saved-scan-item,
+      .line,
+      .comp{
+        align-items:flex-start;
       }
     }
   </style>
@@ -801,46 +907,17 @@
 
         <input id="fileInput" type="file" accept="image/*" style="display:none;" />
 
-        <div class="verdict-card">
-          <div class="verdict-top">
+        <div class="saved-scans-card">
+          <div class="saved-scans-top">
             <div>
-              <p class="eyebrow">Resale Verdict</p>
-              <h3 id="resultTitle">Nike tee</h3>
-              <div class="meta" id="resultMeta">XXL • New With Tags • Confidence 92%</div>
+              <p class="eyebrow">Saved Scans</p>
+              <h3>Recent items</h3>
+              <div class="meta">Tap any saved scan to reopen the full analysis.</div>
             </div>
-            <div id="verdictBadge" class="badge buy">BUY</div>
+            <button id="clearSavedBtn" class="clear-saved-btn" type="button">Clear</button>
           </div>
 
-          <div class="metrics">
-            <div class="metric">
-              <div class="k">Listing Price</div>
-              <div class="v" id="listingPrice">$34.65</div>
-              <div class="n" id="valueRange">$31.25–$39.25</div>
-            </div>
-            <div class="metric">
-              <div class="k">Sell-through</div>
-              <div class="v" id="sellThroughRate">76%</div>
-              <div class="n">Buyer demand</div>
-            </div>
-            <div class="metric">
-              <div class="k">Avg Days</div>
-              <div class="v" id="avgDaysToSell">6</div>
-              <div class="n">Speed to sell</div>
-            </div>
-            <div class="metric">
-              <div class="k">ROI</div>
-              <div class="v" id="roi">0%</div>
-              <div class="n">Profit / buy cost</div>
-            </div>
-            <div class="metric">
-              <div class="k">Demand Heat</div>
-              <div class="v" id="demandHeatLabel">HOT</div>
-              <div class="heat-wrap">
-                <div id="heatBar" class="heat-bar"></div>
-              </div>
-              <div class="n" id="heatNote">Market momentum</div>
-            </div>
-          </div>
+          <div id="savedScansList" class="saved-scans-list"></div>
         </div>
 
         <div class="status" id="statusText">Ready to analyze.</div>
@@ -865,6 +942,50 @@
             <div id="mockCard" class="mock-card">
               <div class="barcode"></div>
               <div class="sku">C2030194</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="analysis-summary">
+            <div class="analysis-top">
+              <div>
+                <p class="eyebrow">Current Analysis</p>
+                <h3 id="resultTitle">Nike tee</h3>
+                <div class="meta" id="resultMeta">XXL • New With Tags • Confidence 90%</div>
+              </div>
+              <div id="verdictBadge" class="badge buy">BUY</div>
+            </div>
+
+            <div class="metrics">
+              <div class="metric">
+                <div class="k">Listing Price</div>
+                <div class="v" id="listingPrice">$34.65</div>
+                <div class="n" id="valueRange">$31.25–$39.25</div>
+              </div>
+              <div class="metric">
+                <div class="k">Sell-through</div>
+                <div class="v" id="sellThroughRate">76%</div>
+                <div class="n">Buyer demand</div>
+              </div>
+              <div class="metric">
+                <div class="k">Avg Days</div>
+                <div class="v" id="avgDaysToSell">6</div>
+                <div class="n">Speed to sell</div>
+              </div>
+              <div class="metric">
+                <div class="k">ROI</div>
+                <div class="v" id="roi">0%</div>
+                <div class="n">Profit / buy cost</div>
+              </div>
+              <div class="metric">
+                <div class="k">Demand Heat</div>
+                <div class="v" id="demandHeatLabel">HOT</div>
+                <div class="heat-wrap">
+                  <div id="heatBar" class="heat-bar"></div>
+                </div>
+                <div class="n" id="heatNote">Market momentum</div>
+              </div>
             </div>
           </div>
         </section>
@@ -925,6 +1046,8 @@
     const PHOTO = "https://goodfinds-backend.vercel.app/api/photo-scan";
     const UPC = "https://goodfinds-backend.vercel.app/api/upc";
 
+    const SAVED_SCANS_KEY = "goodfinds_saved_scans_v1";
+
     const els = {
       brand: document.getElementById("brand"),
       title: document.getElementById("title"),
@@ -958,10 +1081,13 @@
       marketplaceFees: document.getElementById("marketplaceFees"),
       estimatedProfit: document.getElementById("estimatedProfit"),
       insights: document.getElementById("insights"),
-      comps: document.getElementById("comps")
+      comps: document.getElementById("comps"),
+      savedScansList: document.getElementById("savedScansList"),
+      clearSavedBtn: document.getElementById("clearSavedBtn")
     };
 
     let researchTimer = null;
+    let lastRenderedData = null;
 
     function money(v){
       return new Intl.NumberFormat("en-US", {
@@ -1038,6 +1164,7 @@
       if(text.includes("columbia")) return 22;
       if(text.includes("under armour")) return 19;
       if(text.includes("polo")) return 26;
+      if(text.includes("vineyard vines")) return 28;
       if(text.includes("tee")) return 18;
       return 20;
     }
@@ -1054,6 +1181,8 @@
       if(t.includes("vintage")) return 5;
       if(t.includes("graphic")) return 2.4;
       if(t.includes("golf")) return 2;
+      if(t.includes("button") || t.includes("button down")) return 3;
+      if(t.includes("shirt")) return 1.4;
       if(t.includes("tee")) return 0;
       return 1;
     }
@@ -1087,6 +1216,7 @@
       if(payload.shippingType === "Free Shipping") sellThrough += 8;
       if(payload.shippingType === "Buyer Pays Shipping") sellThrough -= 4;
       if(String(payload.brand).toLowerCase().includes("nike")) sellThrough += 6;
+      if(String(payload.brand).toLowerCase().includes("vineyard vines")) sellThrough += 2;
       if(String(payload.title).toLowerCase().includes("tee")) sellThrough -= 3;
       sellThrough = clamp(sellThrough,18,92);
 
@@ -1211,6 +1341,8 @@
 
     function render(data){
       const payload = getPayload();
+      lastRenderedData = data;
+
       els.resultTitle.textContent = `${payload.brand} ${payload.title}`.trim() || "Untitled item";
       els.resultMeta.textContent = `${payload.size || "No size"} • ${payload.condition} • Confidence ${data.confidence ?? 90}%`;
 
@@ -1257,7 +1389,110 @@
       });
     }
 
-    async function runResearch(){
+    function getSavedScans(){
+      try{
+        return JSON.parse(localStorage.getItem(SAVED_SCANS_KEY) || "[]");
+      }catch{
+        return [];
+      }
+    }
+
+    function setSavedScans(items){
+      localStorage.setItem(SAVED_SCANS_KEY, JSON.stringify(items));
+    }
+
+    function buildSavedScanRecord(payload, data){
+      return {
+        id: `${Date.now()}-${Math.random().toString(36).slice(2,8)}`,
+        savedAt: new Date().toISOString(),
+        payload: { ...payload },
+        data: { ...data },
+        title: `${payload.brand} ${payload.title}`.trim() || "Untitled item"
+      };
+    }
+
+    function saveScan(payload, data){
+      const items = getSavedScans();
+      const record = buildSavedScanRecord(payload, data);
+
+      const deduped = items.filter(item => {
+        return !(
+          item.payload?.brand === payload.brand &&
+          item.payload?.title === payload.title &&
+          item.payload?.size === payload.size &&
+          item.payload?.condition === payload.condition
+        );
+      });
+
+      const next = [record, ...deduped].slice(0, 12);
+      setSavedScans(next);
+      renderSavedScans();
+    }
+
+    function restoreSavedScan(record){
+      if(!record) return;
+
+      const payload = record.payload || {};
+      const data = record.data || {};
+
+      els.brand.value = payload.brand || "";
+      els.title.value = payload.title || "";
+      els.size.value = payload.size || "";
+      els.condition.value = payload.condition || "Preowned";
+      els.buyCost.value = payload.buyCost ?? 0;
+      els.shippingCost.value = payload.shippingCost ?? 0;
+      els.shippingType.value = payload.shippingType || "Buyer Pays Shipping";
+
+      render(data);
+
+      els.statusText.textContent = `Reopened saved scan: ${record.title || "item"}.`;
+    }
+
+    function renderSavedScans(){
+      const items = getSavedScans();
+
+      if(!els.savedScansList) return;
+
+      if(!items.length){
+        els.savedScansList.innerHTML = `
+          <div class="empty-saved">
+            No saved scans yet. Run research or scan an item and it will appear here.
+          </div>
+        `;
+        return;
+      }
+
+      els.savedScansList.innerHTML = "";
+
+      items.forEach(item => {
+        const row = document.createElement("div");
+        row.className = "saved-scan-item";
+
+        const verdictClass =
+          item.data?.verdict === "BUY" ? "buy" :
+          item.data?.verdict === "RISKY" ? "risky" :
+          "pass";
+
+        row.innerHTML = `
+          <div class="saved-scan-left">
+            <p class="saved-scan-title">${item.title || "Untitled item"}</p>
+            <div class="saved-scan-meta">
+              ${item.payload?.size || "No size"} • ${item.payload?.condition || "Unknown"} • ROI ${Math.round(num(item.data?.roi))}%
+            </div>
+          </div>
+          <div class="saved-scan-right">
+            <div class="saved-scan-price">${money(item.data?.listingPrice || item.data?.estimatedValue || 0)}</div>
+            <div class="badge ${verdictClass}">${item.data?.verdict || "PASS"}</div>
+          </div>
+        `;
+
+        row.addEventListener("click", () => restoreSavedScan(item));
+        els.savedScansList.appendChild(row);
+      });
+    }
+
+    async function runResearch(options = {}){
+      const { silentSave = false } = options;
       const payload = getPayload();
       els.runBtn.disabled = true;
       els.statusText.textContent = "Analyzing resale demand and estimating profit...";
@@ -1278,6 +1513,10 @@
 
         render(merged);
 
+        if(!silentSave){
+          saveScan(payload, merged);
+        }
+
         els.statusText.textContent =
           `Research complete. Demand signal: ${
             merged.sellThroughRate >= 70 ? "High Demand" :
@@ -1287,6 +1526,11 @@
       }catch(err){
         console.error(err);
         render(local);
+
+        if(!silentSave){
+          saveScan(payload, local);
+        }
+
         els.statusText.textContent = "Using local estimate. Backend research unavailable.";
       }finally{
         els.runBtn.disabled = false;
@@ -1295,7 +1539,7 @@
 
     function scheduleResearch(){
       clearTimeout(researchTimer);
-      researchTimer = setTimeout(runResearch, 280);
+      researchTimer = setTimeout(() => runResearch({ silentSave: true }), 280);
     }
 
     function readFileAsBase64(file){
@@ -1311,6 +1555,25 @@
       });
     }
 
+    function clearScanDrivenFields(){
+      els.brand.value = "";
+      els.title.value = "";
+      els.size.value = "";
+      els.condition.value = "Preowned";
+    }
+
+    function applyPhotoScanData(data){
+      const nextBrand = String(data.brand || "").trim();
+      const nextTitle = String(data.title || "").trim();
+      const nextSize = String(data.size || "").trim();
+      const normalizedCondition = normalizeConditionGuess(data.condition_guess);
+
+      if(nextBrand) els.brand.value = nextBrand;
+      if(nextTitle) els.title.value = nextTitle;
+      if(nextSize) els.size.value = nextSize;
+      if(normalizedCondition) els.condition.value = normalizedCondition;
+    }
+
     async function scanPhoto(file){
       try{
         els.statusText.textContent = "Scanning photo with Vision...";
@@ -1320,6 +1583,8 @@
         els.previewImage.src = localUrl;
         els.previewImage.style.display = "block";
         els.mockCard.style.display = "none";
+
+        clearScanDrivenFields();
 
         const res = await fetch(PHOTO, {
           method:"POST",
@@ -1333,13 +1598,13 @@
         }
 
         const data = await res.json();
+        applyPhotoScanData(data);
 
-        if(data.brand) els.brand.value = data.brand;
-        if(data.title) els.title.value = data.title;
-        if(data.size) els.size.value = data.size;
-
-        const normalizedCondition = normalizeConditionGuess(data.condition_guess);
-        if(normalizedCondition) els.condition.value = normalizedCondition;
+        const payloadAfterScan = getPayload();
+        if(!payloadAfterScan.brand && !payloadAfterScan.title){
+          els.statusText.textContent = "Photo loaded, but scan details were not detected. Update photo-scan.js for stronger label recognition.";
+          return;
+        }
 
         await runResearch();
         els.statusText.textContent = "Photo scan complete.";
@@ -1391,7 +1656,7 @@
       els.shippingType.addEventListener(evt, scheduleResearch);
     });
 
-    els.runBtn.addEventListener("click", runResearch);
+    els.runBtn.addEventListener("click", () => runResearch());
     els.scanBtn.addEventListener("click", () => els.fileInput.click());
     els.thriftBtn.addEventListener("click", thriftMode);
 
@@ -1401,7 +1666,14 @@
       e.target.value = "";
     });
 
-    runResearch();
+    els.clearSavedBtn.addEventListener("click", () => {
+      setSavedScans([]);
+      renderSavedScans();
+      els.statusText.textContent = "Saved scans cleared.";
+    });
+
+    renderSavedScans();
+    runResearch({ silentSave: true });
   </script>
 </body>
 </html>

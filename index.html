@@ -52,7 +52,7 @@
     }
 
     .hero{
-      padding:26px 34px 36px;
+      padding:18px 34px 28px;
       margin-bottom:24px;
       overflow:hidden;
       position:relative;
@@ -71,14 +71,15 @@
 
     .logo-row{
       display:flex;
-      justify-content:center;
-      margin-bottom:10px;
+      justify-content:flex-start;
+      align-items:center;
+      margin-bottom:-18px;
       position:relative;
-      z-index:2;
+      z-index:3;
     }
 
     .logo{
-      height:240px;
+      height:300px;
       width:auto;
       display:block;
       object-fit:contain;
@@ -91,7 +92,7 @@
       gap:24px;
       align-items:flex-start;
       flex-wrap:wrap;
-      margin-top:-12px;
+      margin-top:-42px;
       position:relative;
       z-index:2;
     }
@@ -103,19 +104,19 @@
 
     .hero-copy h1{
       margin:0;
-      font-size:clamp(42px,5vw,76px);
-      line-height:.95;
-      letter-spacing:-.055em;
-      max-width:1020px;
+      font-size:clamp(30px, 4vw, 58px);
+      line-height:.98;
+      letter-spacing:-.05em;
+      max-width:980px;
       text-align:left;
     }
 
     .hero-copy p{
-      margin:16px 0 0;
+      margin:14px 0 0;
       max-width:860px;
       color:var(--muted);
       line-height:1.6;
-      font-size:17px;
+      font-size:16px;
     }
 
     .pill{
@@ -130,7 +131,7 @@
       font-weight:700;
       white-space:nowrap;
       align-self:flex-start;
-      margin-top:30px;
+      margin-top:72px;
     }
 
     .grid{
@@ -533,11 +534,25 @@
     @media (max-width:760px){
       .wrap{ padding:14px; }
       .hero,.panel{ padding:18px; }
-      .logo{ height:170px; }
-      .hero-copy h1{ font-size:40px; }
-      .form-grid,.buttons,.metrics{ grid-template-columns:1fr; }
-      .sku{ font-size:40px; }
-      .hero-top{ margin-top:0; }
+      .logo{
+        height:190px;
+      }
+      .logo-row{
+        justify-content:center;
+        margin-bottom:-8px;
+      }
+      .hero-top{
+        margin-top:-12px;
+      }
+      .hero-copy h1{
+        font-size:34px;
+      }
+      .form-grid,.buttons,.metrics{
+        grid-template-columns:1fr;
+      }
+      .sku{
+        font-size:40px;
+      }
     }
   </style>
 </head>

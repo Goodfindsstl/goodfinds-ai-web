@@ -620,7 +620,6 @@
             <select id="shippingType">
               <option>Free Shipping</option>
               <option selected>Buyer Pays Shipping</option>
-              <option>Seller Pays Shipping</option>
               <option>Flat Shipping</option>
             </select>
           </div>
@@ -836,8 +835,7 @@
     function shippingAdjustment(shippingType){
       const map = {
         "Free Shipping": -2.6,
-        "Seller Pays Shipping": -1.2,
-        "Flat Shipping": -0.6,
+        "Flat Shipping": -0.8,
         "Buyer Pays Shipping": 0
       };
       return map[shippingType] ?? 0;
@@ -902,7 +900,7 @@
 
       const fees = Number((listingPrice * 0.13).toFixed(2));
       const estimatedProfit = Number((listingPrice - payload.buyCost - payload.shippingCost - fees).toFixed(2));
-      const roi = payload.buyCost > 0 ? Math.round((estimatedProfit / payload.buyCost) * 100) : Math.round(estimatedProfit * 18);
+      const roi = payload.buyCost > 0 ? Math.round((estimatedProfit / payload.buyCost) * 100) : 0;
 
       let verdict = "BUY";
       if(estimatedProfit < 10 || roi < 80 || sellThrough < 55) verdict = "RISKY";

@@ -6,23 +6,25 @@
   <title>GoodFinds AI</title>
   <style>
     :root {
-      --bg: #050816;
-      --panel: rgba(255, 255, 255, 0.04);
-      --panel-2: rgba(255, 255, 255, 0.06);
-      --border: rgba(255, 255, 255, 0.10);
-      --muted: rgba(255, 255, 255, 0.62);
-      --muted-2: rgba(255, 255, 255, 0.45);
-      --text: #ffffff;
-      --emerald: #34d399;
-      --emerald-dark: #022c22;
-      --sky: #38bdf8;
-      --sky-dark: #082f49;
-      --violet: #8b5cf6;
-      --violet-dark: #2e1065;
-      --rose: #fb7185;
+      --bg: #040816;
+      --bg2: #09112b;
+      --panel: rgba(10, 18, 45, 0.72);
+      --panel-2: rgba(255, 255, 255, 0.04);
+      --border: rgba(96, 165, 250, 0.14);
+      --text: #f8fbff;
+      --muted: rgba(255, 255, 255, 0.68);
+      --muted2: rgba(255, 255, 255, 0.46);
+      --blue: #5cb7ff;
+      --blue2: #2f7cff;
+      --cyan: #8cecff;
+      --green: #34d399;
+      --greenText: #b8ffe4;
       --amber: #fbbf24;
-      --shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
-      --radius-xl: 32px;
+      --amberText: #fde68a;
+      --rose: #fb7185;
+      --roseText: #fecdd3;
+      --shadow: 0 25px 70px rgba(0, 0, 0, 0.42);
+      --radius-xl: 34px;
       --radius-lg: 24px;
       --radius-md: 18px;
     }
@@ -31,18 +33,24 @@
       box-sizing: border-box;
     }
 
-    body {
+    html, body {
       margin: 0;
+      min-height: 100%;
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top, #0a1030 0%, var(--bg) 45%);
+      background:
+        radial-gradient(circle at top center, rgba(44, 102, 255, 0.22), transparent 28%),
+        radial-gradient(circle at 20% 20%, rgba(92, 183, 255, 0.08), transparent 25%),
+        linear-gradient(180deg, #030611 0%, #040816 35%, #07112a 100%);
       color: var(--text);
-      min-height: 100vh;
+    }
+
+    body {
+      padding: 22px;
     }
 
     .container {
-      max-width: 1400px;
+      max-width: 1440px;
       margin: 0 auto;
-      padding: 24px;
     }
 
     .hero,
@@ -50,114 +58,154 @@
       background: var(--panel);
       border: 1px solid var(--border);
       box-shadow: var(--shadow);
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(12px);
     }
 
     .hero {
       border-radius: var(--radius-xl);
-      padding: 28px;
+      padding: 24px 28px 30px;
       margin-bottom: 24px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: auto -10% -30% auto;
+      width: 420px;
+      height: 420px;
+      background: radial-gradient(circle, rgba(92, 183, 255, 0.16), transparent 60%);
+      pointer-events: none;
+    }
+
+    .brand-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .brand-logo {
+      height: 64px;
+      width: auto;
+      display: block;
+      filter: drop-shadow(0 0 28px rgba(92, 183, 255, 0.22));
+    }
+
+    .brand-lockup {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .brand-title {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+
+    .brand-subtitle {
+      font-size: 12px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--muted2);
     }
 
     .hero-top {
       display: flex;
       justify-content: space-between;
-      align-items: center;
       gap: 24px;
+      align-items: flex-start;
       flex-wrap: wrap;
     }
 
-    .eyebrow {
-      font-size: 12px;
-      letter-spacing: 0.34em;
-      text-transform: uppercase;
-      color: rgba(125, 211, 252, 0.8);
-      margin: 0 0 10px 0;
-    }
-
-    .hero h1 {
+    .hero-copy h1 {
       margin: 0;
-      font-size: clamp(32px, 5vw, 58px);
-      line-height: 1.02;
-      letter-spacing: -0.03em;
+      font-size: clamp(34px, 5vw, 64px);
+      line-height: 0.98;
+      letter-spacing: -0.045em;
+      max-width: 980px;
     }
 
-    .hero p {
-      margin: 14px 0 0 0;
+    .hero-copy p {
+      margin: 14px 0 0;
       max-width: 860px;
-      color: var(--muted);
       font-size: 16px;
       line-height: 1.6;
+      color: var(--muted);
     }
 
-    .pill {
+    .hero-pill {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
+      justify-content: center;
       border-radius: 999px;
-      padding: 12px 18px;
-      border: 1px solid rgba(56, 189, 248, 0.2);
-      background: rgba(56, 189, 248, 0.1);
-      color: #c7f0ff;
+      padding: 13px 18px;
+      background: rgba(92, 183, 255, 0.1);
+      border: 1px solid rgba(92, 183, 255, 0.2);
+      color: #d8f2ff;
+      font-weight: 700;
       white-space: nowrap;
-      font-weight: 600;
+      box-shadow: 0 0 18px rgba(92, 183, 255, 0.08);
     }
 
     .grid {
       display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
+      grid-template-columns: 1.1fr 0.9fr;
       gap: 24px;
     }
 
     .panel {
       border-radius: var(--radius-xl);
-      padding: 24px;
+      padding: 22px;
     }
 
     .panel-header {
       display: flex;
       justify-content: space-between;
+      gap: 18px;
       align-items: flex-start;
-      gap: 20px;
-      margin-bottom: 22px;
+      margin-bottom: 20px;
+    }
+
+    .eyebrow {
+      margin: 0;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.28em;
+      color: var(--muted2);
     }
 
     .panel-header h2,
     .panel-header h3 {
-      margin: 8px 0 0 0;
-      font-size: 30px;
-      line-height: 1.05;
-      letter-spacing: -0.02em;
-    }
-
-    .label-top {
-      margin: 0;
-      font-size: 12px;
-      letter-spacing: 0.28em;
-      text-transform: uppercase;
-      color: var(--muted-2);
+      margin: 8px 0 0;
+      font-size: 28px;
+      line-height: 1.02;
+      letter-spacing: -0.03em;
     }
 
     .mode-card {
+      min-width: 110px;
       border-radius: 18px;
-      border: 1px solid var(--border);
-      background: rgba(0, 0, 0, 0.2);
       padding: 12px 14px;
-      min-width: 120px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
       text-align: right;
     }
 
     .mode-card .small {
       font-size: 10px;
-      text-transform: uppercase;
+      color: var(--muted2);
       letter-spacing: 0.22em;
-      color: var(--muted-2);
-      margin-bottom: 4px;
+      text-transform: uppercase;
+      margin-bottom: 5px;
     }
 
     .mode-card .value {
       font-size: 14px;
-      font-weight: 700;
+      font-weight: 800;
     }
 
     .form-grid {
@@ -174,27 +222,28 @@
 
     .field label {
       font-size: 14px;
+      font-weight: 700;
       color: var(--muted);
-      font-weight: 600;
     }
 
     .input,
     .select {
       width: 100%;
       border-radius: 18px;
-      border: 1px solid var(--border);
-      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
       color: white;
-      padding: 16px 16px;
+      padding: 15px 16px;
       font-size: 16px;
       outline: none;
-      transition: 0.18s ease;
+      transition: 0.2s ease;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
     }
 
     .input:focus,
     .select:focus {
-      border-color: rgba(56, 189, 248, 0.6);
-      box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.12);
+      border-color: rgba(92, 183, 255, 0.65);
+      box-shadow: 0 0 0 4px rgba(92, 183, 255, 0.12);
     }
 
     .full {
@@ -205,66 +254,68 @@
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 14px;
-      margin-top: 22px;
+      margin-top: 20px;
     }
 
     .btn {
       border: 0;
-      border-radius: 22px;
+      border-radius: 20px;
       padding: 16px 18px;
       font-size: 16px;
       font-weight: 800;
       cursor: pointer;
-      transition: transform 0.16s ease, opacity 0.16s ease;
+      transition: transform 0.16s ease, opacity 0.16s ease, box-shadow 0.16s ease;
     }
 
     .btn:hover {
       transform: translateY(-1px);
-      opacity: 0.96;
+      opacity: 0.97;
     }
 
     .btn:disabled {
-      opacity: 0.7;
+      opacity: 0.65;
       cursor: not-allowed;
       transform: none;
     }
 
-    .btn-emerald {
-      background: linear-gradient(135deg, var(--emerald), #22c55e);
-      color: var(--emerald-dark);
+    .btn-run {
+      background: linear-gradient(135deg, #37df95, #1bcf7a);
+      color: #03291b;
+      box-shadow: 0 8px 30px rgba(55, 223, 149, 0.22);
     }
 
-    .btn-sky {
-      background: linear-gradient(135deg, var(--sky), #60a5fa);
-      color: var(--sky-dark);
+    .btn-scan {
+      background: linear-gradient(135deg, #5cb7ff, #4b8dff);
+      color: #04152f;
+      box-shadow: 0 8px 30px rgba(92, 183, 255, 0.18);
     }
 
-    .btn-violet {
-      background: linear-gradient(135deg, var(--violet), #7c3aed);
-      color: #ede9fe;
+    .btn-thrift {
+      background: linear-gradient(135deg, #9a6bff, #6d3cff);
+      color: #f3ecff;
+      box-shadow: 0 8px 30px rgba(109, 60, 255, 0.2);
     }
 
-    .verdict-card,
-    .sub-panel {
-      border: 1px solid var(--border);
-      background: rgba(0, 0, 0, 0.2);
+    .verdict-card {
+      margin-top: 22px;
       border-radius: 28px;
       padding: 22px;
-      margin-top: 22px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.14));
     }
 
     .verdict-top {
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
       gap: 16px;
+      align-items: flex-start;
       flex-wrap: wrap;
     }
 
     .verdict-top h3 {
-      margin: 8px 0 0 0;
+      margin: 8px 0 0;
       font-size: 24px;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.025em;
     }
 
     .meta {
@@ -275,7 +326,7 @@
 
     .badge {
       border-radius: 18px;
-      padding: 12px 16px;
+      padding: 11px 15px;
       font-size: 14px;
       font-weight: 800;
       border: 1px solid transparent;
@@ -283,21 +334,21 @@
     }
 
     .badge.buy {
-      background: rgba(52, 211, 153, 0.16);
-      color: #86efac;
-      border-color: rgba(52, 211, 153, 0.3);
+      background: rgba(52, 211, 153, 0.14);
+      border-color: rgba(52, 211, 153, 0.28);
+      color: var(--greenText);
     }
 
     .badge.risky {
-      background: rgba(251, 191, 36, 0.16);
-      color: #fde68a;
-      border-color: rgba(251, 191, 36, 0.3);
+      background: rgba(251, 191, 36, 0.14);
+      border-color: rgba(251, 191, 36, 0.28);
+      color: var(--amberText);
     }
 
     .badge.pass {
-      background: rgba(251, 113, 133, 0.16);
-      color: #fda4af;
-      border-color: rgba(251, 113, 133, 0.3);
+      background: rgba(251, 113, 133, 0.14);
+      border-color: rgba(251, 113, 133, 0.28);
+      color: var(--roseText);
     }
 
     .metrics {
@@ -308,24 +359,24 @@
     }
 
     .metric {
-      border-radius: 22px;
-      border: 1px solid var(--border);
-      background: rgba(255, 255, 255, 0.04);
-      padding: 18px;
+      border-radius: 20px;
+      padding: 16px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.035);
     }
 
     .metric .k {
       font-size: 10px;
       letter-spacing: 0.22em;
       text-transform: uppercase;
-      color: var(--muted-2);
+      color: var(--muted2);
     }
 
     .metric .v {
       margin-top: 12px;
       font-size: 30px;
       font-weight: 800;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.03em;
     }
 
     .metric .n {
@@ -334,96 +385,115 @@
       color: var(--muted);
     }
 
-    .live {
+    .status {
+      min-height: 22px;
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .side-stack {
       display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .live {
+      display: inline-flex;
       align-items: center;
       gap: 10px;
-      color: #86efac;
-      font-weight: 700;
       font-size: 14px;
+      color: #98f5be;
+      font-weight: 700;
     }
 
     .dot {
       width: 10px;
       height: 10px;
       border-radius: 999px;
-      background: #4ade80;
-      box-shadow: 0 0 0 6px rgba(74, 222, 128, 0.12);
+      background: #34d399;
+      box-shadow: 0 0 0 6px rgba(52, 211, 153, 0.12);
     }
 
     .scanner-box {
       position: relative;
       overflow: hidden;
+      min-height: 350px;
       border-radius: 28px;
-      border: 1px solid rgba(56, 189, 248, 0.16);
-      background: linear-gradient(to bottom, #0f172a, #0c1530);
+      border: 1px solid rgba(92,183,255,0.18);
+      background:
+        radial-gradient(circle at center, rgba(92,183,255,0.12), transparent 40%),
+        linear-gradient(180deg, rgba(8,16,40,0.98), rgba(9,22,55,0.98));
       padding: 18px;
-      min-height: 360px;
     }
 
     .corner {
       position: absolute;
-      width: 42px;
-      height: 42px;
+      width: 34px;
+      height: 34px;
     }
 
-    .corner.tl { top: 18px; left: 18px; border-top: 4px solid #60a5fa; border-left: 4px solid #60a5fa; border-top-left-radius: 16px; }
-    .corner.tr { top: 18px; right: 18px; border-top: 4px solid #60a5fa; border-right: 4px solid #60a5fa; border-top-right-radius: 16px; }
-    .corner.bl { bottom: 18px; left: 18px; border-bottom: 4px solid #60a5fa; border-left: 4px solid #60a5fa; border-bottom-left-radius: 16px; }
-    .corner.br { bottom: 18px; right: 18px; border-bottom: 4px solid #60a5fa; border-right: 4px solid #60a5fa; border-bottom-right-radius: 16px; }
+    .corner.tl { top: 16px; left: 16px; border-top: 4px solid #60a5fa; border-left: 4px solid #60a5fa; border-top-left-radius: 14px; }
+    .corner.tr { top: 16px; right: 16px; border-top: 4px solid #60a5fa; border-right: 4px solid #60a5fa; border-top-right-radius: 14px; }
+    .corner.bl { bottom: 16px; left: 16px; border-bottom: 4px solid #60a5fa; border-left: 4px solid #60a5fa; border-bottom-left-radius: 14px; }
+    .corner.br { bottom: 16px; right: 16px; border-bottom: 4px solid #60a5fa; border-right: 4px solid #60a5fa; border-bottom-right-radius: 14px; }
 
     .scan-line {
       position: absolute;
       left: 30px;
       right: 30px;
-      top: 48%;
+      top: 50%;
       height: 3px;
-      background: linear-gradient(90deg, transparent, rgba(125, 211, 252, 0.9), transparent);
-      box-shadow: 0 0 22px rgba(56, 189, 248, 0.5);
+      background: linear-gradient(90deg, transparent, rgba(92,183,255,0.95), transparent);
+      box-shadow: 0 0 18px rgba(92,183,255,0.42);
     }
 
     .scan-card {
-      width: min(300px, 75%);
-      height: 220px;
-      margin: 54px auto 0;
-      border-radius: 28px;
-      background: white;
-      color: #1e293b;
-      transform: rotate(-4deg);
-      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.4);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 18px;
       position: relative;
       z-index: 1;
+      width: min(290px, 76%);
+      height: 200px;
+      margin: 62px auto 0;
+      border-radius: 28px;
+      background: #f8fafc;
+      color: #14233d;
+      transform: rotate(-5deg);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 18px;
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.45);
     }
 
     .barcode {
-      width: 140px;
-      height: 44px;
-      background:
-        repeating-linear-gradient(
-          90deg,
-          #111 0,
-          #111 2px,
-          transparent 2px,
-          transparent 4px
-        );
+      width: 128px;
+      height: 42px;
+      background: repeating-linear-gradient(90deg, #111 0, #111 2px, transparent 2px, transparent 4px);
     }
 
     .scan-card .sku {
-      font-size: 54px;
+      font-size: 52px;
       font-weight: 900;
-      letter-spacing: -0.04em;
+      letter-spacing: -0.05em;
     }
 
-    .line-items {
+    .line-items,
+    .insight-list,
+    .comp-list {
       display: flex;
       flex-direction: column;
       gap: 12px;
-      margin-top: 18px;
+      margin-top: 16px;
+    }
+
+    .line-item,
+    .insight,
+    .comp {
+      border-radius: 18px;
+      background: rgba(255,255,255,0.035);
+      border: 1px solid rgba(255,255,255,0.06);
+      padding: 14px 16px;
     }
 
     .line-item {
@@ -431,14 +501,6 @@
       justify-content: space-between;
       align-items: center;
       gap: 16px;
-      border-radius: 18px;
-      background: rgba(0, 0, 0, 0.2);
-      padding: 14px 16px;
-    }
-
-    .line-item.highlight {
-      background: rgba(52, 211, 153, 0.12);
-      border: 1px solid rgba(52, 211, 153, 0.2);
     }
 
     .line-item .left {
@@ -449,50 +511,44 @@
       font-weight: 700;
     }
 
+    .line-item.highlight {
+      background: rgba(52, 211, 153, 0.1);
+      border-color: rgba(52, 211, 153, 0.2);
+    }
+
     .line-item.highlight .right {
-      color: #86efac;
+      color: var(--greenText);
       font-size: 20px;
     }
 
-    .insight-list,
-    .comp-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-top: 16px;
-    }
-
-    .insight,
-    .comp {
+    .insight {
       display: flex;
       align-items: flex-start;
-      justify-content: space-between;
-      gap: 16px;
-      border-radius: 18px;
-      background: rgba(0, 0, 0, 0.2);
-      padding: 14px 16px;
-    }
-
-    .insight-left {
-      display: flex;
       gap: 12px;
-      align-items: flex-start;
     }
 
     .insight-dot {
       width: 10px;
       height: 10px;
-      border-radius: 999px;
-      background: var(--sky);
       margin-top: 6px;
+      border-radius: 999px;
+      background: var(--blue);
       flex-shrink: 0;
+      box-shadow: 0 0 10px rgba(92,183,255,0.3);
     }
 
     .insight p,
     .comp p {
       margin: 0;
-      color: rgba(255,255,255,0.82);
+      color: rgba(255,255,255,0.84);
       line-height: 1.5;
+    }
+
+    .comp {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
     }
 
     .comp small {
@@ -503,52 +559,56 @@
     }
 
     .comp-price {
-      font-size: 24px;
+      font-size: 22px;
       font-weight: 800;
       white-space: nowrap;
     }
 
     .view-all {
-      border: 1px solid var(--border);
-      background: rgba(0,0,0,0.2);
-      color: rgba(255,255,255,0.8);
-      padding: 10px 14px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
+      color: rgba(255,255,255,0.84);
       border-radius: 16px;
-      font-weight: 600;
+      padding: 10px 14px;
+      font-weight: 700;
     }
 
-    .status {
-      margin-top: 14px;
-      color: var(--muted);
-      font-size: 14px;
-      min-height: 20px;
-    }
-
-    @media (max-width: 1100px) {
+    @media (max-width: 1180px) {
       .grid {
         grid-template-columns: 1fr;
       }
     }
 
     @media (max-width: 760px) {
-      .container {
-        padding: 16px;
+      body {
+        padding: 14px;
       }
 
-      .panel,
-      .hero {
+      .hero,
+      .panel {
         padding: 18px;
+      }
+
+      .brand-row {
+        align-items: flex-start;
+      }
+
+      .brand-logo {
+        height: 52px;
+      }
+
+      .brand-title {
+        font-size: 22px;
+      }
+
+      .hero-copy h1 {
+        font-size: 38px;
       }
 
       .form-grid,
       .buttons,
       .metrics {
         grid-template-columns: 1fr;
-      }
-
-      .panel-header h2,
-      .panel-header h3 {
-        font-size: 24px;
       }
 
       .scan-card .sku {
@@ -560,15 +620,22 @@
 <body>
   <div class="container">
     <section class="hero">
+      <div class="brand-row">
+        <img src="./logo.png" alt="GoodFinds AI logo" class="brand-logo" />
+        <div class="brand-lockup">
+          <div class="brand-title">GoodFinds AI</div>
+          <div class="brand-subtitle">Reseller Intelligence Platform</div>
+        </div>
+      </div>
+
       <div class="hero-top">
-        <div>
-          <p class="eyebrow">GoodFinds AI</p>
+        <div class="hero-copy">
           <h1>Scan smarter. Price faster. Know before you buy.</h1>
           <p>
             A reseller decision engine built to analyze resale demand, profit, and sell-through at a glance.
           </p>
         </div>
-        <div class="pill">Built by resellers for resellers</div>
+        <div class="hero-pill">Built by resellers for resellers</div>
       </div>
     </section>
 
@@ -576,7 +643,7 @@
       <section class="panel">
         <div class="panel-header">
           <div>
-            <p class="label-top">Research Inputs</p>
+            <p class="eyebrow">Research Inputs</p>
             <h2>Scanner workspace</h2>
           </div>
           <div class="mode-card">
@@ -624,24 +691,24 @@
           <div class="field full">
             <label for="shippingType">Shipping Type</label>
             <select id="shippingType" class="select">
-              <option selected>Buyer Pays Shipping</option>
+              <option>Buyer Pays Shipping</option>
               <option>Seller Pays Shipping</option>
               <option>Flat Shipping</option>
-              <option>Free Shipping</option>
+              <option selected>Free Shipping</option>
             </select>
           </div>
         </div>
 
         <div class="buttons">
-          <button id="runResearchBtn" class="btn btn-emerald">Run Research</button>
-          <button class="btn btn-sky" type="button">Scan Item</button>
-          <button class="btn btn-violet" type="button">Thrift Mode</button>
+          <button id="runResearchBtn" class="btn btn-run">Run Research</button>
+          <button class="btn btn-scan" type="button">Scan Item</button>
+          <button class="btn btn-thrift" type="button">Thrift Mode</button>
         </div>
 
         <div class="verdict-card">
           <div class="verdict-top">
             <div>
-              <p class="label-top">Resale Verdict</p>
+              <p class="eyebrow">Resale Verdict</p>
               <h3 id="resultTitle">Nike Golf Polo</h3>
               <div class="meta" id="resultMeta">XXL • Preowned • Confidence 90%</div>
             </div>
@@ -654,19 +721,22 @@
               <div class="v" id="estimatedValue">$29.75</div>
               <div class="n" id="valueRange">$25.00–$35.00</div>
             </div>
+
             <div class="metric">
               <div class="k">Sell-through</div>
               <div class="v" id="sellThroughRate">62%</div>
               <div class="n">Live market pulse</div>
             </div>
+
             <div class="metric">
               <div class="k">Avg Days</div>
               <div class="v" id="avgDaysToSell">9</div>
               <div class="n">Time to sell</div>
             </div>
+
             <div class="metric">
               <div class="k">ROI</div>
-              <div class="v" id="roi">226%</div>
+              <div class="v" id="roi">231%</div>
               <div class="n">Margin strength</div>
             </div>
           </div>
@@ -675,7 +745,7 @@
         <div class="status" id="statusText">Ready to analyze.</div>
       </section>
 
-      <section style="display:flex; flex-direction:column; gap:24px;">
+      <div class="side-stack">
         <section class="panel">
           <div class="panel-header" style="margin-bottom:16px;">
             <div>
@@ -701,7 +771,7 @@
         <section class="panel">
           <div class="panel-header" style="margin-bottom:10px;">
             <div>
-              <p class="label-top">Profit Snapshot</p>
+              <p class="eyebrow">Profit Snapshot</p>
               <h3>Estimated profit</h3>
             </div>
             <div id="profitVerdictBadge" class="badge buy">BUY</div>
@@ -712,18 +782,22 @@
               <div class="left">Expected sale price</div>
               <div class="right" id="expectedSalePrice">$29.75</div>
             </div>
+
             <div class="line-item">
               <div class="left">Buy cost</div>
               <div class="right" id="buyCostDisplay">-$5.93</div>
             </div>
+
             <div class="line-item">
               <div class="left">Shipping estimate</div>
               <div class="right" id="shippingCostDisplay">-$6.25</div>
             </div>
+
             <div class="line-item">
               <div class="left">Marketplace fees</div>
               <div class="right" id="marketplaceFees">-$3.87</div>
             </div>
+
             <div class="line-item highlight">
               <div class="left">Net profit</div>
               <div class="right" id="estimatedProfit">$13.70</div>
@@ -732,21 +806,22 @@
         </section>
 
         <section class="panel">
-          <p class="label-top">Smart Insights</p>
+          <p class="eyebrow">Smart Insights</p>
           <div id="insightsList" class="insight-list"></div>
         </section>
 
         <section class="panel">
           <div class="panel-header" style="margin-bottom:10px;">
             <div>
-              <p class="label-top">Recent Comps</p>
+              <p class="eyebrow">Recent Comps</p>
               <h3>Fast reference</h3>
             </div>
             <button class="view-all" type="button">View all</button>
           </div>
+
           <div id="compsList" class="comp-list"></div>
         </section>
-      </section>
+      </div>
     </div>
   </div>
 
@@ -782,7 +857,7 @@
       estimatedProfit: document.getElementById("estimatedProfit"),
 
       insightsList: document.getElementById("insightsList"),
-      compsList: document.getElementById("compsList"),
+      compsList: document.getElementById("compsList")
     };
 
     function formatCurrency(value) {
@@ -790,13 +865,13 @@
       return new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "USD",
-        maximumFractionDigits: 2,
+        maximumFractionDigits: 2
       }).format(number);
     }
 
     function setBadge(el, verdict) {
+      const v = (verdict || "PASS").toUpperCase();
       el.classList.remove("buy", "risky", "pass");
-      const v = (verdict || "").toUpperCase();
 
       if (v === "BUY") {
         el.classList.add("buy");
@@ -806,7 +881,7 @@
         el.classList.add("pass");
       }
 
-      el.textContent = v || "PASS";
+      el.textContent = v;
     }
 
     function renderInsights(insights) {
@@ -816,10 +891,8 @@
         const item = document.createElement("div");
         item.className = "insight";
         item.innerHTML = `
-          <div class="insight-left">
-            <div class="insight-dot"></div>
-            <p>${text}</p>
-          </div>
+          <div class="insight-dot"></div>
+          <p>${text}</p>
         `;
         els.insightsList.appendChild(item);
       });
@@ -865,9 +938,7 @@
       els.expectedSalePrice.textContent = formatCurrency(data.estimatedValue);
       els.buyCostDisplay.textContent = `-${formatCurrency(buyCost)}`;
       els.shippingCostDisplay.textContent = `-${formatCurrency(shippingCost)}`;
-
-      const estimatedFees = Number(data.marketplaceFees ?? (Number(data.estimatedValue || 0) * 0.13));
-      els.marketplaceFees.textContent = `-${formatCurrency(estimatedFees)}`;
+      els.marketplaceFees.textContent = `-${formatCurrency(data.marketplaceFees ?? 0)}`;
       els.estimatedProfit.textContent = formatCurrency(data.estimatedProfit ?? 0);
 
       renderInsights(data.insights || []);
@@ -882,7 +953,7 @@
         condition: els.condition.value.trim(),
         buyCost: Number(els.buyCost.value || 0),
         shippingCost: Number(els.shippingCost.value || 0),
-        shippingType: els.shippingType.value,
+        shippingType: els.shippingType.value
       };
 
       els.runResearchBtn.disabled = true;
@@ -893,9 +964,9 @@
         const response = await fetch(BACKEND_URL, {
           method: "POST",
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/json"
           },
-          body: JSON.stringify(payload),
+          body: JSON.stringify(payload)
         });
 
         if (!response.ok) {

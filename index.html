@@ -1,247 +1,934 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GoodFinds AI</title>
+  <style>
+    :root {
+      --bg: #050816;
+      --panel: rgba(255, 255, 255, 0.04);
+      --panel-2: rgba(255, 255, 255, 0.06);
+      --border: rgba(255, 255, 255, 0.10);
+      --muted: rgba(255, 255, 255, 0.62);
+      --muted-2: rgba(255, 255, 255, 0.45);
+      --text: #ffffff;
+      --emerald: #34d399;
+      --emerald-dark: #022c22;
+      --sky: #38bdf8;
+      --sky-dark: #082f49;
+      --violet: #8b5cf6;
+      --violet-dark: #2e1065;
+      --rose: #fb7185;
+      --amber: #fbbf24;
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+    }
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+    * {
+      box-sizing: border-box;
+    }
 
-<title>GoodFinds AI</title>
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #0a1030 0%, var(--bg) 45%);
+      color: var(--text);
+      min-height: 100vh;
+    }
 
-<style>
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 24px;
+    }
 
-body{
-font-family:Arial;
-background:#020617;
-color:white;
-text-align:center;
-padding:20px;
-}
+    .hero,
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
 
-h1{
-color:#22c55e;
-}
+    .hero {
+      border-radius: var(--radius-xl);
+      padding: 28px;
+      margin-bottom: 24px;
+    }
 
-.container{
-max-width:520px;
-margin:auto;
-}
+    .hero-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
 
-input,select{
-width:95%;
-padding:12px;
-margin:8px;
-border-radius:8px;
-border:none;
-font-size:16px;
-}
+    .eyebrow {
+      font-size: 12px;
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      color: rgba(125, 211, 252, 0.8);
+      margin: 0 0 10px 0;
+    }
 
-button{
-width:95%;
-padding:14px;
-border-radius:10px;
-font-size:18px;
-border:none;
-margin-top:10px;
-}
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(32px, 5vw, 58px);
+      line-height: 1.02;
+      letter-spacing: -0.03em;
+    }
 
-.run{background:#22c55e;}
-.scan{background:#0ea5e9;}
-.thrift{background:#7c3aed;}
+    .hero p {
+      margin: 14px 0 0 0;
+      max-width: 860px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.6;
+    }
 
-.results{
-margin-top:20px;
-background:#1e293b;
-padding:20px;
-border-radius:12px;
-}
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border-radius: 999px;
+      padding: 12px 18px;
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      background: rgba(56, 189, 248, 0.1);
+      color: #c7f0ff;
+      white-space: nowrap;
+      font-weight: 600;
+    }
 
-.metric{
-margin:6px 0;
-font-size:18px;
-}
+    .grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 24px;
+    }
 
-.buy{color:#22c55e;font-size:30px;}
-.maybe{color:#facc15;font-size:30px;}
-.pass{color:#ef4444;font-size:30px;}
+    .panel {
+      border-radius: var(--radius-xl);
+      padding: 24px;
+    }
 
-</style>
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
+      margin-bottom: 22px;
+    }
 
+    .panel-header h2,
+    .panel-header h3 {
+      margin: 8px 0 0 0;
+      font-size: 30px;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+    }
+
+    .label-top {
+      margin: 0;
+      font-size: 12px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--muted-2);
+    }
+
+    .mode-card {
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      background: rgba(0, 0, 0, 0.2);
+      padding: 12px 14px;
+      min-width: 120px;
+      text-align: right;
+    }
+
+    .mode-card .small {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      color: var(--muted-2);
+      margin-bottom: 4px;
+    }
+
+    .mode-card .value {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .field label {
+      font-size: 14px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .input,
+    .select {
+      width: 100%;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.04);
+      color: white;
+      padding: 16px 16px;
+      font-size: 16px;
+      outline: none;
+      transition: 0.18s ease;
+    }
+
+    .input:focus,
+    .select:focus {
+      border-color: rgba(56, 189, 248, 0.6);
+      box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.12);
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 22px;
+      padding: 16px 18px;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.16s ease, opacity 0.16s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      opacity: 0.96;
+    }
+
+    .btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-emerald {
+      background: linear-gradient(135deg, var(--emerald), #22c55e);
+      color: var(--emerald-dark);
+    }
+
+    .btn-sky {
+      background: linear-gradient(135deg, var(--sky), #60a5fa);
+      color: var(--sky-dark);
+    }
+
+    .btn-violet {
+      background: linear-gradient(135deg, var(--violet), #7c3aed);
+      color: #ede9fe;
+    }
+
+    .verdict-card,
+    .sub-panel {
+      border: 1px solid var(--border);
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 28px;
+      padding: 22px;
+      margin-top: 22px;
+    }
+
+    .verdict-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .verdict-top h3 {
+      margin: 8px 0 0 0;
+      font-size: 24px;
+      letter-spacing: -0.02em;
+    }
+
+    .meta {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .badge {
+      border-radius: 18px;
+      padding: 12px 16px;
+      font-size: 14px;
+      font-weight: 800;
+      border: 1px solid transparent;
+      white-space: nowrap;
+    }
+
+    .badge.buy {
+      background: rgba(52, 211, 153, 0.16);
+      color: #86efac;
+      border-color: rgba(52, 211, 153, 0.3);
+    }
+
+    .badge.risky {
+      background: rgba(251, 191, 36, 0.16);
+      color: #fde68a;
+      border-color: rgba(251, 191, 36, 0.3);
+    }
+
+    .badge.pass {
+      background: rgba(251, 113, 133, 0.16);
+      color: #fda4af;
+      border-color: rgba(251, 113, 133, 0.3);
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .metric {
+      border-radius: 22px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.04);
+      padding: 18px;
+    }
+
+    .metric .k {
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted-2);
+    }
+
+    .metric .v {
+      margin-top: 12px;
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .metric .n {
+      margin-top: 4px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .live {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #86efac;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: #4ade80;
+      box-shadow: 0 0 0 6px rgba(74, 222, 128, 0.12);
+    }
+
+    .scanner-box {
+      position: relative;
+      overflow: hidden;
+      border-radius: 28px;
+      border: 1px solid rgba(56, 189, 248, 0.16);
+      background: linear-gradient(to bottom, #0f172a, #0c1530);
+      padding: 18px;
+      min-height: 360px;
+    }
+
+    .corner {
+      position: absolute;
+      width: 42px;
+      height: 42px;
+    }
+
+    .corner.tl { top: 18px; left: 18px; border-top: 4px solid #60a5fa; border-left: 4px solid #60a5fa; border-top-left-radius: 16px; }
+    .corner.tr { top: 18px; right: 18px; border-top: 4px solid #60a5fa; border-right: 4px solid #60a5fa; border-top-right-radius: 16px; }
+    .corner.bl { bottom: 18px; left: 18px; border-bottom: 4px solid #60a5fa; border-left: 4px solid #60a5fa; border-bottom-left-radius: 16px; }
+    .corner.br { bottom: 18px; right: 18px; border-bottom: 4px solid #60a5fa; border-right: 4px solid #60a5fa; border-bottom-right-radius: 16px; }
+
+    .scan-line {
+      position: absolute;
+      left: 30px;
+      right: 30px;
+      top: 48%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, rgba(125, 211, 252, 0.9), transparent);
+      box-shadow: 0 0 22px rgba(56, 189, 248, 0.5);
+    }
+
+    .scan-card {
+      width: min(300px, 75%);
+      height: 220px;
+      margin: 54px auto 0;
+      border-radius: 28px;
+      background: white;
+      color: #1e293b;
+      transform: rotate(-4deg);
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.4);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .barcode {
+      width: 140px;
+      height: 44px;
+      background:
+        repeating-linear-gradient(
+          90deg,
+          #111 0,
+          #111 2px,
+          transparent 2px,
+          transparent 4px
+        );
+    }
+
+    .scan-card .sku {
+      font-size: 54px;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+    }
+
+    .line-items {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .line-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      border-radius: 18px;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 14px 16px;
+    }
+
+    .line-item.highlight {
+      background: rgba(52, 211, 153, 0.12);
+      border: 1px solid rgba(52, 211, 153, 0.2);
+    }
+
+    .line-item .left {
+      color: var(--muted);
+    }
+
+    .line-item .right {
+      font-weight: 700;
+    }
+
+    .line-item.highlight .right {
+      color: #86efac;
+      font-size: 20px;
+    }
+
+    .insight-list,
+    .comp-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .insight,
+    .comp {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      border-radius: 18px;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 14px 16px;
+    }
+
+    .insight-left {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .insight-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: var(--sky);
+      margin-top: 6px;
+      flex-shrink: 0;
+    }
+
+    .insight p,
+    .comp p {
+      margin: 0;
+      color: rgba(255,255,255,0.82);
+      line-height: 1.5;
+    }
+
+    .comp small {
+      display: block;
+      margin-top: 6px;
+      color: rgba(255,255,255,0.5);
+      font-size: 12px;
+    }
+
+    .comp-price {
+      font-size: 24px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .view-all {
+      border: 1px solid var(--border);
+      background: rgba(0,0,0,0.2);
+      color: rgba(255,255,255,0.8);
+      padding: 10px 14px;
+      border-radius: 16px;
+      font-weight: 600;
+    }
+
+    .status {
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 14px;
+      min-height: 20px;
+    }
+
+    @media (max-width: 1100px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .container {
+        padding: 16px;
+      }
+
+      .panel,
+      .hero {
+        padding: 18px;
+      }
+
+      .form-grid,
+      .buttons,
+      .metrics {
+        grid-template-columns: 1fr;
+      }
+
+      .panel-header h2,
+      .panel-header h3 {
+        font-size: 24px;
+      }
+
+      .scan-card .sku {
+        font-size: 40px;
+      }
+    }
+  </style>
 </head>
-
 <body>
-
-<div class="container">
-
-<h1>GoodFinds AI</h1>
-
-<input id="brand" placeholder="Brand">
-
-<input id="item" placeholder="Item">
-
-<input id="size" placeholder="Size">
-
-<select id="condition">
-
-<option value="preowned">Preowned</option>
-<option value="new_with_tags">New With Tags</option>
-<option value="new_without_tags">New Without Tags</option>
-
-</select>
-
-<input id="cost" placeholder="Buy Cost">
-
-<input id="shipping" value="6.25">
-
-<label>
-<input type="checkbox" id="buyerShipping">
-Buyer Pays Shipping
-</label>
-
-<button class="run" onclick="runResearch()">Run Research</button>
-
-<button class="scan" onclick="scanPhoto()">📸 Scan Item</button>
-
-<button class="thrift" onclick="toggleThrift()">⚡ Thrift Mode</button>
-
-<div class="results">
-
-<div id="prices" class="metric"></div>
-
-<div id="listprice" class="metric"></div>
-
-<div id="profit" class="metric"></div>
-
-<div id="roi" class="metric"></div>
-
-<div id="heat" class="metric"></div>
-
-<div id="flip" class="metric"></div>
-
-<div id="demand" class="metric"></div>
-
-<div id="competition" class="metric"></div>
-
-<div id="confidence" class="metric"></div>
-
-<div id="decision"></div>
-
-</div>
-
-</div>
-
-<script>
-
-function toggleThrift(){
-
-alert("⚡ Thrift Mode Activated")
-
-}
-
-async function runResearch(){
-
-let brand=document.getElementById("brand").value
-let item=document.getElementById("item").value
-let size=document.getElementById("size").value
-let condition=document.getElementById("condition").value
-let cost=document.getElementById("cost").value
-let shipping=document.getElementById("shipping").value
-let buyerShipping=document.getElementById("buyerShipping").checked
-
-let url=`https://goodfinds-backend.vercel.app/api/research?brand=${brand}&item=${item}&size=${size}&condition=${condition}&buyCost=${cost}&shippingCost=${shipping}&buyerPaysShipping=${buyerShipping}`
-
-let res=await fetch(url)
-
-let data=await res.json()
-
-document.getElementById("prices").innerHTML=
-`Low: $${data.lowSoldPrice} | Avg: $${data.avgSoldPrice} | High: $${data.highSoldPrice}`
-
-document.getElementById("listprice").innerHTML=
-`Recommended Listing Price: $${data.recommendedListingPrice}`
-
-document.getElementById("profit").innerHTML=
-`Profit: $${data.estimatedProfit}`
-
-document.getElementById("roi").innerHTML=
-`ROI: ${data.roiPercent}%`
-
-document.getElementById("heat").innerHTML=
-`${data.profitHeat}`
-
-document.getElementById("flip").innerHTML=
-`Flip Speed: ${data.flipSpeed}`
-
-document.getElementById("demand").innerHTML=
-`Demand Score: ${data.demandScore}/10`
-
-document.getElementById("competition").innerHTML=
-`Competition Score: ${data.competitionScore}/10`
-
-document.getElementById("confidence").innerHTML=
-`Profit Confidence: ${data.profitConfidence}/10`
-
-let decision=data.decision
-
-let el=document.getElementById("decision")
-
-if(decision==="BUY"){
-el.className="buy"
-el.innerHTML="👍 BUY"
-}
-
-if(decision==="MAYBE"){
-el.className="maybe"
-el.innerHTML="⚠️ MAYBE"
-}
-
-if(decision==="PASS"){
-el.className="pass"
-el.innerHTML="👎 PASS"
-}
-
-}
-
-async function scanPhoto(){
-
-const input=document.createElement("input")
-input.type="file"
-input.accept="image/*"
-
-input.onchange=function(){
-
-const file=input.files[0]
-
-const reader=new FileReader()
-
-reader.onload=async function(){
-
-const base64=reader.result.split(",")[1]
-
-const res=await fetch(
-"https://goodfinds-backend.vercel.app/api/photo-scan",
-{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({imageBase64:base64})
-}
-)
-
-const data=await res.json()
-
-document.getElementById("brand").value=data.brandGuess||""
-document.getElementById("item").value=data.itemGuess||""
-
-}
-
-reader.readAsDataURL(file)
-
-}
-
-input.click()
-
-}
-
-</script>
-
+  <div class="container">
+    <section class="hero">
+      <div class="hero-top">
+        <div>
+          <p class="eyebrow">GoodFinds AI</p>
+          <h1>Scan smarter. Price faster. Know before you buy.</h1>
+          <p>
+            A reseller decision engine built to analyze resale demand, profit, and sell-through at a glance.
+          </p>
+        </div>
+        <div class="pill">Built by resellers for resellers</div>
+      </div>
+    </section>
+
+    <div class="grid">
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <p class="label-top">Research Inputs</p>
+            <h2>Scanner workspace</h2>
+          </div>
+          <div class="mode-card">
+            <div class="small">Mode</div>
+            <div class="value">Thrift Pro</div>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="field">
+            <label for="brand">Brand</label>
+            <input id="brand" class="input" value="Nike" />
+          </div>
+
+          <div class="field">
+            <label for="title">Item Description</label>
+            <input id="title" class="input" value="Golf Polo" />
+          </div>
+
+          <div class="field">
+            <label for="size">Size</label>
+            <input id="size" class="input" value="XXL" />
+          </div>
+
+          <div class="field">
+            <label for="condition">Condition</label>
+            <select id="condition" class="select">
+              <option selected>Preowned</option>
+              <option>New With Tags</option>
+              <option>New Without Tags</option>
+              <option>Used - Fair</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="buyCost">Buy Cost</label>
+            <input id="buyCost" class="input" value="5.93" />
+          </div>
+
+          <div class="field">
+            <label for="shippingCost">Shipping Cost</label>
+            <input id="shippingCost" class="input" value="6.25" />
+          </div>
+
+          <div class="field full">
+            <label for="shippingType">Shipping Type</label>
+            <select id="shippingType" class="select">
+              <option selected>Buyer Pays Shipping</option>
+              <option>Seller Pays Shipping</option>
+              <option>Flat Shipping</option>
+              <option>Free Shipping</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="buttons">
+          <button id="runResearchBtn" class="btn btn-emerald">Run Research</button>
+          <button class="btn btn-sky" type="button">Scan Item</button>
+          <button class="btn btn-violet" type="button">Thrift Mode</button>
+        </div>
+
+        <div class="verdict-card">
+          <div class="verdict-top">
+            <div>
+              <p class="label-top">Resale Verdict</p>
+              <h3 id="resultTitle">Nike Golf Polo</h3>
+              <div class="meta" id="resultMeta">XXL • Preowned • Confidence 90%</div>
+            </div>
+            <div id="verdictBadge" class="badge buy">BUY</div>
+          </div>
+
+          <div class="metrics">
+            <div class="metric">
+              <div class="k">Est. Value</div>
+              <div class="v" id="estimatedValue">$29.75</div>
+              <div class="n" id="valueRange">$25.00–$35.00</div>
+            </div>
+            <div class="metric">
+              <div class="k">Sell-through</div>
+              <div class="v" id="sellThroughRate">62%</div>
+              <div class="n">Live market pulse</div>
+            </div>
+            <div class="metric">
+              <div class="k">Avg Days</div>
+              <div class="v" id="avgDaysToSell">9</div>
+              <div class="n">Time to sell</div>
+            </div>
+            <div class="metric">
+              <div class="k">ROI</div>
+              <div class="v" id="roi">226%</div>
+              <div class="n">Margin strength</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="status" id="statusText">Ready to analyze.</div>
+      </section>
+
+      <section style="display:flex; flex-direction:column; gap:24px;">
+        <section class="panel">
+          <div class="panel-header" style="margin-bottom:16px;">
+            <div>
+              <h3 style="margin-top:0;">Scanner Preview</h3>
+            </div>
+            <div class="live"><span class="dot"></span>Live</div>
+          </div>
+
+          <div class="scanner-box">
+            <div class="corner tl"></div>
+            <div class="corner tr"></div>
+            <div class="corner bl"></div>
+            <div class="corner br"></div>
+            <div class="scan-line"></div>
+
+            <div class="scan-card">
+              <div class="barcode"></div>
+              <div class="sku">C2030194</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header" style="margin-bottom:10px;">
+            <div>
+              <p class="label-top">Profit Snapshot</p>
+              <h3>Estimated profit</h3>
+            </div>
+            <div id="profitVerdictBadge" class="badge buy">BUY</div>
+          </div>
+
+          <div class="line-items">
+            <div class="line-item">
+              <div class="left">Expected sale price</div>
+              <div class="right" id="expectedSalePrice">$29.75</div>
+            </div>
+            <div class="line-item">
+              <div class="left">Buy cost</div>
+              <div class="right" id="buyCostDisplay">-$5.93</div>
+            </div>
+            <div class="line-item">
+              <div class="left">Shipping estimate</div>
+              <div class="right" id="shippingCostDisplay">-$6.25</div>
+            </div>
+            <div class="line-item">
+              <div class="left">Marketplace fees</div>
+              <div class="right" id="marketplaceFees">-$3.87</div>
+            </div>
+            <div class="line-item highlight">
+              <div class="left">Net profit</div>
+              <div class="right" id="estimatedProfit">$13.70</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <p class="label-top">Smart Insights</p>
+          <div id="insightsList" class="insight-list"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header" style="margin-bottom:10px;">
+            <div>
+              <p class="label-top">Recent Comps</p>
+              <h3>Fast reference</h3>
+            </div>
+            <button class="view-all" type="button">View all</button>
+          </div>
+          <div id="compsList" class="comp-list"></div>
+        </section>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    const BACKEND_URL = "https://goodfinds-backend.vercel.app/api/research";
+
+    const els = {
+      brand: document.getElementById("brand"),
+      title: document.getElementById("title"),
+      size: document.getElementById("size"),
+      condition: document.getElementById("condition"),
+      buyCost: document.getElementById("buyCost"),
+      shippingCost: document.getElementById("shippingCost"),
+      shippingType: document.getElementById("shippingType"),
+      runResearchBtn: document.getElementById("runResearchBtn"),
+      statusText: document.getElementById("statusText"),
+
+      resultTitle: document.getElementById("resultTitle"),
+      resultMeta: document.getElementById("resultMeta"),
+      verdictBadge: document.getElementById("verdictBadge"),
+      profitVerdictBadge: document.getElementById("profitVerdictBadge"),
+
+      estimatedValue: document.getElementById("estimatedValue"),
+      valueRange: document.getElementById("valueRange"),
+      sellThroughRate: document.getElementById("sellThroughRate"),
+      avgDaysToSell: document.getElementById("avgDaysToSell"),
+      roi: document.getElementById("roi"),
+
+      expectedSalePrice: document.getElementById("expectedSalePrice"),
+      buyCostDisplay: document.getElementById("buyCostDisplay"),
+      shippingCostDisplay: document.getElementById("shippingCostDisplay"),
+      marketplaceFees: document.getElementById("marketplaceFees"),
+      estimatedProfit: document.getElementById("estimatedProfit"),
+
+      insightsList: document.getElementById("insightsList"),
+      compsList: document.getElementById("compsList"),
+    };
+
+    function formatCurrency(value) {
+      const number = Number(value || 0);
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        maximumFractionDigits: 2,
+      }).format(number);
+    }
+
+    function setBadge(el, verdict) {
+      el.classList.remove("buy", "risky", "pass");
+      const v = (verdict || "").toUpperCase();
+
+      if (v === "BUY") {
+        el.classList.add("buy");
+      } else if (v === "RISKY") {
+        el.classList.add("risky");
+      } else {
+        el.classList.add("pass");
+      }
+
+      el.textContent = v || "PASS";
+    }
+
+    function renderInsights(insights) {
+      els.insightsList.innerHTML = "";
+
+      (insights || []).forEach((text) => {
+        const item = document.createElement("div");
+        item.className = "insight";
+        item.innerHTML = `
+          <div class="insight-left">
+            <div class="insight-dot"></div>
+            <p>${text}</p>
+          </div>
+        `;
+        els.insightsList.appendChild(item);
+      });
+    }
+
+    function renderComps(comps) {
+      els.compsList.innerHTML = "";
+
+      (comps || []).forEach((comp) => {
+        const item = document.createElement("div");
+        item.className = "comp";
+        item.innerHTML = `
+          <div>
+            <p>${comp.title || "Comparable Listing"}</p>
+            <small>Sold in ${comp.soldInDays ?? "-"} days</small>
+          </div>
+          <div class="comp-price">${formatCurrency(comp.price || 0)}</div>
+        `;
+        els.compsList.appendChild(item);
+      });
+    }
+
+    function renderResult(data) {
+      const brand = els.brand.value.trim();
+      const title = els.title.value.trim();
+      const size = els.size.value.trim();
+      const condition = els.condition.value.trim();
+      const buyCost = Number(els.buyCost.value || 0);
+      const shippingCost = Number(els.shippingCost.value || 0);
+
+      els.resultTitle.textContent = `${brand} ${title}`.trim();
+      els.resultMeta.textContent = `${size} • ${condition} • Confidence ${data.confidence ?? 90}%`;
+
+      setBadge(els.verdictBadge, data.verdict);
+      setBadge(els.profitVerdictBadge, data.verdict);
+
+      els.estimatedValue.textContent = formatCurrency(data.estimatedValue);
+      els.valueRange.textContent = `${formatCurrency(data.lowPrice)}–${formatCurrency(data.highPrice)}`;
+      els.sellThroughRate.textContent = `${data.sellThroughRate ?? 0}%`;
+      els.avgDaysToSell.textContent = `${data.avgDaysToSell ?? 0}`;
+      els.roi.textContent = `${data.roi ?? 0}%`;
+
+      els.expectedSalePrice.textContent = formatCurrency(data.estimatedValue);
+      els.buyCostDisplay.textContent = `-${formatCurrency(buyCost)}`;
+      els.shippingCostDisplay.textContent = `-${formatCurrency(shippingCost)}`;
+
+      const estimatedFees = Number(data.marketplaceFees ?? (Number(data.estimatedValue || 0) * 0.13));
+      els.marketplaceFees.textContent = `-${formatCurrency(estimatedFees)}`;
+      els.estimatedProfit.textContent = formatCurrency(data.estimatedProfit ?? 0);
+
+      renderInsights(data.insights || []);
+      renderComps(data.comps || []);
+    }
+
+    async function runResearch() {
+      const payload = {
+        brand: els.brand.value.trim(),
+        title: els.title.value.trim(),
+        size: els.size.value.trim(),
+        condition: els.condition.value.trim(),
+        buyCost: Number(els.buyCost.value || 0),
+        shippingCost: Number(els.shippingCost.value || 0),
+        shippingType: els.shippingType.value,
+      };
+
+      els.runResearchBtn.disabled = true;
+      els.runResearchBtn.textContent = "Running...";
+      els.statusText.textContent = "Analyzing resale demand and estimating profit...";
+
+      try {
+        const response = await fetch(BACKEND_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        });
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(errorText || "Request failed");
+        }
+
+        const data = await response.json();
+        renderResult(data);
+        els.statusText.textContent = `Research complete. Demand signal: ${data.demandSignal || "Unknown"}.`;
+      } catch (error) {
+        console.error(error);
+        els.statusText.textContent = "Could not connect to backend. Check deploy, endpoint, or CORS.";
+      } finally {
+        els.runResearchBtn.disabled = false;
+        els.runResearchBtn.textContent = "Run Research";
+      }
+    }
+
+    els.runResearchBtn.addEventListener("click", runResearch);
+
+    renderInsights([
+      "Golf apparel is moving well in this category right now.",
+      "Larger sizes can command stronger buyer interest when priced correctly.",
+      "This item is best listed with clear fabric and condition details.",
+      "Recent comps suggest fast movement when shipping is competitive."
+    ]);
+
+    renderComps([
+      { title: "Nike Golf Dri-FIT Polo Blue XXL", price: 31, soldInDays: 5 },
+      { title: "Nike Tour Performance Polo Men XXL", price: 28, soldInDays: 7 },
+      { title: "Nike Golf Stripe Polo XXL", price: 34, soldInDays: 8 }
+    ]);
+  </script>
 </body>
 </html>

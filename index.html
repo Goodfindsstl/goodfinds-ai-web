@@ -870,7 +870,23 @@
           </div>
           <div class="field">
             <label for="size">Size</label>
-            <input id="size" value="XXL">
+            <select id="size">
+              <option value="">Select size</option>
+              <option>One Size</option>
+              <option>3XS</option>
+              <option>XXS</option>
+              <option>XS</option>
+              <option>S</option>
+              <option>M</option>
+              <option>L</option>
+              <option>XL</option>
+              <option selected>XXL</option>
+              <option>3XL</option>
+              <option>4XL</option>
+              <option>5XL</option>
+              <option>6XL</option>
+              <option>Other</option>
+            </select>
           </div>
           <div class="field">
             <label for="condition">Condition</label>
@@ -1048,6 +1064,23 @@
 
     const SAVED_SCANS_KEY = "goodfinds_saved_scans_v1";
 
+    const SIZE_OPTIONS = [
+      "One Size",
+      "3XS",
+      "XXS",
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL",
+      "3XL",
+      "4XL",
+      "5XL",
+      "6XL",
+      "Other"
+    ];
+
     const els = {
       brand: document.getElementById("brand"),
       title: document.getElementById("title"),
@@ -1104,6 +1137,33 @@
     function num(value){
       const parsed = Number(value);
       return Number.isFinite(parsed) ? parsed : 0;
+    }
+
+    function normalizeSize(sizeValue){
+      const raw = String(sizeValue || "").trim();
+      if (!raw) return "";
+
+      const upper = raw.toUpperCase();
+
+      const map = {
+        "ONE SIZE": "One Size",
+        "3XS": "3XS",
+        "XXS": "XXS",
+        "XS": "XS",
+        "S": "S",
+        "M": "M",
+        "L": "L",
+        "XL": "XL",
+        "XXL": "XXL",
+        "2XL": "XXL",
+        "3XL": "3XL",
+        "4XL": "4XL",
+        "5XL": "5XL",
+        "6XL": "6XL",
+        "OTHER": "Other"
+      };
+
+      return map[upper] || "Other";
     }
 
     function setBadge(node, verdict){
@@ -1437,7 +1497,7 @@
 
       els.brand.value = payload.brand || "";
       els.title.value = payload.title || "";
-      els.size.value = payload.size || "";
+      els.size.value = normalizeSize(payload.size || "");
       els.condition.value = payload.condition || "Preowned";
       els.buyCost.value = payload.buyCost ?? 0;
       els.shippingCost.value = payload.shippingCost ?? 0;
@@ -1565,7 +1625,7 @@
     function applyPhotoScanData(data){
       const nextBrand = String(data.brand || "").trim();
       const nextTitle = String(data.title || "").trim();
-      const nextSize = String(data.size || "").trim();
+      const nextSize = normalizeSize(data.size || "");
       const normalizedCondition = normalizeConditionGuess(data.condition_guess);
 
       if(nextBrand) els.brand.value = nextBrand;
@@ -1602,7 +1662,7 @@
 
         const payloadAfterScan = getPayload();
         if(!payloadAfterScan.brand && !payloadAfterScan.title){
-          els.statusText.textContent = "Photo loaded, but scan details were not detected. Update photo-scan.js for stronger label recognition.";
+          els.statusText.textContent = "Photo loaded, but scan details were not detected.";
           return;
         }
 
@@ -1636,7 +1696,7 @@
 
         if(data.brand) els.brand.value = data.brand;
         if(data.title) els.title.value = data.title;
-        if(data.size) els.size.value = data.size;
+        if(data.size) els.size.value = normalizeSize(data.size);
 
         await runResearch();
         els.statusText.textContent = data.found ? `UPC match found: ${data.title}` : "UPC not found.";

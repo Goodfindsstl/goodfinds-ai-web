@@ -373,6 +373,97 @@
       box-shadow:0 18px 40px rgba(109,60,255,.18);
     }
 
+    .analysis-summary{
+      margin-top:22px;
+      border-radius:24px;
+      padding:20px;
+      border:1px solid rgba(255,255,255,.08);
+      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(0,0,0,.14));
+    }
+
+    .analysis-top{
+      display:flex;
+      justify-content:space-between;
+      gap:16px;
+      align-items:flex-start;
+      flex-wrap:wrap;
+    }
+
+    .analysis-top h3{
+      margin:8px 0 0;
+      font-size:24px;
+      letter-spacing:-.025em;
+    }
+
+    .meta{
+      margin-top:6px;
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    .badge{
+      border-radius:18px;
+      padding:11px 15px;
+      font-size:14px;
+      font-weight:800;
+      border:1px solid transparent;
+      white-space:nowrap;
+    }
+
+    .buy{ background:rgba(52,211,153,.14); border-color:rgba(52,211,153,.28); color:var(--greenText); }
+    .risky{ background:rgba(251,191,36,.14); border-color:rgba(251,191,36,.28); color:var(--amberText); }
+    .pass{ background:rgba(251,113,133,.14); border-color:rgba(251,113,133,.28); color:var(--roseText); }
+
+    .metrics{
+      display:grid;
+      grid-template-columns:repeat(5,minmax(0,1fr));
+      gap:14px;
+      margin-top:18px;
+    }
+
+    .metric{
+      border-radius:20px;
+      padding:16px;
+      border:1px solid rgba(255,255,255,.08);
+      background:var(--panel2);
+    }
+
+    .metric .k{
+      font-size:10px;
+      letter-spacing:.22em;
+      text-transform:uppercase;
+      color:var(--muted2);
+    }
+
+    .metric .v{
+      margin-top:12px;
+      font-size:28px;
+      font-weight:800;
+      letter-spacing:-.03em;
+    }
+
+    .metric .n{
+      margin-top:4px;
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    .heat-wrap{
+      margin-top:10px;
+      height:10px;
+      border-radius:999px;
+      background:rgba(255,255,255,.08);
+      overflow:hidden;
+    }
+
+    .heat-bar{
+      height:100%;
+      border-radius:999px;
+      background:linear-gradient(90deg,#22c55e,#5cb7ff,#8b5cf6);
+      width:0%;
+      transition:width .25s ease;
+    }
+
     .saved-scans-card{
       margin-top:22px;
       border-radius:26px;
@@ -592,96 +683,8 @@
       max-height:290px;
       border-radius:22px;
       box-shadow:0 30px 70px rgba(0,0,0,.35);
-    }
-
-    .analysis-summary{
-      border-radius:24px;
-      padding:20px;
-      border:1px solid rgba(255,255,255,.08);
-      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(0,0,0,.14));
-    }
-
-    .analysis-top{
-      display:flex;
-      justify-content:space-between;
-      gap:16px;
-      align-items:flex-start;
-      flex-wrap:wrap;
-    }
-
-    .analysis-top h3{
-      margin:8px 0 0;
-      font-size:24px;
-      letter-spacing:-.025em;
-    }
-
-    .meta{
-      margin-top:6px;
-      color:var(--muted);
-      font-size:14px;
-    }
-
-    .badge{
-      border-radius:18px;
-      padding:11px 15px;
-      font-size:14px;
-      font-weight:800;
-      border:1px solid transparent;
-      white-space:nowrap;
-    }
-
-    .buy{ background:rgba(52,211,153,.14); border-color:rgba(52,211,153,.28); color:var(--greenText); }
-    .risky{ background:rgba(251,191,36,.14); border-color:rgba(251,191,36,.28); color:var(--amberText); }
-    .pass{ background:rgba(251,113,133,.14); border-color:rgba(251,113,133,.28); color:var(--roseText); }
-
-    .metrics{
-      display:grid;
-      grid-template-columns:repeat(5,minmax(0,1fr));
-      gap:14px;
-      margin-top:18px;
-    }
-
-    .metric{
-      border-radius:20px;
-      padding:16px;
-      border:1px solid rgba(255,255,255,.08);
-      background:var(--panel2);
-    }
-
-    .metric .k{
-      font-size:10px;
-      letter-spacing:.22em;
-      text-transform:uppercase;
-      color:var(--muted2);
-    }
-
-    .metric .v{
-      margin-top:12px;
-      font-size:28px;
-      font-weight:800;
-      letter-spacing:-.03em;
-    }
-
-    .metric .n{
-      margin-top:4px;
-      font-size:12px;
-      color:var(--muted);
-    }
-
-    .heat-wrap{
-      margin-top:10px;
-      height:10px;
-      border-radius:999px;
-      background:rgba(255,255,255,.08);
-      overflow:hidden;
-    }
-
-    .heat-bar{
-      height:100%;
-      border-radius:999px;
-      background:linear-gradient(90deg,#22c55e,#5cb7ff,#8b5cf6);
-      width:0%;
-      transition:width .25s ease;
+      object-fit:contain;
+      background:rgba(255,255,255,.03);
     }
 
     .line-items,.insights,.comps{
@@ -923,6 +926,48 @@
 
         <input id="fileInput" type="file" accept="image/*" style="display:none;" />
 
+        <div class="analysis-summary">
+          <div class="analysis-top">
+            <div>
+              <p class="eyebrow">Current Analysis</p>
+              <h3 id="resultTitle">Nike tee</h3>
+              <div class="meta" id="resultMeta">XXL • New With Tags • Confidence 90%</div>
+            </div>
+            <div id="verdictBadge" class="badge buy">BUY</div>
+          </div>
+
+          <div class="metrics">
+            <div class="metric">
+              <div class="k">Listing Price</div>
+              <div class="v" id="listingPrice">$34.65</div>
+              <div class="n" id="valueRange">$31.25–$39.25</div>
+            </div>
+            <div class="metric">
+              <div class="k">Sell-through</div>
+              <div class="v" id="sellThroughRate">76%</div>
+              <div class="n">Buyer demand</div>
+            </div>
+            <div class="metric">
+              <div class="k">Avg Days</div>
+              <div class="v" id="avgDaysToSell">6</div>
+              <div class="n">Speed to sell</div>
+            </div>
+            <div class="metric">
+              <div class="k">ROI</div>
+              <div class="v" id="roi">0%</div>
+              <div class="n">Profit / buy cost</div>
+            </div>
+            <div class="metric">
+              <div class="k">Demand Heat</div>
+              <div class="v" id="demandHeatLabel">HOT</div>
+              <div class="heat-wrap">
+                <div id="heatBar" class="heat-bar"></div>
+              </div>
+              <div class="n" id="heatNote">Market momentum</div>
+            </div>
+          </div>
+        </div>
+
         <div class="saved-scans-card">
           <div class="saved-scans-top">
             <div>
@@ -958,50 +1003,6 @@
             <div id="mockCard" class="mock-card">
               <div class="barcode"></div>
               <div class="sku">C2030194</div>
-            </div>
-          </div>
-        </section>
-
-        <section class="panel">
-          <div class="analysis-summary">
-            <div class="analysis-top">
-              <div>
-                <p class="eyebrow">Current Analysis</p>
-                <h3 id="resultTitle">Nike tee</h3>
-                <div class="meta" id="resultMeta">XXL • New With Tags • Confidence 90%</div>
-              </div>
-              <div id="verdictBadge" class="badge buy">BUY</div>
-            </div>
-
-            <div class="metrics">
-              <div class="metric">
-                <div class="k">Listing Price</div>
-                <div class="v" id="listingPrice">$34.65</div>
-                <div class="n" id="valueRange">$31.25–$39.25</div>
-              </div>
-              <div class="metric">
-                <div class="k">Sell-through</div>
-                <div class="v" id="sellThroughRate">76%</div>
-                <div class="n">Buyer demand</div>
-              </div>
-              <div class="metric">
-                <div class="k">Avg Days</div>
-                <div class="v" id="avgDaysToSell">6</div>
-                <div class="n">Speed to sell</div>
-              </div>
-              <div class="metric">
-                <div class="k">ROI</div>
-                <div class="v" id="roi">0%</div>
-                <div class="n">Profit / buy cost</div>
-              </div>
-              <div class="metric">
-                <div class="k">Demand Heat</div>
-                <div class="v" id="demandHeatLabel">HOT</div>
-                <div class="heat-wrap">
-                  <div id="heatBar" class="heat-bar"></div>
-                </div>
-                <div class="n" id="heatNote">Market momentum</div>
-              </div>
             </div>
           </div>
         </section>
@@ -1064,23 +1065,6 @@
 
     const SAVED_SCANS_KEY = "goodfinds_saved_scans_v1";
 
-    const SIZE_OPTIONS = [
-      "One Size",
-      "3XS",
-      "XXS",
-      "XS",
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL",
-      "3XL",
-      "4XL",
-      "5XL",
-      "6XL",
-      "Other"
-    ];
-
     const els = {
       brand: document.getElementById("brand"),
       title: document.getElementById("title"),
@@ -1120,7 +1104,7 @@
     };
 
     let researchTimer = null;
-    let lastRenderedData = null;
+    let currentPreviewUrl = null;
 
     function money(v){
       return new Intl.NumberFormat("en-US", {
@@ -1401,7 +1385,6 @@
 
     function render(data){
       const payload = getPayload();
-      lastRenderedData = data;
 
       els.resultTitle.textContent = `${payload.brand} ${payload.title}`.trim() || "Untitled item";
       els.resultMeta.textContent = `${payload.size || "No size"} • ${payload.condition} • Confidence ${data.confidence ?? 90}%`;
@@ -1504,14 +1487,11 @@
       els.shippingType.value = payload.shippingType || "Buyer Pays Shipping";
 
       render(data);
-
       els.statusText.textContent = `Reopened saved scan: ${record.title || "item"}.`;
     }
 
     function renderSavedScans(){
       const items = getSavedScans();
-
-      if(!els.savedScansList) return;
 
       if(!items.length){
         els.savedScansList.innerHTML = `
@@ -1615,6 +1595,30 @@
       });
     }
 
+    function clearPreview(){
+      if(currentPreviewUrl){
+        URL.revokeObjectURL(currentPreviewUrl);
+        currentPreviewUrl = null;
+      }
+      els.previewImage.removeAttribute("src");
+      els.previewImage.style.display = "none";
+      els.mockCard.style.display = "flex";
+    }
+
+    function showPreview(file){
+      clearPreview();
+      currentPreviewUrl = URL.createObjectURL(file);
+      els.previewImage.onload = () => {
+        els.previewImage.style.display = "block";
+        els.mockCard.style.display = "none";
+      };
+      els.previewImage.onerror = () => {
+        els.statusText.textContent = "Preview image failed to load.";
+        clearPreview();
+      };
+      els.previewImage.src = currentPreviewUrl;
+    }
+
     function clearScanDrivenFields(){
       els.brand.value = "";
       els.title.value = "";
@@ -1637,12 +1641,8 @@
     async function scanPhoto(file){
       try{
         els.statusText.textContent = "Scanning photo with Vision...";
+        showPreview(file);
         const imageBase64 = await readFileAsBase64(file);
-
-        const localUrl = URL.createObjectURL(file);
-        els.previewImage.src = localUrl;
-        els.previewImage.style.display = "block";
-        els.mockCard.style.display = "none";
 
         clearScanDrivenFields();
 
@@ -1652,12 +1652,13 @@
           body:JSON.stringify({ imageBase64 })
         });
 
+        const data = await res.json().catch(() => ({}));
+
         if(!res.ok){
-          const txt = await res.text();
-          throw new Error(txt || "Photo scan failed");
+          const message = data?.error || data?.details || "Photo scan failed";
+          throw new Error(message);
         }
 
-        const data = await res.json();
         applyPhotoScanData(data);
 
         const payloadAfterScan = getPayload();
@@ -1670,7 +1671,7 @@
         els.statusText.textContent = "Photo scan complete.";
       }catch(err){
         console.error(err);
-        els.statusText.textContent = "Photo scan failed.";
+        els.statusText.textContent = `Photo scan failed: ${err.message || "Unknown error"}`;
       }
     }
 
@@ -1687,12 +1688,12 @@
           body:JSON.stringify({ upc: code.trim() })
         });
 
-        if(!res.ok){
-          const txt = await res.text();
-          throw new Error(txt || "UPC lookup failed");
-        }
+        const data = await res.json().catch(() => ({}));
 
-        const data = await res.json();
+        if(!res.ok){
+          const message = data?.error || data?.details || "UPC lookup failed";
+          throw new Error(message);
+        }
 
         if(data.brand) els.brand.value = data.brand;
         if(data.title) els.title.value = data.title;
@@ -1702,7 +1703,7 @@
         els.statusText.textContent = data.found ? `UPC match found: ${data.title}` : "UPC not found.";
       }catch(err){
         console.error(err);
-        els.statusText.textContent = "UPC lookup failed.";
+        els.statusText.textContent = `UPC lookup failed: ${err.message || "Unknown error"}`;
       }
     }
 

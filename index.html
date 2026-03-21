@@ -7,8 +7,7 @@
   <style>
     :root{
       --bg:#030611;
-      --bg2:#07112a;
-      --panel:rgba(10,18,45,.9);
+      --panel:rgba(10,18,45,.92);
       --panel2:rgba(255,255,255,.035);
       --border:rgba(96,165,250,.14);
       --text:#f8fbff;
@@ -26,11 +25,7 @@
     }
 
     * { box-sizing:border-box; }
-
-    html, body{
-      margin:0;
-      padding:0;
-    }
+    html, body { margin:0; padding:0; }
 
     body{
       font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
@@ -42,7 +37,7 @@
     }
 
     .wrap{
-      max-width:1400px;
+      max-width:1440px;
       margin:0 auto;
       padding:22px;
     }
@@ -108,20 +103,9 @@
         linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)),
         radial-gradient(circle at center, rgba(92,183,255,.14), transparent 62%);
       border:1px solid rgba(255,255,255,.06);
-      box-shadow:inset 0 1px 0 rgba(255,255,255,.03);
-    }
-
-    .hero-logo-glow{
-      position:absolute;
-      inset:0;
-      background:radial-gradient(circle at center, rgba(92,183,255,.22), transparent 55%);
-      filter:blur(24px);
-      pointer-events:none;
     }
 
     .logo{
-      position:relative;
-      z-index:2;
       width:min(100%, 430px);
       max-height:290px;
       object-fit:contain;
@@ -131,49 +115,15 @@
         drop-shadow(0 0 74px rgba(92,183,255,.14));
     }
 
-    .hero-copy{
-      min-width:0;
-    }
-
-    .hero-kicker{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      margin-bottom:14px;
-      border-radius:999px;
-      padding:10px 14px;
-      background:rgba(92,183,255,.09);
-      border:1px solid rgba(92,183,255,.18);
-      color:#d8f2ff;
-      font-weight:700;
-      font-size:13px;
-      letter-spacing:.04em;
-    }
-
-    .hero-kicker .mini-dot{
-      width:8px;
-      height:8px;
-      border-radius:999px;
-      background:#37df95;
-      box-shadow:0 0 0 6px rgba(55,223,149,.12);
-    }
-
-    .headline-stack{
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-    }
-
     .hero-copy h1{
       margin:0;
       font-size:clamp(36px, 4.8vw, 74px);
       line-height:.94;
       letter-spacing:-.06em;
-      max-width:900px;
     }
 
     .hero-copy p{
-      margin:8px 0 0;
+      margin:12px 0 0;
       max-width:820px;
       color:var(--muted);
       line-height:1.65;
@@ -232,7 +182,7 @@
 
     .grid{
       display:grid;
-      grid-template-columns:1.08fr .92fr;
+      grid-template-columns:1.02fr .98fr;
       gap:24px;
     }
 
@@ -281,10 +231,6 @@
       margin-bottom:5px;
     }
 
-    .mode strong{
-      font-size:14px;
-    }
-
     .form-grid{
       display:grid;
       grid-template-columns:repeat(2,minmax(0,1fr));
@@ -312,7 +258,6 @@
       padding:15px 16px;
       font-size:16px;
       outline:none;
-      box-shadow:inset 0 1px 0 rgba(255,255,255,.03);
     }
 
     input:focus,select:focus{
@@ -341,7 +286,7 @@
       font-size:16px;
       font-weight:800;
       cursor:pointer;
-      transition:transform .16s ease,opacity .16s ease,box-shadow .16s ease;
+      transition:transform .16s ease,opacity .16s ease;
     }
 
     button:hover{
@@ -358,22 +303,20 @@
     .btn-run{
       background:linear-gradient(135deg,#37df95,#1bcf7a);
       color:#03291b;
-      box-shadow:0 18px 40px rgba(28,207,122,.18);
     }
 
     .btn-scan{
       background:linear-gradient(135deg,#5cb7ff,#4b8dff);
       color:#04152f;
-      box-shadow:0 18px 40px rgba(92,183,255,.18);
     }
 
     .btn-thrift{
       background:linear-gradient(135deg,#9a6bff,#6d3cff);
       color:#f3ecff;
-      box-shadow:0 18px 40px rgba(109,60,255,.18);
     }
 
-    .analysis-summary{
+    .analysis-summary,
+    .saved-scans-card{
       margin-top:22px;
       border-radius:24px;
       padding:20px;
@@ -381,7 +324,9 @@
       background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(0,0,0,.14));
     }
 
-    .analysis-top{
+    .analysis-top,
+    .saved-scans-top,
+    .preview-head{
       display:flex;
       justify-content:space-between;
       gap:16px;
@@ -389,10 +334,10 @@
       flex-wrap:wrap;
     }
 
-    .analysis-top h3{
+    .analysis-top h3,
+    .saved-scans-top h3{
       margin:8px 0 0;
       font-size:24px;
-      letter-spacing:-.025em;
     }
 
     .meta{
@@ -410,9 +355,23 @@
       white-space:nowrap;
     }
 
-    .buy{ background:rgba(52,211,153,.14); border-color:rgba(52,211,153,.28); color:var(--greenText); }
-    .risky{ background:rgba(251,191,36,.14); border-color:rgba(251,191,36,.28); color:var(--amberText); }
-    .pass{ background:rgba(251,113,133,.14); border-color:rgba(251,113,133,.28); color:var(--roseText); }
+    .buy{
+      background:rgba(52,211,153,.14);
+      border-color:rgba(52,211,153,.28);
+      color:var(--greenText);
+    }
+
+    .risky{
+      background:rgba(251,191,36,.14);
+      border-color:rgba(251,191,36,.28);
+      color:var(--amberText);
+    }
+
+    .pass{
+      background:rgba(251,113,133,.14);
+      border-color:rgba(251,113,133,.28);
+      color:var(--roseText);
+    }
 
     .metrics{
       display:grid;
@@ -464,29 +423,6 @@
       transition:width .25s ease;
     }
 
-    .saved-scans-card{
-      margin-top:22px;
-      border-radius:26px;
-      padding:20px;
-      border:1px solid rgba(255,255,255,.08);
-      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(0,0,0,.14));
-    }
-
-    .saved-scans-top{
-      display:flex;
-      justify-content:space-between;
-      gap:16px;
-      align-items:flex-start;
-      flex-wrap:wrap;
-      margin-bottom:14px;
-    }
-
-    .saved-scans-top h3{
-      margin:8px 0 0;
-      font-size:24px;
-      letter-spacing:-.025em;
-    }
-
     .clear-saved-btn{
       border:1px solid rgba(255,255,255,.08);
       background:rgba(255,255,255,.04);
@@ -498,24 +434,37 @@
       cursor:pointer;
     }
 
-    .saved-scans-list{
+    .saved-scans-list,
+    .line-items,
+    .insights,
+    .market-list{
       display:flex;
       flex-direction:column;
       gap:12px;
-      margin-top:14px;
+      margin-top:16px;
     }
 
-    .saved-scan-item{
+    .saved-scan-item,
+    .line,
+    .insight,
+    .market-item{
       border-radius:18px;
       background:var(--panel2);
       border:1px solid rgba(255,255,255,.06);
       padding:14px 16px;
+    }
+
+    .saved-scan-item,
+    .line,
+    .market-item{
       display:flex;
       justify-content:space-between;
       align-items:center;
-      gap:14px;
+      gap:16px;
+    }
+
+    .saved-scan-item{
       cursor:pointer;
-      transition:transform .16s ease, border-color .16s ease, background .16s ease;
     }
 
     .saved-scan-item:hover{
@@ -524,37 +473,29 @@
       background:rgba(255,255,255,.05);
     }
 
-    .saved-scan-left{
-      min-width:0;
+    .saved-scan-title,
+    .market-item p{
+      margin:0;
     }
 
     .saved-scan-title{
       font-size:15px;
       font-weight:800;
-      color:#fff;
-      margin:0;
     }
 
-    .saved-scan-meta{
+    .saved-scan-meta,
+    .market-item small{
       margin-top:4px;
       font-size:12px;
       color:var(--muted);
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
+      display:block;
     }
 
-    .saved-scan-right{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      flex-shrink:0;
-    }
-
-    .saved-scan-price{
-      font-size:16px;
+    .saved-scan-price,
+    .market-price{
+      font-size:18px;
       font-weight:800;
-      color:#fff;
+      white-space:nowrap;
     }
 
     .empty-saved{
@@ -577,14 +518,6 @@
       display:flex;
       flex-direction:column;
       gap:24px;
-    }
-
-    .preview-head{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:16px;
-      margin-bottom:16px;
     }
 
     .live{
@@ -687,29 +620,13 @@
       background:rgba(255,255,255,.03);
     }
 
-    .line-items,.insights,.comps{
-      display:flex;
-      flex-direction:column;
-      gap:12px;
-      margin-top:16px;
+    .line .left{
+      color:var(--muted);
     }
 
-    .line,.insight,.comp{
-      border-radius:18px;
-      background:var(--panel2);
-      border:1px solid rgba(255,255,255,.06);
-      padding:14px 16px;
+    .line .right{
+      font-weight:700;
     }
-
-    .line,.comp{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:16px;
-    }
-
-    .line .left{ color:var(--muted); }
-    .line .right{ font-weight:700; }
 
     .line.highlight{
       background:rgba(52,211,153,.1);
@@ -737,73 +654,28 @@
       box-shadow:0 0 10px rgba(92,183,255,.3);
     }
 
-    .insight p,.comp p{
+    .insight p{
       margin:0;
       color:rgba(255,255,255,.84);
       line-height:1.5;
     }
 
-    .comp small{
-      display:block;
-      margin-top:6px;
-      color:rgba(255,255,255,.5);
-      font-size:12px;
-    }
-
-    .comp-price{
-      font-size:22px;
-      font-weight:800;
-      white-space:nowrap;
-    }
-
     @media (max-width:1180px){
       .grid{ grid-template-columns:1fr; }
       .metrics{ grid-template-columns:repeat(2,minmax(0,1fr)); }
-      .hero-inner{
-        grid-template-columns:1fr;
-      }
-      .hero-logo-wrap{
-        min-height:240px;
-      }
+      .hero-inner{ grid-template-columns:1fr; }
+      .hero-logo-wrap{ min-height:240px; }
     }
 
     @media (max-width:760px){
       .wrap{ padding:14px; }
       .hero,.panel{ padding:18px; }
-      .hero-copy h1{
-        font-size:40px;
-      }
-      .logo{
-        width:min(100%, 330px);
-        max-height:220px;
-      }
-      .hero-logo-wrap{
-        min-height:220px;
-      }
-      .hero-bottom{
-        flex-direction:column;
-        align-items:flex-start;
-      }
-      .hero-stats{
-        width:100%;
-      }
-      .hero-stat{
-        flex:1 1 140px;
-      }
-      .form-grid,.buttons,.metrics{
-        grid-template-columns:1fr;
-      }
-      .sku{
-        font-size:40px;
-      }
-      .preview-head{
-        flex-wrap:wrap;
-      }
-      .saved-scan-item,
-      .line,
-      .comp{
-        align-items:flex-start;
-      }
+      .hero-copy h1{ font-size:40px; }
+      .logo{ width:min(100%, 330px); max-height:220px; }
+      .hero-logo-wrap{ min-height:220px; }
+      .hero-bottom{ flex-direction:column; align-items:flex-start; }
+      .form-grid,.buttons,.metrics{ grid-template-columns:1fr; }
+      .sku{ font-size:40px; }
     }
   </style>
 </head>
@@ -812,36 +684,26 @@
     <section class="hero">
       <div class="hero-inner">
         <div class="hero-logo-wrap">
-          <div class="hero-logo-glow"></div>
           <img src="logo.png" alt="GoodFinds AI logo" class="logo" />
         </div>
 
         <div class="hero-copy">
-          <div class="hero-kicker">
-            <span class="mini-dot"></span>
-            GoodFinds AI Scanner
-          </div>
-
-          <div class="headline-stack">
-            <h1>Scan smarter. Price faster. Know before you buy.</h1>
-            <p>A reseller decision engine built to analyze resale demand, profit, and sell-through at a glance with live photo scan, UPC lookup, and premium market signals.</p>
-          </div>
-
+          <h1>Scan smarter. Price faster. Know before you buy.</h1>
+          <p>A reseller decision engine built to use Vision-powered label recognition, real eBay active listings, UPC lookup, median pricing, auto fees, and proxy sell-through in one workspace.</p>
           <div class="hero-bottom">
             <div class="pill">Built by resellers for resellers</div>
-
             <div class="hero-stats">
               <div class="hero-stat">
                 <small>Mode</small>
-                <strong>Thrift Pro</strong>
+                <strong>Proxy STR</strong>
+              </div>
+              <div class="hero-stat">
+                <small>Market</small>
+                <strong>Live eBay</strong>
               </div>
               <div class="hero-stat">
                 <small>Vision</small>
                 <strong>Live Scan</strong>
-              </div>
-              <div class="hero-stat">
-                <small>Lookup</small>
-                <strong>UPC Ready</strong>
               </div>
             </div>
           </div>
@@ -865,11 +727,11 @@
         <div class="form-grid">
           <div class="field">
             <label for="brand">Brand</label>
-            <input id="brand" value="Nike">
+            <input id="brand" value="">
           </div>
           <div class="field">
             <label for="title">Item Description</label>
-            <input id="title" value="tee">
+            <input id="title" value="">
           </div>
           <div class="field">
             <label for="size">Size</label>
@@ -883,7 +745,7 @@
               <option>M</option>
               <option>L</option>
               <option>XL</option>
-              <option selected>XXL</option>
+              <option>XXL</option>
               <option>3XL</option>
               <option>4XL</option>
               <option>5XL</option>
@@ -894,8 +756,8 @@
           <div class="field">
             <label for="condition">Condition</label>
             <select id="condition">
-              <option>Preowned</option>
-              <option selected>New With Tags</option>
+              <option selected>Preowned</option>
+              <option>New With Tags</option>
               <option>New Without Tags</option>
               <option>Used - Fair</option>
             </select>
@@ -906,7 +768,7 @@
           </div>
           <div class="field">
             <label for="shippingCost">Shipping Cost</label>
-            <input id="shippingCost" value="6.25" inputmode="decimal">
+            <input id="shippingCost" value="0" inputmode="decimal">
           </div>
           <div class="field full">
             <label for="shippingType">Shipping Type</label>
@@ -921,7 +783,7 @@
         <div class="buttons">
           <button id="runBtn" class="btn-run">Run Research</button>
           <button id="scanBtn" class="btn-scan">Scan Item</button>
-          <button id="thriftBtn" class="btn-thrift">Thrift Mode</button>
+          <button id="thriftBtn" class="btn-thrift">UPC Lookup</button>
         </div>
 
         <input id="fileInput" type="file" accept="image/*" style="display:none;" />
@@ -930,27 +792,27 @@
           <div class="analysis-top">
             <div>
               <p class="eyebrow">Current Analysis</p>
-              <h3 id="resultTitle">Nike tee</h3>
-              <div class="meta" id="resultMeta">XXL • New With Tags • Confidence 90%</div>
+              <h3 id="resultTitle">Untitled item</h3>
+              <div class="meta" id="resultMeta">No size • Preowned • Live market analysis</div>
             </div>
-            <div id="verdictBadge" class="badge buy">BUY</div>
+            <div id="verdictBadge" class="badge pass">PASS</div>
           </div>
 
           <div class="metrics">
             <div class="metric">
-              <div class="k">Listing Price</div>
-              <div class="v" id="listingPrice">$34.65</div>
-              <div class="n" id="valueRange">$31.25–$39.25</div>
+              <div class="k">Median Price</div>
+              <div class="v" id="listingPrice">$0.00</div>
+              <div class="n" id="valueRange">$0.00–$0.00</div>
             </div>
             <div class="metric">
               <div class="k">Sell-through</div>
-              <div class="v" id="sellThroughRate">76%</div>
-              <div class="n">Buyer demand</div>
+              <div class="v" id="sellThroughRate">0%</div>
+              <div class="n">Proxy sold / active</div>
             </div>
             <div class="metric">
               <div class="k">Avg Days</div>
-              <div class="v" id="avgDaysToSell">6</div>
-              <div class="n">Speed to sell</div>
+              <div class="v" id="avgDaysToSell">0</div>
+              <div class="n">Proxy speed</div>
             </div>
             <div class="metric">
               <div class="k">ROI</div>
@@ -959,7 +821,7 @@
             </div>
             <div class="metric">
               <div class="k">Demand Heat</div>
-              <div class="v" id="demandHeatLabel">HOT</div>
+              <div class="v" id="demandHeatLabel">COOL</div>
               <div class="heat-wrap">
                 <div id="heatBar" class="heat-bar"></div>
               </div>
@@ -977,7 +839,6 @@
             </div>
             <button id="clearSavedBtn" class="clear-saved-btn" type="button">Clear</button>
           </div>
-
           <div id="savedScansList" class="saved-scans-list"></div>
         </div>
 
@@ -1002,7 +863,7 @@
 
             <div id="mockCard" class="mock-card">
               <div class="barcode"></div>
-              <div class="sku">C2030194</div>
+              <div class="sku">SCAN</div>
             </div>
           </div>
         </section>
@@ -1013,13 +874,13 @@
               <p class="eyebrow">Profit Snapshot</p>
               <h3 style="margin:8px 0 0">Estimated profit</h3>
             </div>
-            <div id="profitBadge" class="badge buy">BUY</div>
+            <div id="profitBadge" class="badge pass">PASS</div>
           </div>
 
           <div class="line-items">
             <div class="line">
               <div class="left">Suggested list price</div>
-              <div class="right" id="expectedSalePrice">$34.65</div>
+              <div class="right" id="expectedSalePrice">$0.00</div>
             </div>
             <div class="line">
               <div class="left">Buy cost</div>
@@ -1031,11 +892,11 @@
             </div>
             <div class="line">
               <div class="left">Marketplace fees</div>
-              <div class="right" id="marketplaceFees">-$4.50</div>
+              <div class="right" id="marketplaceFees">-$0.00</div>
             </div>
             <div class="line highlight">
               <div class="left">Net profit</div>
-              <div class="right" id="estimatedProfit">$23.90</div>
+              <div class="right" id="estimatedProfit">$0.00</div>
             </div>
           </div>
         </section>
@@ -1048,11 +909,21 @@
         <section class="panel">
           <div class="preview-head">
             <div>
-              <p class="eyebrow">Recent Comps</p>
-              <h3 style="margin:8px 0 0">Fast reference</h3>
+              <p class="eyebrow">Active Listings</p>
+              <h3 style="margin:8px 0 0" id="activeHeader">Live market</h3>
             </div>
           </div>
-          <div id="comps" class="comps"></div>
+          <div id="activeListings" class="market-list"></div>
+        </section>
+
+        <section class="panel">
+          <div class="preview-head">
+            <div>
+              <p class="eyebrow">Sold Listings</p>
+              <h3 style="margin:8px 0 0" id="soldHeader">Proxy sold market</h3>
+            </div>
+          </div>
+          <div id="soldListings" class="market-list"></div>
         </section>
       </div>
     </div>
@@ -1062,8 +933,7 @@
     const BACKEND = "https://goodfinds-backend.vercel.app/api/research";
     const PHOTO = "https://goodfinds-backend.vercel.app/api/photo-scan";
     const UPC = "https://goodfinds-backend.vercel.app/api/upc";
-
-    const SAVED_SCANS_KEY = "goodfinds_saved_scans_v1";
+    const SAVED_SCANS_KEY = "goodfinds_saved_scans_proxy_v1";
 
     const els = {
       brand: document.getElementById("brand"),
@@ -1098,12 +968,14 @@
       marketplaceFees: document.getElementById("marketplaceFees"),
       estimatedProfit: document.getElementById("estimatedProfit"),
       insights: document.getElementById("insights"),
-      comps: document.getElementById("comps"),
       savedScansList: document.getElementById("savedScansList"),
-      clearSavedBtn: document.getElementById("clearSavedBtn")
+      clearSavedBtn: document.getElementById("clearSavedBtn"),
+      activeListings: document.getElementById("activeListings"),
+      soldListings: document.getElementById("soldListings"),
+      activeHeader: document.getElementById("activeHeader"),
+      soldHeader: document.getElementById("soldHeader")
     };
 
-    let researchTimer = null;
     let currentPreviewUrl = null;
 
     function money(v){
@@ -1114,13 +986,13 @@
       }).format(Number(v || 0));
     }
 
-    function clamp(value,min,max){
-      return Math.max(min,Math.min(max, value));
-    }
-
     function num(value){
       const parsed = Number(value);
       return Number.isFinite(parsed) ? parsed : 0;
+    }
+
+    function clamp(value,min,max){
+      return Math.max(min, Math.min(max, value));
     }
 
     function normalizeSize(sizeValue){
@@ -1128,26 +1000,30 @@
       if (!raw) return "";
 
       const upper = raw.toUpperCase();
-
       const map = {
-        "ONE SIZE": "One Size",
-        "3XS": "3XS",
-        "XXS": "XXS",
-        "XS": "XS",
-        "S": "S",
-        "M": "M",
-        "L": "L",
-        "XL": "XL",
-        "XXL": "XXL",
-        "2XL": "XXL",
-        "3XL": "3XL",
-        "4XL": "4XL",
-        "5XL": "5XL",
-        "6XL": "6XL",
-        "OTHER": "Other"
+        "ONE SIZE":"One Size",
+        "3XS":"3XS",
+        "XXS":"XXS",
+        "XS":"XS",
+        "S":"S",
+        "M":"M",
+        "L":"L",
+        "XL":"XL",
+        "XXL":"XXL",
+        "2XL":"XXL",
+        "3XL":"3XL",
+        "4XL":"4XL",
+        "5XL":"5XL",
+        "6XL":"6XL",
+        "OTHER":"Other"
       };
 
       return map[upper] || "Other";
+    }
+
+    function normalizeConditionGuess(conditionGuess){
+      const allowed = ["Preowned","New With Tags","New Without Tags","Used - Fair"];
+      return allowed.includes(conditionGuess) ? conditionGuess : null;
     }
 
     function setBadge(node, verdict){
@@ -1171,271 +1047,10 @@
       };
     }
 
-    function conditionMultiplier(condition){
-      const map = {
-        "New With Tags": 1.18,
-        "New Without Tags": 1.08,
-        "Preowned": 1,
-        "Used - Fair": 0.76
-      };
-      return map[condition] ?? 1;
-    }
-
-    function shippingAdjustment(shippingType){
-      const map = {
-        "Free Shipping": -2.6,
-        "Flat Shipping": -0.8,
-        "Buyer Pays Shipping": 0
-      };
-      return map[shippingType] ?? 0;
-    }
-
-    function sellerShippingBurden(shippingType, shippingCost){
-      const cost = num(shippingCost);
-      const map = {
-        "Free Shipping": cost,
-        "Buyer Pays Shipping": 0,
-        "Flat Shipping": Number((cost * 0.45).toFixed(2))
-      };
-      return map[shippingType] ?? cost;
-    }
-
-    function brandBase(brand,title){
-      const text = `${brand} ${title}`.toLowerCase();
-      if(text.includes("patagonia")) return 42;
-      if(text.includes("lululemon")) return 36;
-      if(text.includes("nike")) return 31;
-      if(text.includes("columbia")) return 22;
-      if(text.includes("under armour")) return 19;
-      if(text.includes("polo")) return 26;
-      if(text.includes("vineyard vines")) return 28;
-      if(text.includes("tee")) return 18;
-      return 20;
-    }
-
-    function sizeAdjustment(size){
-      const s = String(size || "").toUpperCase();
-      if(["XXL","2XL","3XL","XL"].includes(s)) return 2.2;
-      if(["XS","S"].includes(s)) return -1.1;
-      return 0;
-    }
-
-    function titleAdjustment(title){
-      const t = String(title || "").toLowerCase();
-      if(t.includes("vintage")) return 5;
-      if(t.includes("graphic")) return 2.4;
-      if(t.includes("golf")) return 2;
-      if(t.includes("button") || t.includes("button down")) return 3;
-      if(t.includes("shirt")) return 1.4;
-      if(t.includes("tee")) return 0;
-      return 1;
-    }
-
-    function normalizeConditionGuess(conditionGuess){
-      const allowed = [
-        "Preowned",
-        "New With Tags",
-        "New Without Tags",
-        "Used - Fair"
-      ];
-      if(allowed.includes(conditionGuess)) return conditionGuess;
-      return null;
-    }
-
-    function buildLocalResult(payload){
-      const base = brandBase(payload.brand,payload.title);
-      const conditionAdj = conditionMultiplier(payload.condition);
-      const shippingAdj = shippingAdjustment(payload.shippingType);
-      const sizeAdj = sizeAdjustment(payload.size);
-      const titleAdj = titleAdjustment(payload.title);
-
-      const listingPrice = Number((base * conditionAdj + sizeAdj + titleAdj + shippingAdj).toFixed(2));
-      const lowPrice = Number((listingPrice - 3.75).toFixed(2));
-      const highPrice = Number((listingPrice + 4.8).toFixed(2));
-
-      let sellThrough = 54;
-      if(payload.condition === "New With Tags") sellThrough += 20;
-      if(payload.condition === "New Without Tags") sellThrough += 10;
-      if(payload.condition === "Used - Fair") sellThrough -= 22;
-      if(payload.shippingType === "Free Shipping") sellThrough += 8;
-      if(payload.shippingType === "Buyer Pays Shipping") sellThrough -= 4;
-      if(String(payload.brand).toLowerCase().includes("nike")) sellThrough += 6;
-      if(String(payload.brand).toLowerCase().includes("vineyard vines")) sellThrough += 2;
-      if(String(payload.title).toLowerCase().includes("tee")) sellThrough -= 3;
-      sellThrough = clamp(sellThrough,18,92);
-
-      let avgDays = 13;
-      if(payload.condition === "New With Tags") avgDays -= 5;
-      if(payload.condition === "New Without Tags") avgDays -= 2;
-      if(payload.condition === "Used - Fair") avgDays += 7;
-      if(payload.shippingType === "Free Shipping") avgDays -= 2;
-      if(String(payload.brand).toLowerCase().includes("nike")) avgDays -= 1;
-      avgDays = clamp(avgDays,3,24);
-
-      const sellerShip = sellerShippingBurden(payload.shippingType, payload.shippingCost);
-      const fees = Number((listingPrice * 0.13).toFixed(2));
-      const estimatedProfit = Number((listingPrice - payload.buyCost - sellerShip - fees).toFixed(2));
-      const roi = payload.buyCost > 0 ? Math.round((estimatedProfit / payload.buyCost) * 100) : 0;
-
-      let verdict = "BUY";
-      if(estimatedProfit < 10 || roi < 80 || sellThrough < 55) verdict = "RISKY";
-      if(estimatedProfit < 5 || roi < 35 || sellThrough < 35) verdict = "PASS";
-
-      let confidence = 88;
-      if(payload.condition === "New With Tags") confidence = 93;
-      if(payload.condition === "New Without Tags") confidence = 90;
-      if(payload.condition === "Used - Fair") confidence = 78;
-
-      let demandHeat = "HOT";
-      if(sellThrough < 70) demandHeat = "WARM";
-      if(sellThrough < 45) demandHeat = "COOL";
-
-      return {
-        listingPrice,
-        estimatedValue: listingPrice,
-        lowPrice,
-        highPrice,
-        sellThroughRate: sellThrough,
-        avgDaysToSell: avgDays,
-        shippingBurden: sellerShip,
-        marketplaceFees: fees,
-        estimatedProfit,
-        roi,
-        verdict,
-        confidence,
-        demandHeat,
-        insights: [
-          `${payload.condition} is shifting both price and speed to sale.`,
-          `${payload.shippingType} is changing buyer conversion pressure.`,
-          estimatedProfit >= 15 ? "This has strong margin potential." : "Margin is tighter, so pricing discipline matters.",
-          sellThrough >= 70 ? "This market is moving quickly right now." : "This may need a sharper title and stronger photos."
-        ],
-        comps: [
-          {
-            title: `${payload.brand} ${payload.title} ${payload.size}`.trim(),
-            price: Number((listingPrice - 1.85).toFixed(2)),
-            soldInDays: Math.max(3, avgDays - 2)
-          },
-          {
-            title: `${payload.brand} ${payload.title} ${payload.size}`.trim(),
-            price: Number((listingPrice).toFixed(2)),
-            soldInDays: avgDays
-          },
-          {
-            title: `${payload.brand} ${payload.title} ${payload.size}`.trim(),
-            price: Number((listingPrice + 2.35).toFixed(2)),
-            soldInDays: avgDays + 2
-          }
-        ]
-      };
-    }
-
-    function mergeResearchData(local, backend){
-      const merged = {
-        ...local,
-        ...(backend || {})
-      };
-
-      const listingPrice = num(
-        merged.listingPrice ??
-        merged.estimatedValue ??
-        local.listingPrice
-      );
-
-      const lowPrice = num(merged.lowPrice ?? (listingPrice - 3.75));
-      const highPrice = num(merged.highPrice ?? (listingPrice + 4.8));
-      const sellThroughRate = clamp(num(merged.sellThroughRate ?? local.sellThroughRate), 0, 100);
-      const avgDaysToSell = Math.max(0, Math.round(num(merged.avgDaysToSell ?? local.avgDaysToSell)));
-
-      const payload = getPayload();
-      const shippingBurden = sellerShippingBurden(payload.shippingType, payload.shippingCost);
-      const marketplaceFees = Number((listingPrice * 0.13).toFixed(2));
-      const estimatedProfit = Number((listingPrice - payload.buyCost - shippingBurden - marketplaceFees).toFixed(2));
-      const roi = payload.buyCost > 0 ? Math.round((estimatedProfit / payload.buyCost) * 100) : 0;
-
-      let verdict = String(merged.verdict || local.verdict || "PASS").toUpperCase();
-      if(!["BUY","RISKY","PASS"].includes(verdict)){
-        verdict = estimatedProfit >= 15 && sellThroughRate >= 65 ? "BUY" : estimatedProfit >= 6 ? "RISKY" : "PASS";
-      }
-
-      let demandHeat = merged.demandHeat;
-      if(!demandHeat){
-        demandHeat = sellThroughRate >= 70 ? "HOT" : sellThroughRate >= 45 ? "WARM" : "COOL";
-      }
-
-      return {
-        ...merged,
-        listingPrice,
-        estimatedValue: listingPrice,
-        lowPrice,
-        highPrice,
-        sellThroughRate,
-        avgDaysToSell,
-        shippingBurden,
-        marketplaceFees,
-        estimatedProfit,
-        roi,
-        verdict,
-        confidence: num(merged.confidence || local.confidence || 90),
-        demandHeat,
-        insights: Array.isArray(merged.insights) && merged.insights.length ? merged.insights : local.insights,
-        comps: Array.isArray(merged.comps) && merged.comps.length ? merged.comps : local.comps
-      };
-    }
-
-    function render(data){
-      const payload = getPayload();
-
-      els.resultTitle.textContent = `${payload.brand} ${payload.title}`.trim() || "Untitled item";
-      els.resultMeta.textContent = `${payload.size || "No size"} • ${payload.condition} • Confidence ${data.confidence ?? 90}%`;
-
-      setBadge(els.verdictBadge, data.verdict);
-      setBadge(els.profitBadge, data.verdict);
-
-      els.listingPrice.textContent = money(data.listingPrice ?? data.estimatedValue);
-      els.valueRange.textContent = `${money(data.lowPrice)}–${money(data.highPrice)}`;
-      els.sellThroughRate.textContent = `${Math.round(num(data.sellThroughRate))}%`;
-      els.avgDaysToSell.textContent = `${Math.round(num(data.avgDaysToSell))}`;
-      els.roi.textContent = `${Math.round(num(data.roi))}%`;
-
-      const heatValue = clamp(num(data.sellThroughRate), 0, 100);
-      els.heatBar.style.width = `${heatValue}%`;
-      els.demandHeatLabel.textContent = data.demandHeat || (heatValue >= 70 ? "HOT" : heatValue >= 45 ? "WARM" : "COOL");
-      els.heatNote.textContent = heatValue >= 70 ? "Strong buyer momentum" : heatValue >= 45 ? "Moderate buyer pull" : "Slower demand zone";
-
-      els.expectedSalePrice.textContent = money(data.listingPrice ?? data.estimatedValue);
-      els.buyCostDisplay.textContent = `-${money(payload.buyCost)}`;
-      els.shippingCostDisplay.textContent = `-${money(data.shippingBurden ?? 0)}`;
-      els.marketplaceFees.textContent = `-${money(data.marketplaceFees ?? 0)}`;
-      els.estimatedProfit.textContent = money(data.estimatedProfit ?? 0);
-
-      els.insights.innerHTML = "";
-      (data.insights || []).forEach(text => {
-        const row = document.createElement("div");
-        row.className = "insight";
-        row.innerHTML = `<div class="insight-dot"></div><p>${text}</p>`;
-        els.insights.appendChild(row);
-      });
-
-      els.comps.innerHTML = "";
-      (data.comps || []).forEach(comp => {
-        const row = document.createElement("div");
-        row.className = "comp";
-        row.innerHTML = `
-          <div>
-            <p>${comp.title || "Comparable Listing"}</p>
-            <small>Sold in ${comp.soldInDays ?? "-"} days</small>
-          </div>
-          <div class="comp-price">${money(comp.price || 0)}</div>
-        `;
-        els.comps.appendChild(row);
-      });
-    }
-
     function getSavedScans(){
-      try{
+      try {
         return JSON.parse(localStorage.getItem(SAVED_SCANS_KEY) || "[]");
-      }catch{
+      } catch {
         return [];
       }
     }
@@ -1458,14 +1073,12 @@
       const items = getSavedScans();
       const record = buildSavedScanRecord(payload, data);
 
-      const deduped = items.filter(item => {
-        return !(
-          item.payload?.brand === payload.brand &&
-          item.payload?.title === payload.title &&
-          item.payload?.size === payload.size &&
-          item.payload?.condition === payload.condition
-        );
-      });
+      const deduped = items.filter(item => !(
+        item.payload?.brand === payload.brand &&
+        item.payload?.title === payload.title &&
+        item.payload?.size === payload.size &&
+        item.payload?.condition === payload.condition
+      ));
 
       const next = [record, ...deduped].slice(0, 12);
       setSavedScans(next);
@@ -1494,11 +1107,7 @@
       const items = getSavedScans();
 
       if(!items.length){
-        els.savedScansList.innerHTML = `
-          <div class="empty-saved">
-            No saved scans yet. Run research or scan an item and it will appear here.
-          </div>
-        `;
+        els.savedScansList.innerHTML = `<div class="empty-saved">No saved scans yet. Run research or scan an item and it will appear here.</div>`;
         return;
       }
 
@@ -1516,82 +1125,16 @@
         row.innerHTML = `
           <div class="saved-scan-left">
             <p class="saved-scan-title">${item.title || "Untitled item"}</p>
-            <div class="saved-scan-meta">
-              ${item.payload?.size || "No size"} • ${item.payload?.condition || "Unknown"} • ROI ${Math.round(num(item.data?.roi))}%
-            </div>
+            <div class="saved-scan-meta">${item.payload?.size || "No size"} • ${item.payload?.condition || "Unknown"} • ROI ${Math.round(num(item.data?.roi))}%</div>
           </div>
           <div class="saved-scan-right">
-            <div class="saved-scan-price">${money(item.data?.listingPrice || item.data?.estimatedValue || 0)}</div>
+            <div class="saved-scan-price">${money(item.data?.listingPrice || 0)}</div>
             <div class="badge ${verdictClass}">${item.data?.verdict || "PASS"}</div>
           </div>
         `;
 
         row.addEventListener("click", () => restoreSavedScan(item));
         els.savedScansList.appendChild(row);
-      });
-    }
-
-    async function runResearch(options = {}){
-      const { silentSave = false } = options;
-      const payload = getPayload();
-      els.runBtn.disabled = true;
-      els.statusText.textContent = "Analyzing resale demand and estimating profit...";
-
-      const local = buildLocalResult(payload);
-
-      try{
-        const res = await fetch(BACKEND, {
-          method:"POST",
-          headers:{"Content-Type":"application/json"},
-          body:JSON.stringify(payload)
-        });
-
-        if(!res.ok) throw new Error("Research request failed");
-
-        const backendData = await res.json();
-        const merged = mergeResearchData(local, backendData);
-
-        render(merged);
-
-        if(!silentSave){
-          saveScan(payload, merged);
-        }
-
-        els.statusText.textContent =
-          `Research complete. Demand signal: ${
-            merged.sellThroughRate >= 70 ? "High Demand" :
-            merged.sellThroughRate >= 45 ? "Moderate Demand" :
-            "Low Demand"
-          }.`;
-      }catch(err){
-        console.error(err);
-        render(local);
-
-        if(!silentSave){
-          saveScan(payload, local);
-        }
-
-        els.statusText.textContent = "Using local estimate. Backend research unavailable.";
-      }finally{
-        els.runBtn.disabled = false;
-      }
-    }
-
-    function scheduleResearch(){
-      clearTimeout(researchTimer);
-      researchTimer = setTimeout(() => runResearch({ silentSave: true }), 280);
-    }
-
-    function readFileAsBase64(file){
-      return new Promise((resolve,reject) => {
-        const reader = new FileReader();
-        reader.onload = () => {
-          const result = String(reader.result || "");
-          const base64 = result.includes(",") ? result.split(",")[1] : result;
-          resolve(base64);
-        };
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
       });
     }
 
@@ -1619,11 +1162,102 @@
       els.previewImage.src = currentPreviewUrl;
     }
 
-    function clearScanDrivenFields(){
-      els.brand.value = "";
-      els.title.value = "";
-      els.size.value = "";
-      els.condition.value = "Preowned";
+    function renderMarketList(container, items, emptyText, type){
+      if(!items || !items.length){
+        container.innerHTML = `<div class="empty-saved">${emptyText}</div>`;
+        return;
+      }
+
+      container.innerHTML = "";
+      items.forEach(item => {
+        const row = document.createElement("div");
+        row.className = "market-item";
+
+        const shippingLabel = type === "active"
+          ? (item.shipping != null ? ` • Ship ${money(item.shipping)}` : "")
+          : "";
+
+        row.innerHTML = `
+          <div>
+            <p>${item.title || "Listing"}</p>
+            <small>${item.subtitle || ""}${shippingLabel}</small>
+          </div>
+          <div class="market-price">${money(item.price || 0)}</div>
+        `;
+        container.appendChild(row);
+      });
+    }
+
+    function render(data){
+      const payload = getPayload();
+
+      els.resultTitle.textContent = `${payload.brand} ${payload.title}`.trim() || "Untitled item";
+      els.resultMeta.textContent = `${payload.size || "No size"} • ${payload.condition} • Confidence ${data.confidence ?? 90}%`;
+
+      setBadge(els.verdictBadge, data.verdict);
+      setBadge(els.profitBadge, data.verdict);
+
+      els.listingPrice.textContent = money(data.listingPrice || data.medianSold || data.medianActive || 0);
+      els.valueRange.textContent = `${money(data.lowPrice || 0)}–${money(data.highPrice || 0)}`;
+      els.sellThroughRate.textContent = `${Math.round(num(data.sellThroughRate))}%`;
+      els.avgDaysToSell.textContent = `${Math.round(num(data.avgDaysToSell))}`;
+      els.roi.textContent = `${Math.round(num(data.roi))}%`;
+
+      const heatValue = clamp(num(data.sellThroughRate), 0, 100);
+      els.heatBar.style.width = `${heatValue}%`;
+      els.demandHeatLabel.textContent = data.demandHeat || (heatValue >= 70 ? "HOT" : heatValue >= 45 ? "WARM" : "COOL");
+      els.heatNote.textContent =
+        heatValue >= 70 ? "Strong buyer momentum" :
+        heatValue >= 45 ? "Moderate buyer pull" :
+        "Slower demand zone";
+
+      els.expectedSalePrice.textContent = money(data.listingPrice || 0);
+      els.buyCostDisplay.textContent = `-${money(payload.buyCost)}`;
+      els.shippingCostDisplay.textContent = `-${money(data.shippingBurden || 0)}`;
+      els.marketplaceFees.textContent = `-${money(data.marketplaceFees || 0)}`;
+      els.estimatedProfit.textContent = money(data.estimatedProfit || 0);
+
+      els.insights.innerHTML = "";
+      (data.insights || []).forEach(text => {
+        const row = document.createElement("div");
+        row.className = "insight";
+        row.innerHTML = `<div class="insight-dot"></div><p>${text}</p>`;
+        els.insights.appendChild(row);
+      });
+
+      els.activeHeader.textContent = `${num(data.activeCount)} active`;
+      els.soldHeader.textContent = `${num(data.soldCount)} sold`;
+      renderMarketList(els.activeListings, data.activeItems || [], "No active listings returned.", "active");
+      renderMarketList(els.soldListings, data.soldItems || [], "No sold listings returned.", "sold");
+    }
+
+    async function runResearch({ save = true } = {}){
+      const payload = getPayload();
+      els.runBtn.disabled = true;
+      els.statusText.textContent = "Pulling live eBay data...";
+
+      try{
+        const res = await fetch(BACKEND, {
+          method:"POST",
+          headers:{"Content-Type":"application/json"},
+          body:JSON.stringify(payload)
+        });
+
+        const data = await res.json().catch(() => ({}));
+
+        if(!res.ok){
+          throw new Error(data?.error || data?.details || "Research request failed");
+        }
+
+        render(data);
+        if(save) saveScan(payload, data);
+        els.statusText.textContent = "Live research complete.";
+      }catch(err){
+        console.error(err);
+        els.statusText.textContent = `Research failed: ${err.message || "Unknown error"}`;
+      }finally{
+        els.runBtn.disabled = false;
+      }
     }
 
     function applyPhotoScanData(data){
@@ -1638,15 +1272,25 @@
       if(normalizedCondition) els.condition.value = normalizedCondition;
     }
 
+    function readFileAsBase64(file){
+      return new Promise((resolve,reject) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const result = String(reader.result || "");
+          resolve(result.includes(",") ? result.split(",")[1] : result);
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
     async function scanPhoto(file){
       try{
         els.statusText.textContent = "Scanning photo with Vision...";
         showPreview(file);
         const imageBase64 = await readFileAsBase64(file);
 
-        clearScanDrivenFields();
-
-        const res = await fetch(PHOTO, {
+        const res = await fetch(PHOTO,{
           method:"POST",
           headers:{"Content-Type":"application/json"},
           body:JSON.stringify({ imageBase64 })
@@ -1655,16 +1299,14 @@
         const data = await res.json().catch(() => ({}));
 
         if(!res.ok){
-          const message = data?.error || data?.details || "Photo scan failed";
-          throw new Error(message);
+          throw new Error(data?.error || data?.details || "Photo scan failed");
         }
 
         applyPhotoScanData(data);
 
         const payloadAfterScan = getPayload();
         if(!payloadAfterScan.brand && !payloadAfterScan.title){
-          els.statusText.textContent = "Photo loaded, but scan details were not detected.";
-          return;
+          throw new Error("No usable brand or title detected from the image");
         }
 
         await runResearch();
@@ -1682,7 +1324,7 @@
       try{
         els.statusText.textContent = "Looking up UPC...";
 
-        const res = await fetch(UPC, {
+        const res = await fetch(UPC,{
           method:"POST",
           headers:{"Content-Type":"application/json"},
           body:JSON.stringify({ upc: code.trim() })
@@ -1691,8 +1333,7 @@
         const data = await res.json().catch(() => ({}));
 
         if(!res.ok){
-          const message = data?.error || data?.details || "UPC lookup failed";
-          throw new Error(message);
+          throw new Error(data?.error || data?.details || "UPC lookup failed");
         }
 
         if(data.brand) els.brand.value = data.brand;
@@ -1706,16 +1347,6 @@
         els.statusText.textContent = `UPC lookup failed: ${err.message || "Unknown error"}`;
       }
     }
-
-    ["input","change"].forEach(evt => {
-      els.brand.addEventListener(evt, scheduleResearch);
-      els.title.addEventListener(evt, scheduleResearch);
-      els.size.addEventListener(evt, scheduleResearch);
-      els.condition.addEventListener(evt, scheduleResearch);
-      els.buyCost.addEventListener(evt, scheduleResearch);
-      els.shippingCost.addEventListener(evt, scheduleResearch);
-      els.shippingType.addEventListener(evt, scheduleResearch);
-    });
 
     els.runBtn.addEventListener("click", () => runResearch());
     els.scanBtn.addEventListener("click", () => els.fileInput.click());
@@ -1734,7 +1365,6 @@
     });
 
     renderSavedScans();
-    runResearch({ silentSave: true });
   </script>
 </body>
 </html>

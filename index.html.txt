@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GoodFinds AI v6</title>
+  <style>
+    :root {
+      --bg-1: #020617;
+      --bg-2: #0f172a;
+      --panel: rgba(15, 23, 42, 0.82);
+      --panel-2: rgba(17, 24, 39, 0.95);
+      --border: rgba(148, 163, 184, 0.16);
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --green: #22c55e;
+      --yellow: #f59e0b;
+      --red: #ef4444;
+      --blue: #3b82f6;
+      --purple: #8b5cf6;
+      --cyan: #06b6d4;
+      --shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+      --radius: 20px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(59, 130, 246, 0.18), transparent 30%),
+        radial-gradient(circle at top right, rgba(139, 92, 246, 0.16), transparent 28%),
+        linear-gradient(180deg, var(--bg-2), var(--bg-1));
+      min-height: 100vh;
+    }
+
+    .shell {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 18px 60px;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 12px 0 22px;
+    }
+
+    .hero-logo {
+      width: 180px;
+      max-width: 60vw;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto 8px;
+      filter: drop-shadow(0 10px 24px rgba(0,0,0,.35));
+    }
+
+    .hero-title {
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin: 6px 0 4px;
+    }
+
+    .hero-subtitle {
+      color: var(--muted);
+      font-size: 14px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .panel {
+      background: var(--panel);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .panel-pad {
+      padding: 18px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 800;
+      margin: 0 0 6px;
+    }
+
+    .section-subtitle {
+      color: var(--muted);
+      font-size: 13px;
+      margin: 0 0 14px;
+    }
+
+    .input-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    .label {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    input, select {
+      width: 100%;
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      background: rgba(15, 23, 42, 0.88);
+      color: white;
+      padding: 13px 14px;
+      border-radius: 14px;
+      font-size: 15px;
+      outline: none;
+      transition: 0.18s ease;
+    }
+
+    input:focus, select:focus {
+      border-color: rgba(59, 130, 246, 0.7);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.16);
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 14px;
+      padding: 14px 14px;
+      font-weight: 800;
+      cursor: pointer;
+      color: white;
+      transition: transform .15s ease, opacity .15s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    button:disabled {
+      opacity: .65;
+      cursor: wait;
+      transform: none;
+    }
+
+    .btn-photo { background: linear-gradient(135deg, var(--green), #16a34a); }
+    .btn-upc { background: linear-gradient(135deg, var(--blue), #2563eb); }
+    .btn-research { background: linear-gradient(135deg, var(--yellow), #d97706); }
+
+    .status-bar {
+      margin-top: 12px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      min-height: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .02em;
+      border: 1px solid var(--border);
+      background: rgba(15, 23, 42, 0.78);
+      color: #e2e8f0;
+    }
+
+    .pill.green { background: rgba(34, 197, 94, 0.14); color: #bbf7d0; border-color: rgba(34,197,94,.24);}
+    .pill.yellow { background: rgba(245, 158, 11, 0.14); color: #fde68a; border-color: rgba(245,158,11,.24);}
+    .pill.red { background: rgba(239, 68, 68, 0.14); color: #fecaca; border-color: rgba(239,68,68,.24);}
+    .pill.blue { background: rgba(59, 130, 246, 0.14); color: #bfdbfe; border-color: rgba(59,130,246,.24);}
+
+    .summary-cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .metric-card {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px;
+      min-height: 92px;
+    }
+
+    .metric-label {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      font-weight: 700;
+    }
+
+    .metric-value {
+      margin-top: 8px;
+      font-size: 26px;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .metric-sub {
+      margin-top: 8px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .heat-panel {
+      margin-top: 14px;
+      background: rgba(15, 23, 42, 0.84);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 16px;
+    }
+
+    .heat-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .heat-title {
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .heat-bar {
+      position: relative;
+      height: 16px;
+      border-radius: 999px;
+      overflow: hidden;
+      background:
+        linear-gradient(90deg,
+          rgba(239,68,68,0.9) 0%,
+          rgba(245,158,11,0.95) 50%,
+          rgba(34,197,94,0.95) 100%);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08);
+    }
+
+    .heat-marker {
+      position: absolute;
+      top: -4px;
+      width: 4px;
+      height: 24px;
+      border-radius: 999px;
+      background: white;
+      box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.9);
+      transform: translateX(-50%);
+    }
+
+    .heat-scale {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .market-card {
+      background: rgba(15, 23, 42, 0.84);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+    }
+
+    .market-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 14px 10px;
+      border-bottom: 1px solid rgba(148,163,184,.10);
+    }
+
+    .market-title {
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .market-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      padding: 12px 14px 14px;
+    }
+
+    .mini-stat {
+      background: rgba(2, 6, 23, 0.45);
+      border: 1px solid rgba(148,163,184,.08);
+      border-radius: 14px;
+      padding: 12px;
+    }
+
+    .mini-stat .k {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    .mini-stat .v {
+      font-size: 20px;
+      font-weight: 800;
+      margin-top: 6px;
+    }
+
+    .comps {
+      margin-top: 14px;
+    }
+
+    .comps-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .comps-title {
+      font-weight: 800;
+      font-size: 16px;
+    }
+
+    .comp-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .comp-card {
+      background: rgba(15, 23, 42, 0.82);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+      min-height: 275px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .comp-card img {
+      width: 100%;
+      height: 168px;
+      object-fit: cover;
+      background: #0f172a;
+    }
+
+    .comp-body {
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      height: 100%;
+    }
+
+    .comp-price {
+      font-size: 22px;
+      font-weight: 800;
+    }
+
+    .comp-meta {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .comp-title {
+      font-size: 13px;
+      line-height: 1.4;
+      color: #e2e8f0;
+      flex: 1;
+    }
+
+    .comp-link {
+      display: inline-flex;
+      width: fit-content;
+      text-decoration: none;
+      color: white;
+      font-weight: 800;
+      font-size: 12px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: rgba(59,130,246,0.18);
+      border: 1px solid rgba(59,130,246,0.22);
+    }
+
+    .saved-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: 760px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .saved-card {
+      background: rgba(15, 23, 42, 0.78);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 12px;
+      cursor: pointer;
+      transition: .16s ease;
+    }
+
+    .saved-card:hover {
+      transform: translateY(-1px);
+      border-color: rgba(59,130,246,.28);
+    }
+
+    .saved-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: start;
+    }
+
+    .saved-query {
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 1.35;
+    }
+
+    .saved-meta {
+      margin-top: 8px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .empty {
+      color: var(--muted);
+      font-size: 14px;
+      padding: 14px 2px 4px;
+    }
+
+    .footer-note {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 12px;
+      line-height: 1.5;
+    }
+
+    .loading {
+      opacity: .72;
+      pointer-events: none;
+    }
+
+    @media (max-width: 980px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+      .summary-cards {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .comp-row {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .shell {
+        padding: 16px 12px 40px;
+      }
+      .input-grid,
+      .actions,
+      .two-col,
+      .summary-cards,
+      .comp-row {
+        grid-template-columns: 1fr;
+      }
+      .hero-logo {
+        width: 150px;
+      }
+      .metric-value {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="hero">
+      <img src="logo.png" alt="GoodFinds AI" class="hero-logo" />
+      <div class="hero-title">GoodFinds AI</div>
+      <div class="hero-subtitle">Built by resellers, for resellers</div>
+    </div>
+
+    <div class="layout">
+      <div class="panel panel-pad">
+        <h2 class="section-title">Live Research Scanner</h2>
+        <p class="section-subtitle">Photo scan, UPC scan, or manual research with reseller-grade market analysis.</p>
+
+        <div class="input-grid">
+          <div class="field full">
+            <label class="label" for="query">Item / Search Query</label>
+            <input id="query" placeholder="Example: Lululemon men's polo large" />
+          </div>
+
+          <div class="field">
+            <label class="label" for="buyCost">Buy Cost</label>
+            <input id="buyCost" type="number" step="0.01" placeholder="6.99" />
+          </div>
+
+          <div class="field">
+            <label class="label" for="size">Size</label>
+            <select id="size">
+              <option value="">No Size</option>
+              <option>XXS</option>
+              <option>XS</option>
+              <option>S</option>
+              <option>M</option>
+              <option>L</option>
+              <option>XL</option>
+              <option>XXL</option>
+              <option>2XL</option>
+              <option>3XL</option>
+              <option>4XL</option>
+              <option>5XL</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label class="label" for="shippingType">Shipping Type</label>
+            <select id="shippingType">
+              <option>Free Shipping</option>
+              <option>Buyer Pays Shipping</option>
+              <option>Flat Shipping</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label class="label" for="shippingCost">Your Shipping Cost</label>
+            <input id="shippingCost" type="number" step="0.01" placeholder="5.95" />
+          </div>
+
+          <div class="field full">
+            <label class="label" for="flatShipping">Flat Shipping Charge to Buyer</label>
+            <input id="flatShipping" type="number" step="0.01" placeholder="0.00" />
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn-photo" id="photoBtn" onclick="scanPhoto()">📸 Photo Scan</button>
+          <button class="btn-upc" id="upcBtn" onclick="scanUPC()">📦 UPC Scan</button>
+          <button class="btn-research" id="researchBtn" onclick="runResearch()">🔍 Analyze</button>
+        </div>
+
+        <div class="status-bar" id="statusBar"></div>
+
+        <div id="resultsWrap"></div>
+      </div>
+
+      <div class="panel panel-pad">
+        <h2 class="section-title">Saved Scans</h2>
+        <p class="section-subtitle">Tap any saved item to reopen the full analysis.</p>
+        <div id="savedScans" class="saved-list"></div>
+        <div class="footer-note">
+          Saved locally in this browser. Your newest scan stays at the top.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = "goodfinds_v6_saved_scans";
+    let currentResult = null;
+    let currentLoading = false;
+
+    function byId(id) {
+      return document.getElementById(id);
+    }
+
+    function formatMoney(value) {
+      const n = Number(value || 0);
+      return `$${n.toFixed(2)}`;
+    }
+
+    function escapeHtml(str = "") {
+      return String(str)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#39;");
+    }
+
+    function truncate(str = "", max = 72) {
+      const s = String(str || "");
+      return s.length > max ? s.slice(0, max - 1) + "…" : s;
+    }
+
+    function getShippingPayload() {
+      return {
+        shippingType: byId("shippingType").value,
+        shippingCost: Number(byId("shippingCost").value || 0),
+        flatShippingCharge: Number(byId("flatShipping").value || 0),
+      };
+    }
+
+    function getResearchPayload(queryOverride = "") {
+      return {
+        query: queryOverride || byId("query").value.trim(),
+        buyCost: Number(byId("buyCost").value || 0),
+        size: byId("size").value,
+        ...getShippingPayload()
+      };
+    }
+
+    function setLoading(state, message = "") {
+      currentLoading = state;
+      const btns = ["photoBtn", "upcBtn", "researchBtn"];
+      btns.forEach(id => byId(id).disabled = state);
+      const wrap = byId("resultsWrap");
+      if (state) wrap.classList.add("loading");
+      else wrap.classList.remove("loading");
+      setStatus(message || (state ? "Working..." : ""));
+    }
+
+    function setStatus(message = "", tone = "blue") {
+      const el = byId("statusBar");
+      if (!message) {
+        el.innerHTML = "";
+        return;
+      }
+      el.innerHTML = `<span class="pill ${tone}">${escapeHtml(message)}</span>`;
+    }
+
+    function getProfitBadge(profit) {
+      const p = Number(profit || 0);
+      if (p >= 15) return { label: "🔥 Strong Flip", tone: "green" };
+      if (p >= 6) return { label: "⚠️ Decent Flip", tone: "yellow" };
+      return { label: "❌ Weak Flip", tone: "red" };
+    }
+
+    function getSTRBadge(str) {
+      const n = Number(str || 0);
+      if (n >= 70) return { label: "Fast Market", tone: "green" };
+      if (n >= 40) return { label: "Moderate Market", tone: "yellow" };
+      return { label: "Slow Market", tone: "red" };
+    }
+
+    function getROIText(roi) {
+      return `${Math.round(Number(roi || 0) * 100)}%`;
+    }
+
+    function getPriceZone(low, high, target) {
+      const t = Number(target || 0);
+      const l = Number(low || 0);
+      const h = Number(high || 0);
+
+      if (h <= l) return { label: "Balanced Zone", markerPercent: 50 };
+
+      const percent = Math.max(0, Math.min(100, ((t - l) / (h - l)) * 100));
+
+      let label = "Balanced Zone";
+      if (percent <= 33) label = "Aggressive Price";
+      else if (percent >= 67) label = "Premium Price";
+
+      return { label, markerPercent: percent };
+    }
+
+    async function runResearch(queryOverride = "") {
+      try {
+        const payload = getResearchPayload(queryOverride);
+        if (!payload.query) {
+          setStatus("Enter an item or scan first.", "red");
+          return;
+        }
+
+        setLoading(true, "Running live market analysis...");
+
+        const res = await fetch("/api/research", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+
+        if (!res.ok || !data.ok) {
+          throw new Error(data.error || "Research failed");
+        }
+
+        currentResult = data;
+        renderResults(data);
+        saveScan(data);
+        renderSavedScans();
+        setStatus("Analysis complete.", "green");
+      } catch (err) {
+        console.error(err);
+        setStatus(err.message || "Research failed.", "red");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    async function scanPhoto() {
+      const input = document.createElement("input");
+      input.type = "file";
+      input.accept = "image/*";
+
+      input.onchange = async () => {
+        const file = input.files?.[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = async () => {
+          try {
+            setLoading(true, "Scanning photo with AI...");
+            const res = await fetch("/api/photo-scan", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ imageBase64: reader.result })
+            });
+
+            const data = await res.json();
+            if (!res.ok || !data.ok) {
+              throw new Error(data.error || "Photo scan failed");
+            }
+
+            const query = data.searchQuery || data.suggestedTitle || "";
+            byId("query").value = query;
+            if (data.size) byId("size").value = data.size;
+
+            setStatus(`Photo scan ready${data.brand ? ` • ${data.brand}` : ""}`, "blue");
+            await runResearch(query);
+          } catch (err) {
+            console.error(err);
+            setStatus(err.message || "Photo scan failed.", "red");
+          } finally {
+            setLoading(false);
+          }
+        };
+        reader.readAsDataURL(file);
+      };
+
+      input.click();
+    }
+
+    async function scanUPC() {
+      const code = prompt("Enter UPC");
+      if (!code) return;
+
+      try {
+        setLoading(true, "Looking up UPC...");
+        const res = await fetch("/api/upc", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ upc: code })
+        });
+
+        const data = await res.json();
+        if (!res.ok || !data.ok) {
+          throw new Error(data.error || "UPC lookup failed");
+        }
+
+        const query = data.searchQuery || data.product?.title || "";
+        byId("query").value = query;
+
+        setStatus(`UPC matched${data.product?.brand ? ` • ${data.product.brand}` : ""}`, "blue");
+        await runResearch(query);
+      } catch (err) {
+        console.error(err);
+        setStatus(err.message || "UPC lookup failed.", "red");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    function renderResults(data) {
+      const wrap = byId("resultsWrap");
+
+      const pricing = data.pricing || {};
+      const market = data.market || {};
+      const soldPanel = market.soldPanel || {};
+      const activePanel = market.activePanel || {};
+      const sold = data.topComps?.sold || [];
+      const active = data.topComps?.active || [];
+      const profitBadge = getProfitBadge(pricing.estimatedProfit);
+      const strBadge = getSTRBadge(market.sellThroughRate);
+      const priceZone = getPriceZone(
+        soldPanel.lowPrice || soldPanel.lowTotal || 0,
+        soldPanel.highPrice || soldPanel.highTotal || 0,
+        pricing.recommendedPrice
+      );
+
+      wrap.innerHTML = `
+        <div class="summary-cards">
+          <div class="metric-card">
+            <div class="metric-label">Recommended Price</div>
+            <div class="metric-value">${formatMoney(pricing.recommendedPrice)}</div>
+            <div class="metric-sub">${priceZone.label}</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Estimated Profit</div>
+            <div class="metric-value">${formatMoney(pricing.estimatedProfit)}</div>
+            <div class="metric-sub">${profitBadge.label}</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">ROI</div>
+            <div class="metric-value">${getROIText(pricing.roi)}</div>
+            <div class="metric-sub">profit ÷ buy cost</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Sell Through</div>
+            <div class="metric-value">${Math.round(Number(market.sellThroughRate || 0))}%</div>
+            <div class="metric-sub">${strBadge.label}</div>
+          </div>
+        </div>
+
+        <div class="heat-panel">
+          <div class="heat-header">
+            <div class="heat-title">Pricing Heat Map</div>
+            <div>
+              <span class="pill ${profitBadge.tone}">${profitBadge.label}</span>
+              <span class="pill ${strBadge.tone}">${strBadge.label}</span>
+              <span class="pill blue">Confidence: ${escapeHtml(market.confidence || "N/A")}</span>
+            </div>
+          </div>
+
+          <div class="heat-bar">
+            <div class="heat-marker" style="left:${priceZone.markerPercent}%"></div>
+          </div>
+          <div class="heat-scale">
+            <span>Low ${formatMoney(soldPanel.lowPrice || 0)}</span>
+            <span>Median ${formatMoney(soldPanel.medianPrice || 0)}</span>
+            <span>High ${formatMoney(soldPanel.highPrice || 0)}</span>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="market-card">
+            <div class="market-head">
+              <div class="market-title">Sold Market</div>
+              <span class="pill green">${soldPanel.count || 0} comps</span>
+            </div>
+            <div class="market-grid">
+              <div class="mini-stat">
+                <div class="k">Median Price</div>
+                <div class="v">${formatMoney(soldPanel.medianPrice)}</div>
+              </div>
+              <div class="mini-stat">
+                <div class="k">Range</div>
+                <div class="v">${formatMoney(soldPanel.lowPrice)} - ${formatMoney(soldPanel.highPrice)}</div>
+              </div>
+              <div class="mini-stat">
+                <div class="k">Median Total</div>
+                <div class="v">${formatMoney(soldPanel.medianTotal)}</div>
+              </div>
+              <div class="mini-stat">
+                <div class="k">Research Score</div>
+                <div class="v">${Math.round(Number(market.researchScore || 0))}</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="market-card">
+            <div class="market-head">
+              <div class="market-title">Active Market</div>
+              <span class="pill blue">${activePanel.count || 0} listings</span>
+            </div>
+            <div class="market-grid">
+              <div class="mini-stat">
+                <div class="k">Median Price</div>
+                <div class="v">${formatMoney(activePanel.medianPrice)}</div>
+              </div>
+              <div class="mini-stat">
+                <div class="k">Range</div>
+                <div class="v">${formatMoney(activePanel.lowPrice)} - ${formatMoney(activePanel.highPrice)}</div>
+              </div>
+              <div class="mini-stat">
+                <div class="k">Fees</div>
+                <div class="v">${formatMoney(pricing.estimatedFees)}</div>
+              </div>
+              <div class="mini-stat">
+                <div class="k">Query</div>
+                <div class="v" style="font-size:14px;line-height:1.35;">${escapeHtml(truncate(data.query || "", 42))}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        ${renderCompSection("Top Sold Comps", sold)}
+        ${renderCompSection("Top Active Listings", active)}
+      `;
+    }
+
+    function renderCompSection(title, items) {
+      const top = (items || []).slice(0, 6);
+      return `
+        <div class="comps">
+          <div class="comps-head">
+            <div class="comps-title">${escapeHtml(title)}</div>
+            <div class="pill blue">${top.length} shown</div>
+          </div>
+          <div class="comp-row">
+            ${top.length ? top.map(item => `
+              <div class="comp-card">
+                <img src="${escapeHtml(item.image || "https://placehold.co/600x600?text=No+Image")}" alt="">
+                <div class="comp-body">
+                  <div class="comp-price">${formatMoney(item.price)}</div>
+                  <div class="comp-meta">
+                    ${item.shipping > 0 ? `Ship ${formatMoney(item.shipping)} • ` : `Free Ship • `}
+                    ${escapeHtml(item.condition || "Unknown")}
+                  </div>
+                  <div class="comp-title">${escapeHtml(truncate(item.title || "Untitled listing", 88))}</div>
+                  ${item.url ? `<a class="comp-link" href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer">Open Listing</a>` : ""}
+                </div>
+              </div>
+            `).join("") : `<div class="empty">No comps returned yet.</div>`}
+          </div>
+        </div>
+      `;
+    }
+
+    function getSavedScans() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+      } catch {
+        return [];
+      }
+    }
+
+    function saveScan(data) {
+      const saved = getSavedScans();
+
+      const record = {
+        id: Date.now(),
+        query: data.query || "",
+        recommendedPrice: Number(data.pricing?.recommendedPrice || 0),
+        estimatedProfit: Number(data.pricing?.estimatedProfit || 0),
+        roi: Number(data.pricing?.roi || 0),
+        sellThroughRate: Number(data.market?.sellThroughRate || 0),
+        confidence: data.market?.confidence || "N/A",
+        raw: data
+      };
+
+      const withoutDuplicate = saved.filter(item => item.query !== record.query);
+      const next = [record, ...withoutDuplicate].slice(0, 24);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+    }
+
+    function reopenSaved(index) {
+      const saved = getSavedScans();
+      const item = saved[index];
+      if (!item) return;
+
+      currentResult = item.raw;
+      byId("query").value = item.query || "";
+      renderResults(item.raw);
+      setStatus("Saved scan reopened.", "green");
+    }
+
+    function renderSavedScans() {
+      const el = byId("savedScans");
+      const saved = getSavedScans();
+
+      if (!saved.length) {
+        el.innerHTML = `<div class="empty">No saved scans yet. Your completed analyses will show up here.</div>`;
+        return;
+      }
+
+      el.innerHTML = saved.map((item, index) => {
+        const badge = getProfitBadge(item.estimatedProfit);
+        return `
+          <div class="saved-card" onclick="reopenSaved(${index})">
+            <div class="saved-top">
+              <div class="saved-query">${escapeHtml(truncate(item.query || "Untitled scan", 68))}</div>
+              <span class="pill ${badge.tone}">${badge.label}</span>
+            </div>
+            <div class="saved-meta">
+              <span class="pill blue">Price ${formatMoney(item.recommendedPrice)}</span>
+              <span class="pill ${item.sellThroughRate >= 40 ? "green" : "yellow"}">STR ${Math.round(item.sellThroughRate)}%</span>
+              <span class="pill ${item.estimatedProfit >= 6 ? "green" : "red"}">Profit ${formatMoney(item.estimatedProfit)}</span>
+              <span class="pill blue">ROI ${getROIText(item.roi)}</span>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    renderSavedScans();
+  </script>
+</body>
+</html>

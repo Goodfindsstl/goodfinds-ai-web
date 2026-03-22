@@ -3,742 +3,553 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GoodFinds AI</title>
+  <title>GoodFinds AI v6</title>
   <style>
-    :root{
-      --bg:#030611;
-      --panel:rgba(10,18,45,.92);
-      --panel2:rgba(255,255,255,.035);
-      --border:rgba(96,165,250,.14);
-      --text:#f8fbff;
-      --muted:rgba(255,255,255,.68);
-      --muted2:rgba(255,255,255,.46);
-      --blue:#5cb7ff;
-      --green:#37df95;
-      --greenText:#b8ffe4;
-      --amber:#fbbf24;
-      --amberText:#fde68a;
-      --rose:#fb7185;
-      --roseText:#fecdd3;
-      --shadow:0 25px 70px rgba(0,0,0,.42);
-      --radius:30px;
+    :root {
+      --bg-1: #020617;
+      --bg-2: #0f172a;
+      --panel: rgba(15, 23, 42, 0.82);
+      --panel-2: rgba(17, 24, 39, 0.95);
+      --border: rgba(148, 163, 184, 0.16);
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --green: #22c55e;
+      --yellow: #f59e0b;
+      --red: #ef4444;
+      --blue: #3b82f6;
+      --purple: #8b5cf6;
+      --cyan: #06b6d4;
+      --shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+      --radius: 20px;
     }
 
-    * { box-sizing:border-box; }
-    html, body { margin:0; padding:0; }
+    * {
+      box-sizing: border-box;
+    }
 
-    body{
-      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-      color:var(--text);
+    body {
+      margin: 0;
+      font-family: Inter, Arial, sans-serif;
+      color: var(--text);
       background:
-        radial-gradient(circle at top center, rgba(44,102,255,.22), transparent 28%),
-        radial-gradient(circle at 20% 20%, rgba(92,183,255,.08), transparent 25%),
-        linear-gradient(180deg,#030611 0%,#040816 35%,#07112a 100%);
+        radial-gradient(circle at top left, rgba(59, 130, 246, 0.18), transparent 30%),
+        radial-gradient(circle at top right, rgba(139, 92, 246, 0.16), transparent 28%),
+        linear-gradient(180deg, var(--bg-2), var(--bg-1));
+      min-height: 100vh;
     }
 
-    .wrap{
-      max-width:1440px;
-      margin:0 auto;
-      padding:22px;
+    .shell {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 18px 60px;
     }
 
-    .hero,.panel{
-      background:var(--panel);
-      border:1px solid var(--border);
-      box-shadow:var(--shadow);
-      backdrop-filter:blur(12px);
-      border-radius:var(--radius);
+    .hero {
+      text-align: center;
+      padding: 12px 0 22px;
     }
 
-    .hero{
-      position:relative;
-      overflow:hidden;
-      padding:28px 34px 32px;
-      margin-bottom:24px;
-      isolation:isolate;
+    .hero-logo {
+      width: 180px;
+      max-width: 60vw;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto 8px;
+      filter: drop-shadow(0 10px 24px rgba(0,0,0,.35));
     }
 
-    .hero::before{
-      content:"";
-      position:absolute;
-      right:-100px;
-      top:-80px;
-      width:440px;
-      height:440px;
-      background:radial-gradient(circle, rgba(92,183,255,.18), transparent 62%);
-      pointer-events:none;
-      z-index:0;
+    .hero-title {
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin: 6px 0 4px;
     }
 
-    .hero::after{
-      content:"";
-      position:absolute;
-      left:-80px;
-      bottom:-120px;
-      width:340px;
-      height:340px;
-      background:radial-gradient(circle, rgba(109,60,255,.16), transparent 60%);
-      pointer-events:none;
-      z-index:0;
+    .hero-subtitle {
+      color: var(--muted);
+      font-size: 14px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
 
-    .hero-inner{
-      position:relative;
-      z-index:2;
-      display:grid;
-      grid-template-columns:minmax(330px, 430px) minmax(0, 1fr);
-      gap:26px;
-      align-items:center;
+    .layout {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 18px;
+      align-items: start;
     }
 
-    .hero-logo-wrap{
-      position:relative;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      min-height:290px;
-      padding:10px 8px;
-      border-radius:28px;
+    .panel {
+      background: var(--panel);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .panel-pad {
+      padding: 18px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 800;
+      margin: 0 0 6px;
+    }
+
+    .section-subtitle {
+      color: var(--muted);
+      font-size: 13px;
+      margin: 0 0 14px;
+    }
+
+    .input-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    .label {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    input, select {
+      width: 100%;
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      background: rgba(15, 23, 42, 0.88);
+      color: white;
+      padding: 13px 14px;
+      border-radius: 14px;
+      font-size: 15px;
+      outline: none;
+      transition: 0.18s ease;
+    }
+
+    input:focus, select:focus {
+      border-color: rgba(59, 130, 246, 0.7);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.16);
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 14px;
+      padding: 14px 14px;
+      font-weight: 800;
+      cursor: pointer;
+      color: white;
+      transition: transform .15s ease, opacity .15s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    button:disabled {
+      opacity: .65;
+      cursor: wait;
+      transform: none;
+    }
+
+    .btn-photo { background: linear-gradient(135deg, var(--green), #16a34a); }
+    .btn-upc { background: linear-gradient(135deg, var(--blue), #2563eb); }
+    .btn-research { background: linear-gradient(135deg, var(--yellow), #d97706); }
+
+    .status-bar {
+      margin-top: 12px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      min-height: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .02em;
+      border: 1px solid var(--border);
+      background: rgba(15, 23, 42, 0.78);
+      color: #e2e8f0;
+    }
+
+    .pill.green { background: rgba(34, 197, 94, 0.14); color: #bbf7d0; border-color: rgba(34,197,94,.24);}
+    .pill.yellow { background: rgba(245, 158, 11, 0.14); color: #fde68a; border-color: rgba(245,158,11,.24);}
+    .pill.red { background: rgba(239, 68, 68, 0.14); color: #fecaca; border-color: rgba(239,68,68,.24);}
+    .pill.blue { background: rgba(59, 130, 246, 0.14); color: #bfdbfe; border-color: rgba(59,130,246,.24);}
+
+    .summary-cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .metric-card {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px;
+      min-height: 92px;
+    }
+
+    .metric-label {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      font-weight: 700;
+    }
+
+    .metric-value {
+      margin-top: 8px;
+      font-size: 26px;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .metric-sub {
+      margin-top: 8px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .heat-panel {
+      margin-top: 14px;
+      background: rgba(15, 23, 42, 0.84);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 16px;
+    }
+
+    .heat-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .heat-title {
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .heat-bar {
+      position: relative;
+      height: 16px;
+      border-radius: 999px;
+      overflow: hidden;
       background:
-        linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)),
-        radial-gradient(circle at center, rgba(92,183,255,.14), transparent 62%);
-      border:1px solid rgba(255,255,255,.06);
+        linear-gradient(90deg,
+          rgba(239,68,68,0.9) 0%,
+          rgba(245,158,11,0.95) 50%,
+          rgba(34,197,94,0.95) 100%);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08);
     }
 
-    .logo{
-      width:min(100%, 430px);
-      max-height:290px;
-      object-fit:contain;
-      display:block;
-      filter:
-        drop-shadow(0 0 34px rgba(92,183,255,.26))
-        drop-shadow(0 0 74px rgba(92,183,255,.14));
+    .heat-marker {
+      position: absolute;
+      top: -4px;
+      width: 4px;
+      height: 24px;
+      border-radius: 999px;
+      background: white;
+      box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.9);
+      transform: translateX(-50%);
     }
 
-    .hero-copy h1{
-      margin:0;
-      font-size:clamp(36px, 4.8vw, 74px);
-      line-height:.94;
-      letter-spacing:-.06em;
+    .heat-scale {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
     }
 
-    .hero-copy p{
-      margin:12px 0 0;
-      max-width:820px;
-      color:var(--muted);
-      line-height:1.65;
-      font-size:16px;
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 14px;
     }
-
-    .hero-bottom{
-      margin-top:18px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:18px;
-      flex-wrap:wrap;
-    }
-
-    .pill{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      border-radius:999px;
-      padding:11px 16px;
-      background:rgba(92,183,255,.08);
-      border:1px solid rgba(92,183,255,.18);
-      color:#d8f2ff;
-      font-weight:700;
-      white-space:nowrap;
-    }
-
-    .hero-stats{
-      display:flex;
-      gap:12px;
-      flex-wrap:wrap;
-    }
-
-    .hero-stat{
-      min-width:120px;
-      border-radius:18px;
-      padding:12px 14px;
-      border:1px solid rgba(255,255,255,.08);
-      background:rgba(255,255,255,.03);
-    }
-
-    .hero-stat small{
-      display:block;
-      font-size:10px;
-      color:var(--muted2);
-      letter-spacing:.22em;
-      text-transform:uppercase;
-      margin-bottom:6px;
-    }
-
-    .hero-stat strong{
-      font-size:15px;
-      color:#fff;
-    }
-
-    .grid{
-      display:grid;
-      grid-template-columns:1.02fr .98fr;
-      gap:24px;
-    }
-
-    .panel{
-      padding:22px;
-    }
-
-    .panel-head{
-      display:flex;
-      justify-content:space-between;
-      gap:18px;
-      align-items:flex-start;
-      margin-bottom:18px;
-    }
-
-    .eyebrow{
-      margin:0;
-      font-size:12px;
-      text-transform:uppercase;
-      letter-spacing:.28em;
-      color:var(--muted2);
-    }
-
-    .panel-head h2,.panel-head h3{
-      margin:8px 0 0;
-      font-size:30px;
-      line-height:1.02;
-      letter-spacing:-.03em;
-    }
-
-    .mode{
-      min-width:110px;
-      border-radius:18px;
-      padding:12px 14px;
-      border:1px solid rgba(255,255,255,.08);
-      background:rgba(255,255,255,.03);
-      text-align:right;
-    }
-
-    .mode small{
-      display:block;
-      font-size:10px;
-      color:var(--muted2);
-      letter-spacing:.22em;
-      text-transform:uppercase;
-      margin-bottom:5px;
-    }
-
-    .form-grid{
-      display:grid;
-      grid-template-columns:repeat(2,minmax(0,1fr));
-      gap:16px;
-    }
-
-    .field{
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-    }
-
-    .field label{
-      font-size:14px;
-      font-weight:700;
-      color:var(--muted);
-    }
-
-    input,select{
-      width:100%;
-      border-radius:18px;
-      border:1px solid rgba(255,255,255,.08);
-      background:rgba(255,255,255,.04);
-      color:#fff;
-      padding:15px 16px;
-      font-size:16px;
-      outline:none;
-    }
-
-    input:focus,select:focus{
-      border-color:rgba(92,183,255,.65);
-      box-shadow:0 0 0 4px rgba(92,183,255,.12);
-    }
-
-    select option{
-      background:#fff;
-      color:#111827;
-    }
-
-    .full{ grid-column:1 / -1; }
-
-    .buttons{
-      display:grid;
-      grid-template-columns:repeat(3,minmax(0,1fr));
-      gap:14px;
-      margin-top:20px;
-    }
-
-    button{
-      border:0;
-      border-radius:20px;
-      padding:16px 18px;
-      font-size:16px;
-      font-weight:800;
-      cursor:pointer;
-      transition:transform .16s ease,opacity .16s ease;
-    }
-
-    button:hover{
-      transform:translateY(-1px);
-      opacity:.98;
-    }
-
-    button:disabled{
-      opacity:.65;
-      cursor:not-allowed;
-      transform:none;
-    }
-
-    .btn-run{
-      background:linear-gradient(135deg,#37df95,#1bcf7a);
-      color:#03291b;
-    }
-
-    .btn-scan{
-      background:linear-gradient(135deg,#5cb7ff,#4b8dff);
-      color:#04152f;
-    }
-
-    .btn-thrift{
-      background:linear-gradient(135deg,#9a6bff,#6d3cff);
-      color:#f3ecff;
-    }
-
-    .analysis-summary,
-    .saved-scans-card{
-      margin-top:22px;
-      border-radius:24px;
-      padding:20px;
-      border:1px solid rgba(255,255,255,.08);
-      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(0,0,0,.14));
-    }
-
-    .analysis-top,
-    .saved-scans-top,
-    .preview-head{
-      display:flex;
-      justify-content:space-between;
-      gap:16px;
-      align-items:flex-start;
-      flex-wrap:wrap;
-    }
 
-    .analysis-top h3,
-    .saved-scans-top h3{
-      margin:8px 0 0;
-      font-size:24px;
+    .market-card {
+      background: rgba(15, 23, 42, 0.84);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
     }
 
-    .meta{
-      margin-top:6px;
-      color:var(--muted);
-      font-size:14px;
+    .market-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 14px 10px;
+      border-bottom: 1px solid rgba(148,163,184,.10);
     }
-
-    .badge{
-      border-radius:18px;
-      padding:11px 15px;
-      font-size:14px;
-      font-weight:800;
-      border:1px solid transparent;
-      white-space:nowrap;
-    }
-
-    .buy{
-      background:rgba(52,211,153,.14);
-      border-color:rgba(52,211,153,.28);
-      color:var(--greenText);
-    }
-
-    .risky{
-      background:rgba(251,191,36,.14);
-      border-color:rgba(251,191,36,.28);
-      color:var(--amberText);
-    }
-
-    .pass{
-      background:rgba(251,113,133,.14);
-      border-color:rgba(251,113,133,.28);
-      color:var(--roseText);
-    }
-
-    .metrics{
-      display:grid;
-      grid-template-columns:repeat(5,minmax(0,1fr));
-      gap:14px;
-      margin-top:18px;
-    }
-
-    .metric{
-      border-radius:20px;
-      padding:16px;
-      border:1px solid rgba(255,255,255,.08);
-      background:var(--panel2);
-    }
-
-    .metric .k{
-      font-size:10px;
-      letter-spacing:.22em;
-      text-transform:uppercase;
-      color:var(--muted2);
-    }
-
-    .metric .v{
-      margin-top:12px;
-      font-size:28px;
-      font-weight:800;
-      letter-spacing:-.03em;
-    }
-
-    .metric .n{
-      margin-top:4px;
-      font-size:12px;
-      color:var(--muted);
-    }
-
-    .heat-wrap{
-      margin-top:10px;
-      height:10px;
-      border-radius:999px;
-      background:rgba(255,255,255,.08);
-      overflow:hidden;
-    }
-
-    .heat-bar{
-      height:100%;
-      border-radius:999px;
-      background:linear-gradient(90deg,#22c55e,#5cb7ff,#8b5cf6);
-      width:0%;
-      transition:width .25s ease;
-    }
-
-    .clear-saved-btn{
-      border:1px solid rgba(255,255,255,.08);
-      background:rgba(255,255,255,.04);
-      color:#fff;
-      padding:10px 14px;
-      border-radius:14px;
-      font-size:14px;
-      font-weight:800;
-      cursor:pointer;
-    }
-
-    .saved-scans-list,
-    .line-items,
-    .insights,
-    .market-list{
-      display:flex;
-      flex-direction:column;
-      gap:12px;
-      margin-top:16px;
-    }
-
-    .saved-scan-item,
-    .line,
-    .insight,
-    .market-item{
-      border-radius:18px;
-      background:var(--panel2);
-      border:1px solid rgba(255,255,255,.06);
-      padding:14px 16px;
-    }
-
-    .saved-scan-item,
-    .line,
-    .market-item{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:16px;
-    }
-
-    .saved-scan-item{
-      cursor:pointer;
-    }
-
-    .saved-scan-item:hover{
-      transform:translateY(-1px);
-      border-color:rgba(92,183,255,.26);
-      background:rgba(255,255,255,.05);
-    }
-
-    .saved-scan-title,
-    .market-item p{
-      margin:0;
-    }
-
-    .saved-scan-title{
-      font-size:15px;
-      font-weight:800;
-    }
-
-    .saved-scan-meta,
-    .market-item small{
-      margin-top:4px;
-      font-size:12px;
-      color:var(--muted);
-      display:block;
-    }
-
-    .saved-scan-price,
-    .market-price{
-      font-size:18px;
-      font-weight:800;
-      white-space:nowrap;
-    }
-
-    .empty-saved{
-      border-radius:18px;
-      background:rgba(255,255,255,.03);
-      border:1px dashed rgba(255,255,255,.08);
-      padding:18px;
-      color:var(--muted);
-      font-size:14px;
-    }
-
-    .status{
-      min-height:22px;
-      margin-top:14px;
-      color:var(--muted);
-      font-size:14px;
-    }
-
-    .side{
-      display:flex;
-      flex-direction:column;
-      gap:24px;
-    }
-
-    .live{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      font-size:14px;
-      color:#98f5be;
-      font-weight:700;
-    }
-
-    .dot{
-      width:10px;
-      height:10px;
-      border-radius:999px;
-      background:#34d399;
-      box-shadow:0 0 0 6px rgba(52,211,153,.12);
-    }
-
-    .scanner-box{
-      position:relative;
-      overflow:hidden;
-      min-height:350px;
-      border-radius:28px;
-      border:1px solid rgba(92,183,255,.18);
-      background:
-        radial-gradient(circle at center, rgba(92,183,255,.12), transparent 40%),
-        linear-gradient(180deg, rgba(8,16,40,.98), rgba(9,22,55,.98));
-      padding:18px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    }
-
-    .corner{
-      position:absolute;
-      width:34px;
-      height:34px;
-    }
-
-    .tl{top:16px;left:16px;border-top:4px solid #60a5fa;border-left:4px solid #60a5fa;border-top-left-radius:14px}
-    .tr{top:16px;right:16px;border-top:4px solid #60a5fa;border-right:4px solid #60a5fa;border-top-right-radius:14px}
-    .bl{bottom:16px;left:16px;border-bottom:4px solid #60a5fa;border-left:4px solid #60a5fa;border-bottom-left-radius:14px}
-    .br{bottom:16px;right:16px;border-bottom:4px solid #60a5fa;border-right:4px solid #60a5fa;border-bottom-right-radius:14px}
 
-    .scan-line{
-      position:absolute;
-      left:30px;
-      right:30px;
-      top:50%;
-      height:3px;
-      background:linear-gradient(90deg,transparent,rgba(92,183,255,.95),transparent);
-      box-shadow:0 0 18px rgba(92,183,255,.42);
-      animation:scanMove 3.5s ease-in-out infinite;
+    .market-title {
+      font-size: 16px;
+      font-weight: 800;
     }
 
-    @keyframes scanMove{
-      0%{ transform:translateY(-110px); opacity:.72; }
-      50%{ transform:translateY(110px); opacity:1; }
-      100%{ transform:translateY(-110px); opacity:.72; }
+    .market-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      padding: 12px 14px 14px;
     }
 
-    .mock-card{
-      position:relative;
-      z-index:1;
-      width:min(290px,76%);
-      height:200px;
-      border-radius:28px;
-      background:#f8fafc;
-      color:#14233d;
-      transform:rotate(-5deg);
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      align-items:center;
-      gap:18px;
-      box-shadow:0 30px 70px rgba(0,0,0,.45);
+    .mini-stat {
+      background: rgba(2, 6, 23, 0.45);
+      border: 1px solid rgba(148,163,184,.08);
+      border-radius: 14px;
+      padding: 12px;
     }
 
-    .barcode{
-      width:128px;
-      height:42px;
-      background:repeating-linear-gradient(90deg,#111 0,#111 2px,transparent 2px,transparent 4px);
+    .mini-stat .k {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .06em;
     }
 
-    .sku{
-      font-size:52px;
-      font-weight:900;
-      letter-spacing:-.05em;
+    .mini-stat .v {
+      font-size: 20px;
+      font-weight: 800;
+      margin-top: 6px;
     }
 
-    .preview-image{
-      position:relative;
-      z-index:1;
-      max-width:100%;
-      max-height:290px;
-      border-radius:22px;
-      box-shadow:0 30px 70px rgba(0,0,0,.35);
-      object-fit:contain;
-      background:rgba(255,255,255,.03);
+    .comps {
+      margin-top: 14px;
     }
 
-    .line .left{
-      color:var(--muted);
+    .comps-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
     }
 
-    .line .right{
-      font-weight:700;
+    .comps-title {
+      font-weight: 800;
+      font-size: 16px;
     }
 
-    .line.highlight{
-      background:rgba(52,211,153,.1);
-      border-color:rgba(52,211,153,.2);
+    .comp-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
     }
 
-    .line.highlight .right{
-      color:var(--greenText);
-      font-size:20px;
+    .comp-card {
+      background: rgba(15, 23, 42, 0.82);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+      min-height: 275px;
+      display: flex;
+      flex-direction: column;
     }
 
-    .insight{
-      display:flex;
-      align-items:flex-start;
-      gap:12px;
+    .comp-card img {
+      width: 100%;
+      height: 168px;
+      object-fit: cover;
+      background: #0f172a;
     }
 
-    .insight-dot{
-      width:10px;
-      height:10px;
-      margin-top:6px;
-      border-radius:999px;
-      background:var(--blue);
-      flex-shrink:0;
-      box-shadow:0 0 10px rgba(92,183,255,.3);
+    .comp-body {
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      height: 100%;
     }
 
-    .insight p{
-      margin:0;
-      color:rgba(255,255,255,.84);
-      line-height:1.5;
+    .comp-price {
+      font-size: 22px;
+      font-weight: 800;
     }
 
-    @media (max-width:1180px){
-      .grid{ grid-template-columns:1fr; }
-      .metrics{ grid-template-columns:repeat(2,minmax(0,1fr)); }
-      .hero-inner{ grid-template-columns:1fr; }
-      .hero-logo-wrap{ min-height:240px; }
+    .comp-meta {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
     }
 
-    @media (max-width:760px){
-      .wrap{ padding:14px; }
-      .hero,.panel{ padding:18px; }
-      .hero-copy h1{ font-size:40px; }
-      .logo{ width:min(100%, 330px); max-height:220px; }
-      .hero-logo-wrap{ min-height:220px; }
-      .hero-bottom{ flex-direction:column; align-items:flex-start; }
-      .form-grid,.buttons,.metrics{ grid-template-columns:1fr; }
-      .sku{ font-size:40px; }
+    .comp-title {
+      font-size: 13px;
+      line-height: 1.4;
+      color: #e2e8f0;
+      flex: 1;
+    }
+
+    .comp-link {
+      display: inline-flex;
+      width: fit-content;
+      text-decoration: none;
+      color: white;
+      font-weight: 800;
+      font-size: 12px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: rgba(59,130,246,0.18);
+      border: 1px solid rgba(59,130,246,0.22);
+    }
+
+    .saved-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: 760px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .saved-card {
+      background: rgba(15, 23, 42, 0.78);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 12px;
+      cursor: pointer;
+      transition: .16s ease;
+    }
+
+    .saved-card:hover {
+      transform: translateY(-1px);
+      border-color: rgba(59,130,246,.28);
+    }
+
+    .saved-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: start;
+    }
+
+    .saved-query {
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 1.35;
+    }
+
+    .saved-meta {
+      margin-top: 8px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .empty {
+      color: var(--muted);
+      font-size: 14px;
+      padding: 14px 2px 4px;
+    }
+
+    .footer-note {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 12px;
+      line-height: 1.5;
+    }
+
+    .loading {
+      opacity: .72;
+      pointer-events: none;
+    }
+
+    @media (max-width: 980px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+      .summary-cards {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .comp-row {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .shell {
+        padding: 16px 12px 40px;
+      }
+      .input-grid,
+      .actions,
+      .two-col,
+      .summary-cards,
+      .comp-row {
+        grid-template-columns: 1fr;
+      }
+      .hero-logo {
+        width: 150px;
+      }
+      .metric-value {
+        font-size: 24px;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <section class="hero">
-      <div class="hero-inner">
-        <div class="hero-logo-wrap">
-          <img src="logo.png" alt="GoodFinds AI logo" class="logo" />
-        </div>
+  <div class="shell">
+    <div class="hero">
+      <img src="logo.png" alt="GoodFinds AI" class="hero-logo" />
+      <div class="hero-title">GoodFinds AI</div>
+      <div class="hero-subtitle">Built by resellers, for resellers</div>
+    </div>
 
-        <div class="hero-copy">
-          <h1>Scan smarter. Price faster. Know before you buy.</h1>
-          <p>A reseller decision engine built to use Vision-powered label recognition, real eBay active listings, UPC lookup, median pricing, auto fees, and proxy sell-through in one workspace.</p>
-          <div class="hero-bottom">
-            <div class="pill">Built by resellers for resellers</div>
-            <div class="hero-stats">
-              <div class="hero-stat">
-                <small>Mode</small>
-                <strong>Proxy STR</strong>
-              </div>
-              <div class="hero-stat">
-                <small>Market</small>
-                <strong>Live eBay</strong>
-              </div>
-              <div class="hero-stat">
-                <small>Vision</small>
-                <strong>Live Scan</strong>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+    <div class="layout">
+      <div class="panel panel-pad">
+        <h2 class="section-title">Live Research Scanner</h2>
+        <p class="section-subtitle">Photo scan, UPC scan, or manual research with reseller-grade market analysis.</p>
 
-    <div class="grid">
-      <section class="panel">
-        <div class="panel-head">
-          <div>
-            <p class="eyebrow">Research Inputs</p>
-            <h2>Scanner workspace</h2>
+        <div class="input-grid">
+          <div class="field full">
+            <label class="label" for="query">Item / Search Query</label>
+            <input id="query" placeholder="Example: Lululemon men's polo large" />
           </div>
-          <div class="mode">
-            <small>Mode</small>
-            <strong>Thrift Pro</strong>
-          </div>
-        </div>
 
-        <div class="form-grid">
           <div class="field">
-            <label for="brand">Brand</label>
-            <input id="brand" value="">
+            <label class="label" for="buyCost">Buy Cost</label>
+            <input id="buyCost" type="number" step="0.01" placeholder="6.99" />
           </div>
+
           <div class="field">
-            <label for="title">Item Description</label>
-            <input id="title" value="">
-          </div>
-          <div class="field">
-            <label for="size">Size</label>
+            <label class="label" for="size">Size</label>
             <select id="size">
-              <option value="">Select size</option>
-              <option>One Size</option>
-              <option>3XS</option>
+              <option value="">No Size</option>
               <option>XXS</option>
               <option>XS</option>
               <option>S</option>
@@ -746,623 +557,472 @@
               <option>L</option>
               <option>XL</option>
               <option>XXL</option>
+              <option>2XL</option>
               <option>3XL</option>
               <option>4XL</option>
               <option>5XL</option>
-              <option>6XL</option>
-              <option>Other</option>
             </select>
           </div>
+
           <div class="field">
-            <label for="condition">Condition</label>
-            <select id="condition">
-              <option selected>Preowned</option>
-              <option>New With Tags</option>
-              <option>New Without Tags</option>
-              <option>Used - Fair</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="buyCost">Buy Cost</label>
-            <input id="buyCost" value="0" inputmode="decimal">
-          </div>
-          <div class="field">
-            <label for="shippingCost">Shipping Cost</label>
-            <input id="shippingCost" value="0" inputmode="decimal">
-          </div>
-          <div class="field full">
-            <label for="shippingType">Shipping Type</label>
+            <label class="label" for="shippingType">Shipping Type</label>
             <select id="shippingType">
               <option>Free Shipping</option>
-              <option selected>Buyer Pays Shipping</option>
+              <option>Buyer Pays Shipping</option>
               <option>Flat Shipping</option>
             </select>
           </div>
-        </div>
 
-        <div class="buttons">
-          <button id="runBtn" class="btn-run">Run Research</button>
-          <button id="scanBtn" class="btn-scan">Scan Item</button>
-          <button id="thriftBtn" class="btn-thrift">UPC Lookup</button>
-        </div>
-
-        <input id="fileInput" type="file" accept="image/*" style="display:none;" />
-
-        <div class="analysis-summary">
-          <div class="analysis-top">
-            <div>
-              <p class="eyebrow">Current Analysis</p>
-              <h3 id="resultTitle">Untitled item</h3>
-              <div class="meta" id="resultMeta">No size • Preowned • Live market analysis</div>
-            </div>
-            <div id="verdictBadge" class="badge pass">PASS</div>
+          <div class="field">
+            <label class="label" for="shippingCost">Your Shipping Cost</label>
+            <input id="shippingCost" type="number" step="0.01" placeholder="5.95" />
           </div>
 
-          <div class="metrics">
-            <div class="metric">
-              <div class="k">Median Price</div>
-              <div class="v" id="listingPrice">$0.00</div>
-              <div class="n" id="valueRange">$0.00–$0.00</div>
-            </div>
-            <div class="metric">
-              <div class="k">Sell-through</div>
-              <div class="v" id="sellThroughRate">0%</div>
-              <div class="n">Proxy sold / active</div>
-            </div>
-            <div class="metric">
-              <div class="k">Avg Days</div>
-              <div class="v" id="avgDaysToSell">0</div>
-              <div class="n">Proxy speed</div>
-            </div>
-            <div class="metric">
-              <div class="k">ROI</div>
-              <div class="v" id="roi">0%</div>
-              <div class="n">Profit / buy cost</div>
-            </div>
-            <div class="metric">
-              <div class="k">Demand Heat</div>
-              <div class="v" id="demandHeatLabel">COOL</div>
-              <div class="heat-wrap">
-                <div id="heatBar" class="heat-bar"></div>
-              </div>
-              <div class="n" id="heatNote">Market momentum</div>
-            </div>
+          <div class="field full">
+            <label class="label" for="flatShipping">Flat Shipping Charge to Buyer</label>
+            <input id="flatShipping" type="number" step="0.01" placeholder="0.00" />
           </div>
         </div>
 
-        <div class="saved-scans-card">
-          <div class="saved-scans-top">
-            <div>
-              <p class="eyebrow">Saved Scans</p>
-              <h3>Recent items</h3>
-              <div class="meta">Tap any saved scan to reopen the full analysis.</div>
-            </div>
-            <button id="clearSavedBtn" class="clear-saved-btn" type="button">Clear</button>
-          </div>
-          <div id="savedScansList" class="saved-scans-list"></div>
+        <div class="actions">
+          <button class="btn-photo" id="photoBtn" onclick="scanPhoto()">📸 Photo Scan</button>
+          <button class="btn-upc" id="upcBtn" onclick="scanUPC()">📦 UPC Scan</button>
+          <button class="btn-research" id="researchBtn" onclick="runResearch()">🔍 Analyze</button>
         </div>
 
-        <div class="status" id="statusText">Ready to analyze.</div>
-      </section>
+        <div class="status-bar" id="statusBar"></div>
 
-      <div class="side">
-        <section class="panel">
-          <div class="preview-head">
-            <h3 style="margin:0">Scanner Preview</h3>
-            <div class="live"><span class="dot"></span>Live</div>
-          </div>
+        <div id="resultsWrap"></div>
+      </div>
 
-          <div class="scanner-box">
-            <div class="corner tl"></div>
-            <div class="corner tr"></div>
-            <div class="corner bl"></div>
-            <div class="corner br"></div>
-            <div class="scan-line"></div>
-
-            <img id="previewImage" class="preview-image" style="display:none;" alt="Preview" />
-
-            <div id="mockCard" class="mock-card">
-              <div class="barcode"></div>
-              <div class="sku">SCAN</div>
-            </div>
-          </div>
-        </section>
-
-        <section class="panel">
-          <div class="preview-head">
-            <div>
-              <p class="eyebrow">Profit Snapshot</p>
-              <h3 style="margin:8px 0 0">Estimated profit</h3>
-            </div>
-            <div id="profitBadge" class="badge pass">PASS</div>
-          </div>
-
-          <div class="line-items">
-            <div class="line">
-              <div class="left">Suggested list price</div>
-              <div class="right" id="expectedSalePrice">$0.00</div>
-            </div>
-            <div class="line">
-              <div class="left">Buy cost</div>
-              <div class="right" id="buyCostDisplay">-$0.00</div>
-            </div>
-            <div class="line">
-              <div class="left">Shipping burden</div>
-              <div class="right" id="shippingCostDisplay">-$0.00</div>
-            </div>
-            <div class="line">
-              <div class="left">Marketplace fees</div>
-              <div class="right" id="marketplaceFees">-$0.00</div>
-            </div>
-            <div class="line highlight">
-              <div class="left">Net profit</div>
-              <div class="right" id="estimatedProfit">$0.00</div>
-            </div>
-          </div>
-        </section>
-
-        <section class="panel">
-          <p class="eyebrow">Smart Insights</p>
-          <div id="insights" class="insights"></div>
-        </section>
-
-        <section class="panel">
-          <div class="preview-head">
-            <div>
-              <p class="eyebrow">Active Listings</p>
-              <h3 style="margin:8px 0 0" id="activeHeader">Live market</h3>
-            </div>
-          </div>
-          <div id="activeListings" class="market-list"></div>
-        </section>
-
-        <section class="panel">
-          <div class="preview-head">
-            <div>
-              <p class="eyebrow">Sold Listings</p>
-              <h3 style="margin:8px 0 0" id="soldHeader">Proxy sold market</h3>
-            </div>
-          </div>
-          <div id="soldListings" class="market-list"></div>
-        </section>
+      <div class="panel panel-pad">
+        <h2 class="section-title">Saved Scans</h2>
+        <p class="section-subtitle">Tap any saved item to reopen the full analysis.</p>
+        <div id="savedScans" class="saved-list"></div>
+        <div class="footer-note">
+          Saved locally in this browser. Your newest scan stays at the top.
+        </div>
       </div>
     </div>
   </div>
 
   <script>
-    const BACKEND = "https://goodfinds-backend.vercel.app/api/research";
-    const PHOTO = "https://goodfinds-backend.vercel.app/api/photo-scan";
-    const UPC = "https://goodfinds-backend.vercel.app/api/upc";
-    const SAVED_SCANS_KEY = "goodfinds_saved_scans_proxy_v1";
+    const STORAGE_KEY = "goodfinds_v6_saved_scans";
+    let currentResult = null;
+    let currentLoading = false;
 
-    const els = {
-      brand: document.getElementById("brand"),
-      title: document.getElementById("title"),
-      size: document.getElementById("size"),
-      condition: document.getElementById("condition"),
-      buyCost: document.getElementById("buyCost"),
-      shippingCost: document.getElementById("shippingCost"),
-      shippingType: document.getElementById("shippingType"),
-      runBtn: document.getElementById("runBtn"),
-      scanBtn: document.getElementById("scanBtn"),
-      thriftBtn: document.getElementById("thriftBtn"),
-      fileInput: document.getElementById("fileInput"),
-      previewImage: document.getElementById("previewImage"),
-      mockCard: document.getElementById("mockCard"),
-      statusText: document.getElementById("statusText"),
-      resultTitle: document.getElementById("resultTitle"),
-      resultMeta: document.getElementById("resultMeta"),
-      verdictBadge: document.getElementById("verdictBadge"),
-      profitBadge: document.getElementById("profitBadge"),
-      listingPrice: document.getElementById("listingPrice"),
-      valueRange: document.getElementById("valueRange"),
-      sellThroughRate: document.getElementById("sellThroughRate"),
-      avgDaysToSell: document.getElementById("avgDaysToSell"),
-      roi: document.getElementById("roi"),
-      demandHeatLabel: document.getElementById("demandHeatLabel"),
-      heatBar: document.getElementById("heatBar"),
-      heatNote: document.getElementById("heatNote"),
-      expectedSalePrice: document.getElementById("expectedSalePrice"),
-      buyCostDisplay: document.getElementById("buyCostDisplay"),
-      shippingCostDisplay: document.getElementById("shippingCostDisplay"),
-      marketplaceFees: document.getElementById("marketplaceFees"),
-      estimatedProfit: document.getElementById("estimatedProfit"),
-      insights: document.getElementById("insights"),
-      savedScansList: document.getElementById("savedScansList"),
-      clearSavedBtn: document.getElementById("clearSavedBtn"),
-      activeListings: document.getElementById("activeListings"),
-      soldListings: document.getElementById("soldListings"),
-      activeHeader: document.getElementById("activeHeader"),
-      soldHeader: document.getElementById("soldHeader")
-    };
-
-    let currentPreviewUrl = null;
-
-    function money(v){
-      return new Intl.NumberFormat("en-US", {
-        style:"currency",
-        currency:"USD",
-        maximumFractionDigits:2
-      }).format(Number(v || 0));
+    function byId(id) {
+      return document.getElementById(id);
     }
 
-    function num(value){
-      const parsed = Number(value);
-      return Number.isFinite(parsed) ? parsed : 0;
+    function formatMoney(value) {
+      const n = Number(value || 0);
+      return `$${n.toFixed(2)}`;
     }
 
-    function clamp(value,min,max){
-      return Math.max(min, Math.min(max, value));
+    function escapeHtml(str = "") {
+      return String(str)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#39;");
     }
 
-    function normalizeSize(sizeValue){
-      const raw = String(sizeValue || "").trim();
-      if (!raw) return "";
-
-      const upper = raw.toUpperCase();
-      const map = {
-        "ONE SIZE":"One Size",
-        "3XS":"3XS",
-        "XXS":"XXS",
-        "XS":"XS",
-        "S":"S",
-        "M":"M",
-        "L":"L",
-        "XL":"XL",
-        "XXL":"XXL",
-        "2XL":"XXL",
-        "3XL":"3XL",
-        "4XL":"4XL",
-        "5XL":"5XL",
-        "6XL":"6XL",
-        "OTHER":"Other"
-      };
-
-      return map[upper] || "Other";
+    function truncate(str = "", max = 72) {
+      const s = String(str || "");
+      return s.length > max ? s.slice(0, max - 1) + "…" : s;
     }
 
-    function normalizeConditionGuess(conditionGuess){
-      const allowed = ["Preowned","New With Tags","New Without Tags","Used - Fair"];
-      return allowed.includes(conditionGuess) ? conditionGuess : null;
-    }
-
-    function setBadge(node, verdict){
-      node.classList.remove("buy","risky","pass");
-      const v = String(verdict || "PASS").toUpperCase();
-      if(v === "BUY") node.classList.add("buy");
-      else if(v === "RISKY") node.classList.add("risky");
-      else node.classList.add("pass");
-      node.textContent = v;
-    }
-
-    function getPayload(){
+    function getShippingPayload() {
       return {
-        brand: els.brand.value.trim(),
-        title: els.title.value.trim(),
-        size: els.size.value.trim(),
-        condition: els.condition.value.trim(),
-        buyCost: num(els.buyCost.value),
-        shippingCost: num(els.shippingCost.value),
-        shippingType: els.shippingType.value
+        shippingType: byId("shippingType").value,
+        shippingCost: Number(byId("shippingCost").value || 0),
+        flatShippingCharge: Number(byId("flatShipping").value || 0),
       };
     }
 
-    function getSavedScans(){
+    function getResearchPayload(queryOverride = "") {
+      return {
+        query: queryOverride || byId("query").value.trim(),
+        buyCost: Number(byId("buyCost").value || 0),
+        size: byId("size").value,
+        ...getShippingPayload()
+      };
+    }
+
+    function setLoading(state, message = "") {
+      currentLoading = state;
+      const btns = ["photoBtn", "upcBtn", "researchBtn"];
+      btns.forEach(id => byId(id).disabled = state);
+      const wrap = byId("resultsWrap");
+      if (state) wrap.classList.add("loading");
+      else wrap.classList.remove("loading");
+      setStatus(message || (state ? "Working..." : ""));
+    }
+
+    function setStatus(message = "", tone = "blue") {
+      const el = byId("statusBar");
+      if (!message) {
+        el.innerHTML = "";
+        return;
+      }
+      el.innerHTML = `<span class="pill ${tone}">${escapeHtml(message)}</span>`;
+    }
+
+    function getProfitBadge(profit) {
+      const p = Number(profit || 0);
+      if (p >= 15) return { label: "🔥 Strong Flip", tone: "green" };
+      if (p >= 6) return { label: "⚠️ Decent Flip", tone: "yellow" };
+      return { label: "❌ Weak Flip", tone: "red" };
+    }
+
+    function getSTRBadge(str) {
+      const n = Number(str || 0);
+      if (n >= 70) return { label: "Fast Market", tone: "green" };
+      if (n >= 40) return { label: "Moderate Market", tone: "yellow" };
+      return { label: "Slow Market", tone: "red" };
+    }
+
+    function getROIText(roi) {
+      return `${Math.round(Number(roi || 0) * 100)}%`;
+    }
+
+    function getPriceZone(low, high, target) {
+      const t = Number(target || 0);
+      const l = Number(low || 0);
+      const h = Number(high || 0);
+
+      if (h <= l) return { label: "Balanced Zone", markerPercent: 50 };
+
+      const percent = Math.max(0, Math.min(100, ((t - l) / (h - l)) * 100));
+
+      let label = "Balanced Zone";
+      if (percent <= 33) label = "Aggressive Price";
+      else if (percent >= 67) label = "Premium Price";
+
+      return { label, markerPercent: percent };
+    }
+
+    async function runResearch(queryOverride = "") {
       try {
-        return JSON.parse(localStorage.getItem(SAVED_SCANS_KEY) || "[]");
+        const payload = getResearchPayload(queryOverride);
+        if (!payload.query) {
+          setStatus("Enter an item or scan first.", "red");
+          return;
+        }
+
+        setLoading(true, "Running live market analysis...");
+
+        const res = await fetch("/api/research", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+
+        if (!res.ok || !data.ok) {
+          throw new Error(data.error || "Research failed");
+        }
+
+        currentResult = data;
+        renderResults(data);
+        saveScan(data);
+        renderSavedScans();
+        setStatus("Analysis complete.", "green");
+      } catch (err) {
+        console.error(err);
+        setStatus(err.message || "Research failed.", "red");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    async function scanPhoto() {
+      const input = document.createElement("input");
+      input.type = "file";
+      input.accept = "image/*";
+
+      input.onchange = async () => {
+        const file = input.files?.[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = async () => {
+          try {
+            setLoading(true, "Scanning photo with AI...");
+            const res = await fetch("/api/photo-scan", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ imageBase64: reader.result })
+            });
+
+            const data = await res.json();
+            if (!res.ok || !data.ok) {
+              throw new Error(data.error || "Photo scan failed");
+            }
+
+            const query = data.searchQuery || data.suggestedTitle || "";
+            byId("query").value = query;
+            if (data.size) byId("size").value = data.size;
+
+            setStatus(`Photo scan ready${data.brand ? ` • ${data.brand}` : ""}`, "blue");
+            await runResearch(query);
+          } catch (err) {
+            console.error(err);
+            setStatus(err.message || "Photo scan failed.", "red");
+          } finally {
+            setLoading(false);
+          }
+        };
+        reader.readAsDataURL(file);
+      };
+
+      input.click();
+    }
+
+    async function scanUPC() {
+      const code = prompt("Enter UPC");
+      if (!code) return;
+
+      try {
+        setLoading(true, "Looking up UPC...");
+        const res = await fetch("/api/upc", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ upc: code })
+        });
+
+        const data = await res.json();
+        if (!res.ok || !data.ok) {
+          throw new Error(data.error || "UPC lookup failed");
+        }
+
+        const query = data.searchQuery || data.product?.title || "";
+        byId("query").value = query;
+
+        setStatus(`UPC matched${data.product?.brand ? ` • ${data.product.brand}` : ""}`, "blue");
+        await runResearch(query);
+      } catch (err) {
+        console.error(err);
+        setStatus(err.message || "UPC lookup failed.", "red");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    function renderResults(data) {
+      const wrap = byId("resultsWrap");
+
+      const pricing = data.pricing || {};
+      const market = data.market || {};
+      const soldPanel = market.soldPanel || {};
+      const activePanel = market.activePanel || {};
+      const sold = data.topComps?.sold || [];
+      const active = data.topComps?.active || [];
+      const profitBadge = getProfitBadge(pricing.estimatedProfit);
+      const strBadge = getSTRBadge(market.sellThroughRate);
+      const priceZone = getPriceZone(
+        soldPanel.lowPrice || soldPanel.lowTotal || 0,
+        soldPanel.highPrice || soldPanel.highTotal || 0,
+        pricing.recommendedPrice
+      );
+
+      wrap.innerHTML = `
+        <div class="summary-cards">
+          <div class="metric-card">
+            <div class="metric-label">Recommended Price</div>
+            <div class="metric-value">${formatMoney(pricing.recommendedPrice)}</div>
+            <div class="metric-sub">${priceZone.label}</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Estimated Profit</div>
+            <div class="metric-value">${formatMoney(pricing.estimatedProfit)}</div>
+            <div class="metric-sub">${profitBadge.label}</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">ROI</div>
+            <div class="metric-value">${getROIText(pricing.roi)}</div>
+            <div class="metric-sub">profit ÷ buy cost</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Sell Through</div>
+            <div class="metric-value">${Math.round(Number(market.sellThroughRate || 0))}%</div>
+            <div class="metric-sub">${strBadge.label}</div>
+          </div>
+        </div>
+
+        <div class="heat-panel">
+          <div class="heat-header">
+            <div class="heat-title">Pricing Heat Map</div>
+            <div>
+              <span class="pill ${profitBadge.tone}">${profitBadge.label}</span>
+              <span class="pill ${strBadge.tone}">${strBadge.label}</span>
+              <span class="pill blue">Confidence: ${escapeHtml(market.confidence || "N/A")}</span>
+            </div>
+          </div>
+
+          <div class="heat-bar">
+            <div class="heat-marker" style="left:${priceZone.markerPercent}%"></div>
+          </div>
+          <div class="heat-scale">
+            <span>Low ${formatMoney(soldPanel.lowPrice || 0)}</span>
+            <span>Median ${formatMoney(soldPanel.medianPrice || 0)}</span>
+            <span>High ${formatMoney(soldPanel.highPrice || 0)}</span>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="market-card">
+            <div class="market-head">
+              <div class="market-title">Sold Market</div>
+              <span class="pill green">${soldPanel.count || 0} comps</span>
+            </div>
+            <div class="market-grid">
+              <div class="mini-stat">
+                <div class="k">Median Price</div>
+                <div class="v">${formatMoney(soldPanel.medianPrice)}</div>
+              </div>
+              <div class="mini-stat">
+                <div class="k">Range</div>
+                <div class="v">${formatMoney(soldPanel.lowPrice)} - ${formatMoney(soldPanel.highPrice)}</div>
+              </div>
+              <div class="mini-stat">
+                <div class="k">Median Total</div>
+                <div class="v">${formatMoney(soldPanel.medianTotal)}</div>
+              </div>
+              <div class="mini-stat">
+                <div class="k">Research Score</div>
+                <div class="v">${Math.round(Number(market.researchScore || 0))}</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="market-card">
+            <div class="market-head">
+              <div class="market-title">Active Market</div>
+              <span class="pill blue">${activePanel.count || 0} listings</span>
+            </div>
+            <div class="market-grid">
+              <div class="mini-stat">
+                <div class="k">Median Price</div>
+                <div class="v">${formatMoney(activePanel.medianPrice)}</div>
+              </div>
+              <div class="mini-stat">
+                <div class="k">Range</div>
+                <div class="v">${formatMoney(activePanel.lowPrice)} - ${formatMoney(activePanel.highPrice)}</div>
+              </div>
+              <div class="mini-stat">
+                <div class="k">Fees</div>
+                <div class="v">${formatMoney(pricing.estimatedFees)}</div>
+              </div>
+              <div class="mini-stat">
+                <div class="k">Query</div>
+                <div class="v" style="font-size:14px;line-height:1.35;">${escapeHtml(truncate(data.query || "", 42))}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        ${renderCompSection("Top Sold Comps", sold)}
+        ${renderCompSection("Top Active Listings", active)}
+      `;
+    }
+
+    function renderCompSection(title, items) {
+      const top = (items || []).slice(0, 6);
+      return `
+        <div class="comps">
+          <div class="comps-head">
+            <div class="comps-title">${escapeHtml(title)}</div>
+            <div class="pill blue">${top.length} shown</div>
+          </div>
+          <div class="comp-row">
+            ${top.length ? top.map(item => `
+              <div class="comp-card">
+                <img src="${escapeHtml(item.image || "https://placehold.co/600x600?text=No+Image")}" alt="">
+                <div class="comp-body">
+                  <div class="comp-price">${formatMoney(item.price)}</div>
+                  <div class="comp-meta">
+                    ${item.shipping > 0 ? `Ship ${formatMoney(item.shipping)} • ` : `Free Ship • `}
+                    ${escapeHtml(item.condition || "Unknown")}
+                  </div>
+                  <div class="comp-title">${escapeHtml(truncate(item.title || "Untitled listing", 88))}</div>
+                  ${item.url ? `<a class="comp-link" href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer">Open Listing</a>` : ""}
+                </div>
+              </div>
+            `).join("") : `<div class="empty">No comps returned yet.</div>`}
+          </div>
+        </div>
+      `;
+    }
+
+    function getSavedScans() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
       } catch {
         return [];
       }
     }
 
-    function setSavedScans(items){
-      localStorage.setItem(SAVED_SCANS_KEY, JSON.stringify(items));
-    }
+    function saveScan(data) {
+      const saved = getSavedScans();
 
-    function buildSavedScanRecord(payload, data){
-      return {
-        id: `${Date.now()}-${Math.random().toString(36).slice(2,8)}`,
-        savedAt: new Date().toISOString(),
-        payload: { ...payload },
-        data: { ...data },
-        title: `${payload.brand} ${payload.title}`.trim() || "Untitled item"
+      const record = {
+        id: Date.now(),
+        query: data.query || "",
+        recommendedPrice: Number(data.pricing?.recommendedPrice || 0),
+        estimatedProfit: Number(data.pricing?.estimatedProfit || 0),
+        roi: Number(data.pricing?.roi || 0),
+        sellThroughRate: Number(data.market?.sellThroughRate || 0),
+        confidence: data.market?.confidence || "N/A",
+        raw: data
       };
+
+      const withoutDuplicate = saved.filter(item => item.query !== record.query);
+      const next = [record, ...withoutDuplicate].slice(0, 24);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
     }
 
-    function saveScan(payload, data){
-      const items = getSavedScans();
-      const record = buildSavedScanRecord(payload, data);
+    function reopenSaved(index) {
+      const saved = getSavedScans();
+      const item = saved[index];
+      if (!item) return;
 
-      const deduped = items.filter(item => !(
-        item.payload?.brand === payload.brand &&
-        item.payload?.title === payload.title &&
-        item.payload?.size === payload.size &&
-        item.payload?.condition === payload.condition
-      ));
-
-      const next = [record, ...deduped].slice(0, 12);
-      setSavedScans(next);
-      renderSavedScans();
+      currentResult = item.raw;
+      byId("query").value = item.query || "";
+      renderResults(item.raw);
+      setStatus("Saved scan reopened.", "green");
     }
 
-    function restoreSavedScan(record){
-      if(!record) return;
+    function renderSavedScans() {
+      const el = byId("savedScans");
+      const saved = getSavedScans();
 
-      const payload = record.payload || {};
-      const data = record.data || {};
-
-      els.brand.value = payload.brand || "";
-      els.title.value = payload.title || "";
-      els.size.value = normalizeSize(payload.size || "");
-      els.condition.value = payload.condition || "Preowned";
-      els.buyCost.value = payload.buyCost ?? 0;
-      els.shippingCost.value = payload.shippingCost ?? 0;
-      els.shippingType.value = payload.shippingType || "Buyer Pays Shipping";
-
-      render(data);
-      els.statusText.textContent = `Reopened saved scan: ${record.title || "item"}.`;
-    }
-
-    function renderSavedScans(){
-      const items = getSavedScans();
-
-      if(!items.length){
-        els.savedScansList.innerHTML = `<div class="empty-saved">No saved scans yet. Run research or scan an item and it will appear here.</div>`;
+      if (!saved.length) {
+        el.innerHTML = `<div class="empty">No saved scans yet. Your completed analyses will show up here.</div>`;
         return;
       }
 
-      els.savedScansList.innerHTML = "";
-
-      items.forEach(item => {
-        const row = document.createElement("div");
-        row.className = "saved-scan-item";
-
-        const verdictClass =
-          item.data?.verdict === "BUY" ? "buy" :
-          item.data?.verdict === "RISKY" ? "risky" :
-          "pass";
-
-        row.innerHTML = `
-          <div class="saved-scan-left">
-            <p class="saved-scan-title">${item.title || "Untitled item"}</p>
-            <div class="saved-scan-meta">${item.payload?.size || "No size"} • ${item.payload?.condition || "Unknown"} • ROI ${Math.round(num(item.data?.roi))}%</div>
-          </div>
-          <div class="saved-scan-right">
-            <div class="saved-scan-price">${money(item.data?.listingPrice || 0)}</div>
-            <div class="badge ${verdictClass}">${item.data?.verdict || "PASS"}</div>
+      el.innerHTML = saved.map((item, index) => {
+        const badge = getProfitBadge(item.estimatedProfit);
+        return `
+          <div class="saved-card" onclick="reopenSaved(${index})">
+            <div class="saved-top">
+              <div class="saved-query">${escapeHtml(truncate(item.query || "Untitled scan", 68))}</div>
+              <span class="pill ${badge.tone}">${badge.label}</span>
+            </div>
+            <div class="saved-meta">
+              <span class="pill blue">Price ${formatMoney(item.recommendedPrice)}</span>
+              <span class="pill ${item.sellThroughRate >= 40 ? "green" : "yellow"}">STR ${Math.round(item.sellThroughRate)}%</span>
+              <span class="pill ${item.estimatedProfit >= 6 ? "green" : "red"}">Profit ${formatMoney(item.estimatedProfit)}</span>
+              <span class="pill blue">ROI ${getROIText(item.roi)}</span>
+            </div>
           </div>
         `;
-
-        row.addEventListener("click", () => restoreSavedScan(item));
-        els.savedScansList.appendChild(row);
-      });
+      }).join("");
     }
-
-    function clearPreview(){
-      if(currentPreviewUrl){
-        URL.revokeObjectURL(currentPreviewUrl);
-        currentPreviewUrl = null;
-      }
-      els.previewImage.removeAttribute("src");
-      els.previewImage.style.display = "none";
-      els.mockCard.style.display = "flex";
-    }
-
-    function showPreview(file){
-      clearPreview();
-      currentPreviewUrl = URL.createObjectURL(file);
-      els.previewImage.onload = () => {
-        els.previewImage.style.display = "block";
-        els.mockCard.style.display = "none";
-      };
-      els.previewImage.onerror = () => {
-        els.statusText.textContent = "Preview image failed to load.";
-        clearPreview();
-      };
-      els.previewImage.src = currentPreviewUrl;
-    }
-
-    function renderMarketList(container, items, emptyText, type){
-      if(!items || !items.length){
-        container.innerHTML = `<div class="empty-saved">${emptyText}</div>`;
-        return;
-      }
-
-      container.innerHTML = "";
-      items.forEach(item => {
-        const row = document.createElement("div");
-        row.className = "market-item";
-
-        const shippingLabel = type === "active"
-          ? (item.shipping != null ? ` • Ship ${money(item.shipping)}` : "")
-          : "";
-
-        row.innerHTML = `
-          <div>
-            <p>${item.title || "Listing"}</p>
-            <small>${item.subtitle || ""}${shippingLabel}</small>
-          </div>
-          <div class="market-price">${money(item.price || 0)}</div>
-        `;
-        container.appendChild(row);
-      });
-    }
-
-    function render(data){
-      const payload = getPayload();
-
-      els.resultTitle.textContent = `${payload.brand} ${payload.title}`.trim() || "Untitled item";
-      els.resultMeta.textContent = `${payload.size || "No size"} • ${payload.condition} • Confidence ${data.confidence ?? 90}%`;
-
-      setBadge(els.verdictBadge, data.verdict);
-      setBadge(els.profitBadge, data.verdict);
-
-      els.listingPrice.textContent = money(data.listingPrice || data.medianSold || data.medianActive || 0);
-      els.valueRange.textContent = `${money(data.lowPrice || 0)}–${money(data.highPrice || 0)}`;
-      els.sellThroughRate.textContent = `${Math.round(num(data.sellThroughRate))}%`;
-      els.avgDaysToSell.textContent = `${Math.round(num(data.avgDaysToSell))}`;
-      els.roi.textContent = `${Math.round(num(data.roi))}%`;
-
-      const heatValue = clamp(num(data.sellThroughRate), 0, 100);
-      els.heatBar.style.width = `${heatValue}%`;
-      els.demandHeatLabel.textContent = data.demandHeat || (heatValue >= 70 ? "HOT" : heatValue >= 45 ? "WARM" : "COOL");
-      els.heatNote.textContent =
-        heatValue >= 70 ? "Strong buyer momentum" :
-        heatValue >= 45 ? "Moderate buyer pull" :
-        "Slower demand zone";
-
-      els.expectedSalePrice.textContent = money(data.listingPrice || 0);
-      els.buyCostDisplay.textContent = `-${money(payload.buyCost)}`;
-      els.shippingCostDisplay.textContent = `-${money(data.shippingBurden || 0)}`;
-      els.marketplaceFees.textContent = `-${money(data.marketplaceFees || 0)}`;
-      els.estimatedProfit.textContent = money(data.estimatedProfit || 0);
-
-      els.insights.innerHTML = "";
-      (data.insights || []).forEach(text => {
-        const row = document.createElement("div");
-        row.className = "insight";
-        row.innerHTML = `<div class="insight-dot"></div><p>${text}</p>`;
-        els.insights.appendChild(row);
-      });
-
-      els.activeHeader.textContent = `${num(data.activeCount)} active`;
-      els.soldHeader.textContent = `${num(data.soldCount)} sold`;
-      renderMarketList(els.activeListings, data.activeItems || [], "No active listings returned.", "active");
-      renderMarketList(els.soldListings, data.soldItems || [], "No sold listings returned.", "sold");
-    }
-
-    async function runResearch({ save = true } = {}){
-      const payload = getPayload();
-      els.runBtn.disabled = true;
-      els.statusText.textContent = "Pulling live eBay data...";
-
-      try{
-        const res = await fetch(BACKEND, {
-          method:"POST",
-          headers:{"Content-Type":"application/json"},
-          body:JSON.stringify(payload)
-        });
-
-        const data = await res.json().catch(() => ({}));
-
-        if(!res.ok){
-          throw new Error(data?.error || data?.details || "Research request failed");
-        }
-
-        render(data);
-        if(save) saveScan(payload, data);
-        els.statusText.textContent = "Live research complete.";
-      }catch(err){
-        console.error(err);
-        els.statusText.textContent = `Research failed: ${err.message || "Unknown error"}`;
-      }finally{
-        els.runBtn.disabled = false;
-      }
-    }
-
-    function applyPhotoScanData(data){
-      const nextBrand = String(data.brand || "").trim();
-      const nextTitle = String(data.title || "").trim();
-      const nextSize = normalizeSize(data.size || "");
-      const normalizedCondition = normalizeConditionGuess(data.condition_guess);
-
-      if(nextBrand) els.brand.value = nextBrand;
-      if(nextTitle) els.title.value = nextTitle;
-      if(nextSize) els.size.value = nextSize;
-      if(normalizedCondition) els.condition.value = normalizedCondition;
-    }
-
-    function readFileAsBase64(file){
-      return new Promise((resolve,reject) => {
-        const reader = new FileReader();
-        reader.onload = () => {
-          const result = String(reader.result || "");
-          resolve(result.includes(",") ? result.split(",")[1] : result);
-        };
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
-      });
-    }
-
-    async function scanPhoto(file){
-      try{
-        els.statusText.textContent = "Scanning photo with Vision...";
-        showPreview(file);
-        const imageBase64 = await readFileAsBase64(file);
-
-        const res = await fetch(PHOTO,{
-          method:"POST",
-          headers:{"Content-Type":"application/json"},
-          body:JSON.stringify({ imageBase64 })
-        });
-
-        const data = await res.json().catch(() => ({}));
-
-        if(!res.ok){
-          throw new Error(data?.error || data?.details || "Photo scan failed");
-        }
-
-        applyPhotoScanData(data);
-
-        const payloadAfterScan = getPayload();
-        if(!payloadAfterScan.brand && !payloadAfterScan.title){
-          throw new Error("No usable brand or title detected from the image");
-        }
-
-        await runResearch();
-        els.statusText.textContent = "Photo scan complete.";
-      }catch(err){
-        console.error(err);
-        els.statusText.textContent = `Photo scan failed: ${err.message || "Unknown error"}`;
-      }
-    }
-
-    async function thriftMode(){
-      const code = prompt("Enter barcode / UPC");
-      if(!code) return;
-
-      try{
-        els.statusText.textContent = "Looking up UPC...";
-
-        const res = await fetch(UPC,{
-          method:"POST",
-          headers:{"Content-Type":"application/json"},
-          body:JSON.stringify({ upc: code.trim() })
-        });
-
-        const data = await res.json().catch(() => ({}));
-
-        if(!res.ok){
-          throw new Error(data?.error || data?.details || "UPC lookup failed");
-        }
-
-        if(data.brand) els.brand.value = data.brand;
-        if(data.title) els.title.value = data.title;
-        if(data.size) els.size.value = normalizeSize(data.size);
-
-        await runResearch();
-        els.statusText.textContent = data.found ? `UPC match found: ${data.title}` : "UPC not found.";
-      }catch(err){
-        console.error(err);
-        els.statusText.textContent = `UPC lookup failed: ${err.message || "Unknown error"}`;
-      }
-    }
-
-    els.runBtn.addEventListener("click", () => runResearch());
-    els.scanBtn.addEventListener("click", () => els.fileInput.click());
-    els.thriftBtn.addEventListener("click", thriftMode);
-
-    els.fileInput.addEventListener("change", e => {
-      const file = e.target.files && e.target.files[0];
-      if(file) scanPhoto(file);
-      e.target.value = "";
-    });
-
-    els.clearSavedBtn.addEventListener("click", () => {
-      setSavedScans([]);
-      renderSavedScans();
-      els.statusText.textContent = "Saved scans cleared.";
-    });
 
     renderSavedScans();
   </script>

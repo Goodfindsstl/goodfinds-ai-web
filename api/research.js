@@ -267,16 +267,13 @@ export default async function handler(req, res) {
     );
 
     const roi = buyCost > 0 ? round2(estimatedProfit / buyCost) : 0;
-    const researchScore = scoreResearchQuality({
-      items,
-      query: researchQuery,
-    });
+    const researchScore = scoreResearchQuality({ items, query: researchQuery });
 
     return sendJson(res, 200, {
       ok: true,
       source: "ebay_browse",
       query: researchQuery,
-      note: "Modern Browse API active-market research. Sold comps are not included in this endpoint.",
+      note: "Live active-market research from eBay Browse API.",
       inputs: {
         buyCost: round2(buyCost),
         size,

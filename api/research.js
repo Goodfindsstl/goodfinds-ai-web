@@ -7,8 +7,8 @@ const CORS_HEADERS = {
 const EBAY_FINDING_URL = "https://svcs.ebay.com/services/search/FindingService/v1";
 const DEFAULT_FEE_PERCENT = 0.1325;
 const DEFAULT_ORDER_FEE = 0.3;
-const MAX_ACTIVE_RESULTS = 24;
-const MAX_SOLD_RESULTS = 24;
+const MAX_ACTIVE_RESULTS = 10;
+const MAX_SOLD_RESULTS = 10;
 
 function setCors(res) {
   Object.entries(CORS_HEADERS).forEach(([key, value]) => res.setHeader(key, value));
@@ -59,6 +59,10 @@ function safeArray(value) {
 
 function extractItems(raw) {
   return raw?.findItemsAdvancedResponse?.[0]?.searchResult?.[0]?.item || [];
+}
+
+function extractEbayErrors(raw) {
+  return raw?.errorMessage?.error || [];
 }
 
 function parseItem(item) {
@@ -153,7 +157,7 @@ function buildConfidenceLabel(score) {
   return "Low";
 }
 
-async function ebayFindItems({ appId, keywords, sold = false, entriesPerPage = 24 }) {
+async function ebayFindItems({ appId, keywords, sold = false, entriesPerPage = 10 }) {
   const params = new URLSearchParams({
     "OPERATION-NAME": "findItemsAdvanced",
     "SERVICE-VERSION": "1.13.0",
@@ -164,7 +168,7 @@ async function ebayFindItems({ appId, keywords, sold = false, entriesPerPage = 2
     "paginationInput.entriesPerPage": String(entriesPerPage),
     "outputSelector(0)": "PictureURLLarge",
     "outputSelector(1)": "GalleryInfo",
-    "sortOrder": sold ? "EndTimeSoonest" : "BestMatch",
+    sortOrder: sold ? "EndTimeSoonest" : "BestMatch",
   });
 
   if (sold) {
@@ -182,12 +186,37 @@ async function ebayFindItems({ appId, keywords, sold = false, entriesPerPage = 2
     },
   });
 
-  if (!response.ok) {
-    const text = await response.text();
-    throw new Error(`eBay API error ${response.status}: ${text.slice(0, 300)}`);
+  const text = await response.text();
+
+  let data;
+  try {
+    data = JSON.parse(text);
+  } catch {
+    throw new Error("eBay returned invalid JSON");
   }
 
-  return response.json();
+  if (!response.ok) {
+    throw new Error(`eBay HTTP ${response.status}`);
+  }
+
+  const ebayErrors = extractEbayErrors(data);
+  if (ebayErrors.length) {
+    const message =
+      ebayErrors?.[0]?.message?.[0] ||
+      ebayErrors?.[0]?.message ||
+      "eBay API returned an error";
+    const code =
+      ebayErrors?.[0]?.errorId?.[0] ||
+      ebayErrors?.[0]?.errorId ||
+      "";
+
+    const err = new Error(message);
+    err.code = code;
+    err.isEbay = true;
+    throw err;
+  }
+
+  return data;
 }
 
 export default async function handler(req, res) {
@@ -222,23 +251,35 @@ export default async function handler(req, res) {
 
     const researchQuery = buildResearchQuery({ query, size });
 
-    const [activeRaw, soldRaw] = await Promise.all([
-      ebayFindItems({
-        appId,
-        keywords: researchQuery,
-        sold: false,
-        entriesPerPage: MAX_ACTIVE_RESULTS,
-      }),
-      ebayFindItems({
+    let activeItems = [];
+    let soldItems = [];
+    let soldWarning = null;
+
+    const activeRaw = await ebayFindItems({
+      appId,
+      keywords: researchQuery,
+      sold: false,
+      entriesPerPage: MAX_ACTIVE_RESULTS,
+    });
+
+    activeItems = safeArray(extractItems(activeRaw))
+      .map(parseItem)
+      .filter((i) => i.price > 0);
+
+    try {
+      const soldRaw = await ebayFindItems({
         appId,
         keywords: researchQuery,
         sold: true,
         entriesPerPage: MAX_SOLD_RESULTS,
-      }),
-    ]);
+      });
 
-    const activeItems = safeArray(extractItems(activeRaw)).map(parseItem).filter((i) => i.price > 0);
-    const soldItems = safeArray(extractItems(soldRaw)).map(parseItem).filter((i) => i.price > 0);
+      soldItems = safeArray(extractItems(soldRaw))
+        .map(parseItem)
+        .filter((i) => i.price > 0);
+    } catch (err) {
+      soldWarning = err.message || "Sold lookup failed";
+    }
 
     const activeSummary = buildMarketSummary(activeItems);
     const soldSummary = buildMarketSummary(soldItems);
@@ -281,6 +322,7 @@ export default async function handler(req, res) {
     return sendJson(res, 200, {
       ok: true,
       query: researchQuery,
+      warning: soldWarning,
       inputs: {
         buyCost: round2(buyCost),
         size,
@@ -319,9 +361,22 @@ export default async function handler(req, res) {
       },
     });
   } catch (error) {
+    const msg = error?.message || "Research failed";
+
+    if (
+      msg.toLowerCase().includes("exceeded") ||
+      msg.toLowerCase().includes("rate") ||
+      error?.code === "10001"
+    ) {
+      return sendJson(res, 429, {
+        ok: false,
+        error: "eBay rate limit hit. Wait a bit and try again.",
+      });
+    }
+
     return sendJson(res, 500, {
       ok: false,
-      error: error.message || "Research failed",
+      error: msg,
     });
   }
 }

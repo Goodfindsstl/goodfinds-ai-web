@@ -102,6 +102,11 @@ function parseBrowseItem(item = {}) {
   };
 }
 
+function pickBestMatchTitle(items = []) {
+  if (!items.length) return "";
+  return cleanString(items[0]?.title || "");
+}
+
 export default async function handler(req, res) {
   if (req.method === "OPTIONS") {
     setCors(res);
@@ -148,11 +153,13 @@ export default async function handler(req, res) {
     }
 
     const items = (data?.itemSummaries || []).map(parseBrowseItem);
+    const bestMatchTitle = pickBestMatchTitle(items);
 
     return sendJson(res, 200, {
       ok: true,
       source: "ebay_browse_image_search",
       mimeType: mimeType || "image/jpeg",
+      bestMatchTitle,
       results: items,
       total: data?.total || items.length,
     });

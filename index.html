@@ -7,40 +7,38 @@
   <script src="https://unpkg.com/heic2any/dist/heic2any.min.js"></script>
   <style>
     :root {
-      --bg: #07111f;
-      --bg-2: #0b1830;
-      --panel: rgba(14, 24, 44, 0.94);
-      --panel-2: rgba(19, 31, 58, 0.94);
-      --line: rgba(255, 255, 255, 0.08);
-      --line-2: rgba(255, 255, 255, 0.12);
+      --bg: #06101d;
+      --bg2: #09172c;
+      --panel: rgba(13, 22, 41, 0.95);
+      --panel2: rgba(19, 31, 58, 0.95);
+      --line: rgba(255,255,255,0.08);
+      --line2: rgba(255,255,255,0.12);
       --text: #eef4ff;
-      --muted: #99aed0;
-      --accent: #4da3ff;
-      --accent-2: #7a5cff;
-      --success: #28c76f;
-      --warning: #ffb020;
-      --danger: #ff5d6c;
-      --shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
-      --radius: 22px;
+      --muted: #9db0d1;
+      --blue: #4da3ff;
+      --purple: #7a5cff;
+      --green: #28c76f;
+      --yellow: #ffb020;
+      --red: #ff5d6c;
+      --shadow: 0 18px 50px rgba(0,0,0,0.35);
+      --radius: 24px;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
       font-family: Inter, Arial, Helvetica, sans-serif;
       color: var(--text);
-      background:
-        radial-gradient(circle at top left, rgba(77, 163, 255, 0.18), transparent 26%),
-        radial-gradient(circle at top right, rgba(122, 92, 255, 0.16), transparent 24%),
-        linear-gradient(180deg, #06101d, #09172c 55%, #07111f);
       min-height: 100vh;
+      background:
+        radial-gradient(circle at top left, rgba(77,163,255,0.20), transparent 25%),
+        radial-gradient(circle at top right, rgba(122,92,255,0.16), transparent 25%),
+        linear-gradient(180deg, var(--bg), var(--bg2) 60%, #07111f);
     }
 
     .shell {
-      max-width: 1480px;
+      max-width: 1520px;
       margin: 0 auto;
       padding: 24px;
     }
@@ -50,7 +48,7 @@
       justify-content: space-between;
       align-items: center;
       gap: 16px;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
 
     .brand {
@@ -60,19 +58,19 @@
     }
 
     .logo {
-      width: 110px;
-      height: 110px;
+      width: 126px;
+      height: 126px;
       object-fit: cover;
       border-radius: 28px;
+      border: 1px solid var(--line2);
       box-shadow: var(--shadow);
-      border: 1px solid var(--line-2);
-      background: rgba(255, 255, 255, 0.04);
+      background: rgba(255,255,255,0.04);
       flex-shrink: 0;
     }
 
     .brand-copy h1 {
       margin: 0;
-      font-size: 36px;
+      font-size: 40px;
       line-height: 1.02;
       letter-spacing: 0.2px;
     }
@@ -86,9 +84,9 @@
     .top-pill {
       padding: 10px 14px;
       border-radius: 999px;
-      background: rgba(77, 163, 255, 0.12);
-      border: 1px solid rgba(77, 163, 255, 0.22);
-      color: #b7d8ff;
+      background: rgba(77,163,255,0.12);
+      border: 1px solid rgba(77,163,255,0.22);
+      color: #b9d8ff;
       font-size: 13px;
       white-space: nowrap;
     }
@@ -101,7 +99,7 @@
 
     .card {
       grid-column: span 12;
-      background: linear-gradient(180deg, var(--panel), var(--panel-2));
+      background: linear-gradient(180deg, var(--panel), var(--panel2));
       border: 1px solid var(--line);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
@@ -110,20 +108,19 @@
     }
 
     .hero {
-      grid-column: span 12;
-      overflow: hidden;
       position: relative;
+      overflow: hidden;
     }
 
     .hero::after {
       content: "";
       position: absolute;
-      right: -80px;
-      top: -80px;
-      width: 260px;
-      height: 260px;
+      right: -90px;
+      top: -90px;
+      width: 280px;
+      height: 280px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(77,163,255,0.16), transparent 68%);
+      background: radial-gradient(circle, rgba(77,163,255,0.15), transparent 68%);
       pointer-events: none;
     }
 
@@ -133,31 +130,31 @@
       gap: 8px;
       padding: 7px 11px;
       border-radius: 999px;
-      background: rgba(77, 163, 255, 0.14);
+      background: rgba(77,163,255,0.14);
       color: #b8d7ff;
       font-size: 12px;
       margin-bottom: 14px;
-      border: 1px solid rgba(77, 163, 255, 0.18);
+      border: 1px solid rgba(77,163,255,0.18);
     }
 
     .hero h2 {
       margin: 0;
-      font-size: 34px;
+      font-size: 36px;
       line-height: 1.08;
-      max-width: 860px;
+      max-width: 920px;
     }
 
     .hero-sub {
       margin: 12px 0 0;
       color: var(--muted);
-      max-width: 860px;
+      max-width: 900px;
       line-height: 1.5;
       font-size: 15px;
     }
 
     .form-grid {
       display: grid;
-      grid-template-columns: repeat(6, 1fr);
+      grid-template-columns: 2.2fr 1fr 1fr 1fr 1fr 1fr;
       gap: 12px;
       margin-top: 18px;
     }
@@ -166,16 +163,16 @@
     .select {
       width: 100%;
       border: 1px solid var(--line);
-      background: rgba(255, 255, 255, 0.04);
+      background: rgba(255,255,255,0.04);
       color: var(--text);
-      border-radius: 15px;
+      border-radius: 16px;
       padding: 14px 15px;
       outline: none;
       font-size: 14px;
     }
 
     .input::placeholder {
-      color: #87a0c8;
+      color: #89a2ca;
     }
 
     .select option {
@@ -193,46 +190,39 @@
     .btn {
       border: none;
       cursor: pointer;
-      border-radius: 15px;
+      border-radius: 16px;
       padding: 13px 18px;
-      font-weight: 700;
+      font-weight: 800;
       font-size: 14px;
       transition: transform 0.15s ease, opacity 0.15s ease;
     }
 
-    .btn:hover {
-      transform: translateY(-1px);
-    }
-
-    .btn:disabled {
-      opacity: 0.65;
-      cursor: not-allowed;
-      transform: none;
-    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn:disabled { opacity: 0.65; cursor: not-allowed; transform: none; }
 
     .btn-primary {
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      color: white;
-      box-shadow: 0 10px 30px rgba(77, 163, 255, 0.25);
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      color: #fff;
+      box-shadow: 0 10px 30px rgba(77,163,255,0.25);
+    }
+
+    .btn-analyze {
+      background: linear-gradient(135deg, #875dff, #5a67ff);
+      color: #fff;
+    }
+
+    .btn-save {
+      background: linear-gradient(135deg, #1a9dff, #246dff);
+      color: #fff;
     }
 
     .btn-secondary {
-      background: rgba(255, 255, 255, 0.06);
-      color: white;
+      background: rgba(255,255,255,0.06);
+      color: #fff;
       border: 1px solid var(--line);
       display: inline-flex;
       align-items: center;
       gap: 8px;
-    }
-
-    .btn-save {
-      background: linear-gradient(135deg, #18a0fb, #2b6fff);
-      color: white;
-    }
-
-    .btn-analyze {
-      background: linear-gradient(135deg, #7a5cff, #925cff);
-      color: white;
     }
 
     .status {
@@ -242,17 +232,9 @@
       font-size: 14px;
     }
 
-    .status.success {
-      color: #8ee5b2;
-    }
-
-    .status.error {
-      color: #ff9aa5;
-    }
-
-    .status.warning {
-      color: #ffd07b;
-    }
+    .status.success { color: #8ce2af; }
+    .status.error { color: #ff9aa5; }
+    .status.warning { color: #ffd07b; }
 
     .stats {
       display: grid;
@@ -264,7 +246,7 @@
       border: 1px solid var(--line);
       border-radius: 18px;
       padding: 18px;
-      background: rgba(255, 255, 255, 0.03);
+      background: rgba(255,255,255,0.03);
     }
 
     .stat span {
@@ -283,6 +265,96 @@
     .section-title {
       margin: 0 0 14px;
       font-size: 20px;
+    }
+
+    .insights-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1.2fr 1fr;
+      gap: 14px;
+    }
+
+    .verdict-card,
+    .heat-card,
+    .saved-card {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px;
+      background: rgba(255,255,255,0.03);
+      min-height: 100%;
+    }
+
+    .verdict-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 120px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 900;
+      margin-bottom: 12px;
+      letter-spacing: 0.3px;
+    }
+
+    .verdict-buy {
+      background: rgba(40,199,111,0.16);
+      border: 1px solid rgba(40,199,111,0.30);
+      color: #8fe3b2;
+    }
+
+    .verdict-maybe {
+      background: rgba(255,176,32,0.16);
+      border: 1px solid rgba(255,176,32,0.30);
+      color: #ffd07a;
+    }
+
+    .verdict-pass {
+      background: rgba(255,93,108,0.16);
+      border: 1px solid rgba(255,93,108,0.30);
+      color: #ffadb6;
+    }
+
+    .verdict-text {
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    .heat-wrap { margin-top: 10px; }
+
+    .heat-bar {
+      width: 100%;
+      height: 18px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #ff5d6c 0%, #ffb020 45%, #28c76f 100%);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .heat-marker {
+      position: absolute;
+      top: -4px;
+      width: 4px;
+      height: 26px;
+      border-radius: 999px;
+      background: #fff;
+      box-shadow: 0 0 12px rgba(255,255,255,0.8);
+      transform: translateX(-50%);
+    }
+
+    .heat-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .heat-score {
+      margin-top: 12px;
+      font-size: 26px;
+      font-weight: 900;
     }
 
     .summary-grid {
@@ -306,105 +378,13 @@
 
     .summary-box .value {
       font-size: 22px;
-      font-weight: 700;
+      font-weight: 800;
     }
 
     .summary-box .sub {
       margin-top: 6px;
       color: #8ea8d1;
       font-size: 12px;
-    }
-
-    .insights-grid {
-      display: grid;
-      grid-template-columns: 1.2fr 1.2fr 1fr;
-      gap: 14px;
-    }
-
-    .verdict-card,
-    .heat-card,
-    .saved-card {
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: 18px;
-      background: rgba(255,255,255,0.03);
-      min-height: 100%;
-    }
-
-    .verdict-badge {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 115px;
-      padding: 10px 16px;
-      border-radius: 999px;
-      font-size: 14px;
-      font-weight: 800;
-      margin-bottom: 12px;
-      letter-spacing: 0.3px;
-    }
-
-    .verdict-buy {
-      background: rgba(40, 199, 111, 0.16);
-      border: 1px solid rgba(40, 199, 111, 0.30);
-      color: #8fe3b2;
-    }
-
-    .verdict-maybe {
-      background: rgba(255, 176, 32, 0.16);
-      border: 1px solid rgba(255, 176, 32, 0.30);
-      color: #ffd07a;
-    }
-
-    .verdict-pass {
-      background: rgba(255, 93, 108, 0.16);
-      border: 1px solid rgba(255, 93, 108, 0.30);
-      color: #ffadb6;
-    }
-
-    .verdict-text {
-      color: var(--muted);
-      line-height: 1.5;
-      font-size: 14px;
-    }
-
-    .heat-wrap {
-      margin-top: 10px;
-    }
-
-    .heat-bar {
-      width: 100%;
-      height: 18px;
-      border-radius: 999px;
-      background: linear-gradient(90deg, #ff5d6c 0%, #ffb020 45%, #28c76f 100%);
-      position: relative;
-      overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.12);
-    }
-
-    .heat-marker {
-      position: absolute;
-      top: -4px;
-      width: 4px;
-      height: 26px;
-      border-radius: 999px;
-      background: white;
-      box-shadow: 0 0 12px rgba(255,255,255,0.8);
-      transform: translateX(-50%);
-    }
-
-    .heat-labels {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 8px;
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .heat-score {
-      margin-top: 12px;
-      font-size: 26px;
-      font-weight: 800;
     }
 
     .saved-meta {
@@ -417,7 +397,7 @@
       display: flex;
       flex-direction: column;
       gap: 8px;
-      max-height: 180px;
+      max-height: 200px;
       overflow: auto;
       padding-right: 4px;
     }
@@ -439,7 +419,7 @@
     }
 
     .saved-item-title {
-      font-weight: 700;
+      font-weight: 800;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -452,7 +432,7 @@
     }
 
     .saved-item-price {
-      font-weight: 800;
+      font-weight: 900;
       white-space: nowrap;
     }
 
@@ -464,7 +444,7 @@
 
     .comp {
       border: 1px solid var(--line);
-      background: rgba(255, 255, 255, 0.03);
+      background: rgba(255,255,255,0.03);
       border-radius: 18px;
       overflow: hidden;
       display: flex;
@@ -527,7 +507,7 @@
 
     .price-main {
       font-size: 22px;
-      font-weight: 800;
+      font-weight: 900;
     }
 
     .price-sub {
@@ -538,18 +518,18 @@
 
     .comp-link {
       text-decoration: none;
-      color: white;
+      color: #fff;
       text-align: center;
       padding: 12px;
       border-top: 1px solid var(--line);
       background: rgba(255,255,255,0.03);
       font-size: 13px;
-      font-weight: 700;
+      font-weight: 800;
     }
 
     .empty {
       color: var(--muted);
-      border: 1px dashed var(--line-2);
+      border: 1px dashed var(--line2);
       border-radius: 18px;
       padding: 24px;
       text-align: center;
@@ -574,28 +554,11 @@
     }
 
     @media (max-width: 860px) {
-      .shell {
-        padding: 16px;
-      }
-
-      .topbar {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .logo {
-        width: 90px;
-        height: 90px;
-      }
-
-      .brand-copy h1 {
-        font-size: 30px;
-      }
-
-      .hero h2 {
-        font-size: 28px;
-      }
-
+      .shell { padding: 16px; }
+      .topbar { flex-direction: column; align-items: flex-start; }
+      .logo { width: 96px; height: 96px; }
+      .brand-copy h1 { font-size: 31px; }
+      .hero h2 { font-size: 28px; }
       .form-grid,
       .stats,
       .summary-grid,
@@ -616,29 +579,27 @@
           <p>Scan smarter. Built by resellers, for resellers.</p>
         </div>
       </div>
-      <div class="top-pill">Premium sourcing dashboard</div>
+      <div class="top-pill">Live sourcing dashboard</div>
     </div>
 
     <div class="grid">
       <section class="card hero">
-        <div class="badge">Live item research + verdict engine + HEIC photo scan</div>
-        <h2>Search comps, estimate profit, get a buy/pass call, and save winners fast.</h2>
+        <div class="badge">Live research + photo scan + HEIC support + verdict engine</div>
+        <h2>Search comps, estimate profit, auto-fill from scanned photos, and make faster buy decisions.</h2>
         <p class="hero-sub">
-          Research active market pricing, estimate fees and ROI, see a sourcing heat score, and photo-scan items directly from your phone. HEIC and HEIF photos are automatically converted before upload.
+          Scan a tag or item photo, pull live comps, estimate ROI, save winners, and use the built-in heat map to decide what is worth buying now.
         </p>
 
         <div class="form-grid">
           <input id="queryInput" class="input" placeholder="Search item, brand, style, model..." />
-          <input id="sizeInput" class="input" placeholder="Optional size (M, 12, 34x30...)" />
+          <input id="sizeInput" class="input" placeholder="Optional size" />
           <input id="buyCostInput" class="input" type="number" step="0.01" placeholder="Buy cost" />
           <input id="shippingCostInput" class="input" type="number" step="0.01" placeholder="Shipping cost" />
-
           <select id="shippingTypeInput" class="select">
             <option value="Free Shipping">Free Shipping</option>
             <option value="Buyer Pays Shipping">Buyer Pays Shipping</option>
             <option value="Flat Shipping">Flat Shipping</option>
           </select>
-
           <input id="flatShippingInput" class="input" type="number" step="0.01" placeholder="Flat shipping charged" />
         </div>
 
@@ -688,7 +649,7 @@
             <h3 class="section-title">Buy / Pass</h3>
             <div id="verdictBadge" class="verdict-badge verdict-maybe">ANALYZE</div>
             <div id="verdictText" class="verdict-text">
-              Run a search to get a sourcing recommendation based on ROI, profit, demand, and research confidence.
+              Run research to score the item using profit, ROI, demand, and confidence.
             </div>
           </div>
 
@@ -696,7 +657,7 @@
             <h3 class="section-title">Heat Map</h3>
             <div class="heat-wrap">
               <div class="heat-bar">
-                <div id="heatMarker" class="heat-marker" style="left: 50%;"></div>
+                <div id="heatMarker" class="heat-marker" style="left:50%;"></div>
               </div>
               <div class="heat-labels">
                 <span>Pass</span>
@@ -725,7 +686,7 @@
         <div id="resultsGrid" class="results-grid"></div>
         <div id="resultsEmpty" class="empty">Run a search or scan a photo to see results.</div>
         <div class="footer-note">
-          Photo scan accepts common image formats plus iPhone HEIC / HEIF files.
+          Photo scan accepts regular images plus iPhone HEIC / HEIF files and auto-fills the search box from the best visual match.
         </div>
       </section>
     </div>
@@ -751,12 +712,13 @@
     const analyzeBtn = document.getElementById("analyzeBtn");
     const saveBtn = document.getElementById("saveBtn");
     const photoInput = document.getElementById("photoInput");
+    const queryInput = document.getElementById("queryInput");
 
     const savedMeta = document.getElementById("savedMeta");
     const savedList = document.getElementById("savedList");
 
     let lastResult = null;
-    const STORAGE_KEY = "goodfinds_saved_results_v1";
+    const STORAGE_KEY = "goodfinds_saved_results_v2";
 
     function setStatus(message, type = "") {
       statusBar.textContent = message;
@@ -792,7 +754,6 @@
       researchBtn.disabled = isLoading;
       analyzeBtn.disabled = isLoading;
       saveBtn.disabled = isLoading;
-
       researchBtn.textContent = isLoading ? "Researching..." : "Research Item";
       analyzeBtn.textContent = isLoading ? "Analyzing..." : "Analyze";
     }
@@ -810,13 +771,11 @@
       else if (profit >= 15) heat += 22;
       else if (profit >= 8) heat += 15;
       else if (profit > 0) heat += 8;
-      else heat += 0;
 
       if (roi >= 3) heat += 28;
       else if (roi >= 2) heat += 22;
       else if (roi >= 1.25) heat += 14;
       else if (roi > 0) heat += 8;
-      else heat += 0;
 
       if (demand.includes("very strong")) heat += 20;
       else if (demand.includes("strong")) heat += 16;
@@ -842,11 +801,11 @@
       if (heat >= 75) {
         verdict = "BUY";
         verdictClass = "verdict-buy";
-        message = "Strong pickup. Numbers support buying this item if condition checks out.";
+        message = "Strong pickup. The numbers support buying this item if condition is solid.";
       } else if (heat >= 50) {
         verdict = "MAYBE";
         verdictClass = "verdict-maybe";
-        message = "Borderline. Worth it only if condition, sell speed, and brand strength are good.";
+        message = "Borderline. Worth it if condition, brand strength, and sell speed look good.";
       }
 
       return { heat, verdict, verdictClass, message };
@@ -854,11 +813,9 @@
 
     function renderInsights(data) {
       const insight = computeHeatAndVerdict(data);
-
       verdictBadge.className = `verdict-badge ${insight.verdictClass}`;
       verdictBadge.textContent = insight.verdict;
       verdictText.textContent = insight.message;
-
       heatMarker.style.left = `${insight.heat}%`;
       heatScore.textContent = `${insight.heat} / 100`;
     }
@@ -979,7 +936,6 @@
       try {
         const params = new URLSearchParams();
         params.set("query", inputs.query);
-
         if (inputs.size) params.set("size", inputs.size);
         if (inputs.buyCost) params.set("buyCost", inputs.buyCost);
         if (inputs.shippingCost) params.set("shippingCost", inputs.shippingCost);
@@ -1009,7 +965,6 @@
     function isHeicFile(file) {
       const name = (file?.name || "").toLowerCase();
       const type = (file?.type || "").toLowerCase();
-
       return (
         name.endsWith(".heic") ||
         name.endsWith(".heif") ||
@@ -1056,55 +1011,10 @@
       }
 
       const dataUrl = await fileToDataUrl(file);
-      const mimeType = file.type || "image/jpeg";
-
       return {
-        mimeType,
+        mimeType: file.type || "image/jpeg",
         imageBase64: dataUrl.split(",")[1]
       };
-    }
-
-    function renderPhotoResults(data) {
-      lastResult = null;
-
-      statRecommended.textContent = "—";
-      statProfit.textContent = "—";
-      statRoi.textContent = "—";
-      statDemand.textContent = `${data?.total || 0}`;
-
-      verdictBadge.className = "verdict-badge verdict-maybe";
-      verdictBadge.textContent = "SCAN";
-      verdictText.textContent = "Photo scan found visually similar listings. Use Research to get buy/pass scoring.";
-
-      heatMarker.style.left = "50%";
-      heatScore.textContent = "50 / 100";
-
-      marketSummary.innerHTML = `
-        <div class="summary-grid">
-          <div class="summary-box">
-            <div class="label">Scan Results</div>
-            <div class="value">${data?.total || 0}</div>
-            <div class="sub">matching listings</div>
-          </div>
-          <div class="summary-box">
-            <div class="label">Source</div>
-            <div class="value">${escapeHtml(data?.source || "—")}</div>
-            <div class="sub">image search</div>
-          </div>
-          <div class="summary-box">
-            <div class="label">Mime Type</div>
-            <div class="value">${escapeHtml(data?.mimeType || "—")}</div>
-            <div class="sub">uploaded image</div>
-          </div>
-          <div class="summary-box">
-            <div class="label">Mode</div>
-            <div class="value">Photo Scan</div>
-            <div class="sub">visual lookup</div>
-          </div>
-        </div>
-      `;
-
-      renderResults(data?.results || []);
     }
 
     function getSavedResults() {
@@ -1115,30 +1025,6 @@
       } catch {
         return [];
       }
-    }
-
-    function saveCurrentResult() {
-      if (!lastResult) {
-        setStatus("Run research first, then save the result.", "warning");
-        return;
-      }
-
-      const saved = getSavedResults();
-      const item = {
-        id: Date.now(),
-        query: lastResult?.query || "Untitled",
-        recommendedPrice: Number(lastResult?.pricing?.recommendedPrice || 0),
-        estimatedProfit: Number(lastResult?.pricing?.estimatedProfit || 0),
-        roi: Number(lastResult?.pricing?.roi || 0),
-        demand: lastResult?.market?.demand || "—",
-        savedAt: new Date().toLocaleString()
-      };
-
-      saved.unshift(item);
-      const trimmed = saved.slice(0, 20);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(trimmed));
-      renderSavedResults();
-      setStatus("Saved to your local browser list.", "success");
     }
 
     function renderSavedResults() {
@@ -1161,10 +1047,28 @@
       `).join("");
     }
 
-    researchBtn.addEventListener("click", runResearch);
-    analyzeBtn.addEventListener("click", runResearch);
-    saveBtn.addEventListener("click", saveCurrentResult);
-    photoInput.addEventListener("change", handlePhotoScan);
+    function saveCurrentResult() {
+      if (!lastResult) {
+        setStatus("Run research first, then save the result.", "warning");
+        return;
+      }
+
+      const saved = getSavedResults();
+      const item = {
+        id: Date.now(),
+        query: lastResult?.query || "Untitled",
+        recommendedPrice: Number(lastResult?.pricing?.recommendedPrice || 0),
+        estimatedProfit: Number(lastResult?.pricing?.estimatedProfit || 0),
+        roi: Number(lastResult?.pricing?.roi || 0),
+        demand: lastResult?.market?.demand || "—",
+        savedAt: new Date().toLocaleString()
+      };
+
+      saved.unshift(item);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(saved.slice(0, 20)));
+      renderSavedResults();
+      setStatus("Saved to this device.", "success");
+    }
 
     async function handlePhotoScan(event) {
       const file = event.target.files?.[0];
@@ -1174,14 +1078,11 @@
 
       try {
         const payload = await preparePhotoForUpload(file);
-
         setStatus("Scanning photo...", "warning");
 
         const response = await fetch("/api/photo-scan", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload)
         });
 
@@ -1191,8 +1092,52 @@
           throw new Error(data.error || "Photo scan failed");
         }
 
-        renderPhotoResults(data);
-        setStatus("Photo scan complete.", "success");
+        lastResult = null;
+
+        statRecommended.textContent = "—";
+        statProfit.textContent = "—";
+        statRoi.textContent = "—";
+        statDemand.textContent = `${data?.total || 0}`;
+
+        verdictBadge.className = "verdict-badge verdict-maybe";
+        verdictBadge.textContent = "SCAN";
+        verdictText.textContent = "Photo scan found visually similar listings. The search box has been filled with the best match title. Tap Analyze to run pricing research.";
+
+        heatMarker.style.left = "50%";
+        heatScore.textContent = "50 / 100";
+
+        marketSummary.innerHTML = `
+          <div class="summary-grid">
+            <div class="summary-box">
+              <div class="label">Scan Results</div>
+              <div class="value">${data?.total || 0}</div>
+              <div class="sub">matching listings</div>
+            </div>
+            <div class="summary-box">
+              <div class="label">Source</div>
+              <div class="value">${escapeHtml(data?.source || "—")}</div>
+              <div class="sub">image search</div>
+            </div>
+            <div class="summary-box">
+              <div class="label">Mime Type</div>
+              <div class="value">${escapeHtml(data?.mimeType || "—")}</div>
+              <div class="sub">uploaded image</div>
+            </div>
+            <div class="summary-box">
+              <div class="label">Best Match</div>
+              <div class="value" style="font-size:16px;line-height:1.3;">${escapeHtml(data?.bestMatchTitle || "—")}</div>
+              <div class="sub">search box auto-filled</div>
+            </div>
+          </div>
+        `;
+
+        renderResults(data?.results || []);
+
+        if (data?.bestMatchTitle) {
+          queryInput.value = data.bestMatchTitle;
+        }
+
+        setStatus("Photo scan complete. Search box updated from best match.", "success");
       } catch (error) {
         console.error(error);
         setStatus(error.message || "Photo scan failed.", "error");
@@ -1201,10 +1146,13 @@
       }
     }
 
-    document.getElementById("queryInput").addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        runResearch();
-      }
+    researchBtn.addEventListener("click", runResearch);
+    analyzeBtn.addEventListener("click", runResearch);
+    saveBtn.addEventListener("click", saveCurrentResult);
+    photoInput.addEventListener("change", handlePhotoScan);
+
+    queryInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") runResearch();
     });
 
     renderSavedResults();

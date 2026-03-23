@@ -43,6 +43,61 @@
       padding: 24px;
     }
 
+    .hidden { display: none !important; }
+
+    .camera-home {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .camera-home-card {
+      width: 100%;
+      max-width: 760px;
+      background: linear-gradient(180deg, var(--panel), var(--panel2));
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      box-shadow: var(--shadow);
+      padding: 28px;
+      text-align: center;
+    }
+
+    .camera-logo {
+      width: 220px;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 40px;
+      border: 1px solid var(--line2);
+      box-shadow: var(--shadow);
+      background: rgba(255,255,255,0.04);
+      margin: 0 auto 18px;
+      display: block;
+    }
+
+    .camera-home h1 {
+      margin: 0;
+      font-size: 42px;
+      line-height: 1.04;
+    }
+
+    .camera-home p {
+      max-width: 600px;
+      margin: 12px auto 0;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    .camera-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 22px;
+    }
+
     .topbar {
       display: flex;
       justify-content: space-between;
@@ -54,14 +109,14 @@
     .brand {
       display: flex;
       align-items: center;
-      gap: 18px;
+      gap: 22px;
     }
 
     .logo {
-      width: 126px;
-      height: 126px;
+      width: 190px;
+      height: 190px;
       object-fit: cover;
-      border-radius: 28px;
+      border-radius: 36px;
       border: 1px solid var(--line2);
       box-shadow: var(--shadow);
       background: rgba(255,255,255,0.04);
@@ -70,7 +125,7 @@
 
     .brand-copy h1 {
       margin: 0;
-      font-size: 40px;
+      font-size: 46px;
       line-height: 1.02;
       letter-spacing: 0.2px;
     }
@@ -79,6 +134,8 @@
       margin: 8px 0 0;
       color: var(--muted);
       font-size: 15px;
+      max-width: 760px;
+      line-height: 1.5;
     }
 
     .top-pill {
@@ -141,15 +198,136 @@
       margin: 0;
       font-size: 36px;
       line-height: 1.08;
-      max-width: 920px;
+      max-width: 980px;
     }
 
     .hero-sub {
       margin: 12px 0 0;
       color: var(--muted);
-      max-width: 900px;
+      max-width: 940px;
       line-height: 1.5;
       font-size: 15px;
+    }
+
+    .top-insights {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr 1fr;
+      gap: 14px;
+    }
+
+    .verdict-card,
+    .heat-card,
+    .stats-card {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px;
+      background: rgba(255,255,255,0.03);
+      min-height: 100%;
+    }
+
+    .section-title {
+      margin: 0 0 14px;
+      font-size: 20px;
+    }
+
+    .verdict-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 140px;
+      padding: 12px 18px;
+      border-radius: 999px;
+      font-size: 16px;
+      font-weight: 900;
+      margin-bottom: 12px;
+      letter-spacing: 0.4px;
+    }
+
+    .verdict-buy {
+      background: rgba(40,199,111,0.16);
+      border: 1px solid rgba(40,199,111,0.30);
+      color: #8fe3b2;
+    }
+
+    .verdict-maybe {
+      background: rgba(255,176,32,0.16);
+      border: 1px solid rgba(255,176,32,0.30);
+      color: #ffd07a;
+    }
+
+    .verdict-pass {
+      background: rgba(255,93,108,0.16);
+      border: 1px solid rgba(255,93,108,0.30);
+      color: #ffadb6;
+    }
+
+    .verdict-text {
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    .heat-wrap { margin-top: 10px; }
+
+    .heat-bar {
+      width: 100%;
+      height: 20px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #ff5d6c 0%, #ffb020 45%, #28c76f 100%);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .heat-marker {
+      position: absolute;
+      top: -4px;
+      width: 4px;
+      height: 28px;
+      border-radius: 999px;
+      background: #fff;
+      box-shadow: 0 0 12px rgba(255,255,255,0.8);
+      transform: translateX(-50%);
+    }
+
+    .heat-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .heat-score {
+      margin-top: 12px;
+      font-size: 30px;
+      font-weight: 900;
+    }
+
+    .mini-stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .mini-stat {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px;
+      background: rgba(255,255,255,0.03);
+    }
+
+    .mini-stat span {
+      display: block;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .mini-stat strong {
+      display: block;
+      font-size: 24px;
+      font-weight: 900;
     }
 
     .form-grid {
@@ -159,8 +337,7 @@
       margin-top: 18px;
     }
 
-    .input,
-    .select {
+    .input {
       width: 100%;
       border: 1px solid var(--line);
       background: rgba(255,255,255,0.04);
@@ -175,8 +352,31 @@
       color: #89a2ca;
     }
 
+    .select {
+      width: 100%;
+      border: 1px solid var(--line);
+      background-color: rgba(255,255,255,0.04);
+      color: var(--text);
+      border-radius: 16px;
+      padding: 14px 42px 14px 15px;
+      outline: none;
+      font-size: 14px;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background-image:
+        linear-gradient(45deg, transparent 50%, #cfe0ff 50%),
+        linear-gradient(135deg, #cfe0ff 50%, transparent 50%);
+      background-position:
+        calc(100% - 18px) calc(50% - 3px),
+        calc(100% - 12px) calc(50% - 3px);
+      background-size: 6px 6px, 6px 6px;
+      background-repeat: no-repeat;
+    }
+
     .select option {
-      color: #000;
+      background: #0f1b32;
+      color: #ffffff;
     }
 
     .actions {
@@ -195,6 +395,7 @@
       font-weight: 800;
       font-size: 14px;
       transition: transform 0.15s ease, opacity 0.15s ease;
+      text-decoration: none;
     }
 
     .btn:hover { transform: translateY(-1px); }
@@ -204,6 +405,12 @@
       background: linear-gradient(135deg, var(--blue), var(--purple));
       color: #fff;
       box-shadow: 0 10px 30px rgba(77,163,255,0.25);
+    }
+
+    .btn-fast {
+      background: linear-gradient(135deg, #28c76f, #15a85a);
+      color: #fff;
+      box-shadow: 0 10px 30px rgba(40,199,111,0.22);
     }
 
     .btn-analyze {
@@ -235,127 +442,6 @@
     .status.success { color: #8ce2af; }
     .status.error { color: #ff9aa5; }
     .status.warning { color: #ffd07b; }
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
-    }
-
-    .stat {
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: 18px;
-      background: rgba(255,255,255,0.03);
-    }
-
-    .stat span {
-      display: block;
-      font-size: 13px;
-      color: var(--muted);
-      margin-bottom: 8px;
-    }
-
-    .stat strong {
-      display: block;
-      font-size: 28px;
-      line-height: 1.05;
-    }
-
-    .section-title {
-      margin: 0 0 14px;
-      font-size: 20px;
-    }
-
-    .insights-grid {
-      display: grid;
-      grid-template-columns: 1.2fr 1.2fr 1fr;
-      gap: 14px;
-    }
-
-    .verdict-card,
-    .heat-card,
-    .saved-card {
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: 18px;
-      background: rgba(255,255,255,0.03);
-      min-height: 100%;
-    }
-
-    .verdict-badge {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 120px;
-      padding: 10px 16px;
-      border-radius: 999px;
-      font-size: 14px;
-      font-weight: 900;
-      margin-bottom: 12px;
-      letter-spacing: 0.3px;
-    }
-
-    .verdict-buy {
-      background: rgba(40,199,111,0.16);
-      border: 1px solid rgba(40,199,111,0.30);
-      color: #8fe3b2;
-    }
-
-    .verdict-maybe {
-      background: rgba(255,176,32,0.16);
-      border: 1px solid rgba(255,176,32,0.30);
-      color: #ffd07a;
-    }
-
-    .verdict-pass {
-      background: rgba(255,93,108,0.16);
-      border: 1px solid rgba(255,93,108,0.30);
-      color: #ffadb6;
-    }
-
-    .verdict-text {
-      color: var(--muted);
-      line-height: 1.5;
-      font-size: 14px;
-    }
-
-    .heat-wrap { margin-top: 10px; }
-
-    .heat-bar {
-      width: 100%;
-      height: 18px;
-      border-radius: 999px;
-      background: linear-gradient(90deg, #ff5d6c 0%, #ffb020 45%, #28c76f 100%);
-      position: relative;
-      overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.12);
-    }
-
-    .heat-marker {
-      position: absolute;
-      top: -4px;
-      width: 4px;
-      height: 26px;
-      border-radius: 999px;
-      background: #fff;
-      box-shadow: 0 0 12px rgba(255,255,255,0.8);
-      transform: translateX(-50%);
-    }
-
-    .heat-labels {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 8px;
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .heat-score {
-      margin-top: 12px;
-      font-size: 26px;
-      font-weight: 900;
-    }
 
     .summary-grid {
       display: grid;
@@ -397,7 +483,7 @@
       display: flex;
       flex-direction: column;
       gap: 8px;
-      max-height: 200px;
+      max-height: 220px;
       overflow: auto;
       padding-right: 4px;
     }
@@ -544,11 +630,10 @@
     }
 
     @media (max-width: 1280px) {
+      .top-insights,
       .form-grid,
-      .stats,
       .summary-grid,
-      .results-grid,
-      .insights-grid {
+      .results-grid {
         grid-template-columns: repeat(2, 1fr);
       }
     }
@@ -556,27 +641,53 @@
     @media (max-width: 860px) {
       .shell { padding: 16px; }
       .topbar { flex-direction: column; align-items: flex-start; }
-      .logo { width: 96px; height: 96px; }
-      .brand-copy h1 { font-size: 31px; }
+      .logo { width: 125px; height: 125px; }
+      .camera-logo { width: 170px; height: 170px; }
+      .brand-copy h1 { font-size: 33px; }
+      .camera-home h1 { font-size: 34px; }
       .hero h2 { font-size: 28px; }
+      .top-insights,
       .form-grid,
-      .stats,
       .summary-grid,
       .results-grid,
-      .insights-grid {
+      .mini-stats {
         grid-template-columns: 1fr;
       }
     }
   </style>
 </head>
 <body>
-  <div class="shell">
+  <div id="cameraHome" class="camera-home">
+    <div class="camera-home-card">
+      <img src="logo.png" alt="GoodFinds AI logo" class="camera-logo" />
+      <h1>GoodFinds AI</h1>
+      <p>
+        Camera-first mode is built for fast thrift decisions. Open the camera, scan the item,
+        auto-fill the best match, run pricing research, and get the buy or pass verdict at the top.
+      </p>
+      <div class="camera-actions">
+        <label class="btn btn-fast">
+          Fast Scan Now
+          <input
+            id="homeFastPhotoInput"
+            type="file"
+            accept="image/*,.heic,.heif,image/heic,image/heif"
+            capture="environment"
+            hidden
+          />
+        </label>
+        <button id="openDashboardBtn" class="btn btn-primary">Open Dashboard</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="dashboardApp" class="shell hidden">
     <div class="topbar">
       <div class="brand">
         <img src="logo.png" alt="GoodFinds AI logo" class="logo" />
         <div class="brand-copy">
           <h1>GoodFinds AI</h1>
-          <p>Scan smarter. Built by resellers, for resellers.</p>
+          <p>Built for real reseller decisions with live comps, visual scan, pricing guidance, profit math, and sourcing confidence all in one place.</p>
         </div>
       </div>
       <div class="top-pill">Live sourcing dashboard</div>
@@ -584,72 +695,18 @@
 
     <div class="grid">
       <section class="card hero">
-        <div class="badge">Live research + photo scan + HEIC support + verdict engine</div>
-        <h2>Search comps, estimate profit, auto-fill from scanned photos, and make faster buy decisions.</h2>
+        <div class="badge">Fast scan + live research + HEIC support + verdict engine</div>
+        <h2>Scan or search an item and get the buy or pass answer first, then review the comps underneath.</h2>
         <p class="hero-sub">
-          Scan a tag or item photo, pull live comps, estimate ROI, save winners, and use the built-in heat map to decide what is worth buying now.
+          Fast Scan is built for in-store use. Snap the item, auto-fill the search, switch shipping to Buyer Pays Shipping, run research automatically, and show the sourcing verdict at the top right away.
         </p>
 
-        <div class="form-grid">
-          <input id="queryInput" class="input" placeholder="Search item, brand, style, model..." />
-          <input id="sizeInput" class="input" placeholder="Optional size" />
-          <input id="buyCostInput" class="input" type="number" step="0.01" placeholder="Buy cost" />
-          <input id="shippingCostInput" class="input" type="number" step="0.01" placeholder="Shipping cost" />
-          <select id="shippingTypeInput" class="select">
-            <option value="Free Shipping">Free Shipping</option>
-            <option value="Buyer Pays Shipping">Buyer Pays Shipping</option>
-            <option value="Flat Shipping">Flat Shipping</option>
-          </select>
-          <input id="flatShippingInput" class="input" type="number" step="0.01" placeholder="Flat shipping charged" />
-        </div>
-
-        <div class="actions">
-          <button id="researchBtn" class="btn btn-primary">Research Item</button>
-          <button id="analyzeBtn" class="btn btn-analyze">Analyze</button>
-          <button id="saveBtn" class="btn btn-save">Save</button>
-
-          <label class="btn btn-secondary">
-            Photo Scan
-            <input
-              id="photoInput"
-              type="file"
-              accept="image/*,.heic,.heif,image/heic,image/heif"
-              hidden
-            />
-          </label>
-        </div>
-
-        <div id="statusBar" class="status">Ready.</div>
-      </section>
-
-      <section class="card">
-        <div class="stats">
-          <div class="stat">
-            <span>Recommended</span>
-            <strong id="statRecommended">$0.00</strong>
-          </div>
-          <div class="stat">
-            <span>Est. Profit</span>
-            <strong id="statProfit">$0.00</strong>
-          </div>
-          <div class="stat">
-            <span>ROI</span>
-            <strong id="statRoi">0.00x</strong>
-          </div>
-          <div class="stat">
-            <span>Demand</span>
-            <strong id="statDemand">—</strong>
-          </div>
-        </div>
-      </section>
-
-      <section class="card">
-        <div class="insights-grid">
+        <div class="top-insights" style="margin-top:18px;">
           <div class="verdict-card">
             <h3 class="section-title">Buy / Pass</h3>
             <div id="verdictBadge" class="verdict-badge verdict-maybe">ANALYZE</div>
             <div id="verdictText" class="verdict-text">
-              Run research to score the item using profit, ROI, demand, and confidence.
+              Run research or Fast Scan to score the item using profit, ROI, demand, and confidence.
             </div>
           </div>
 
@@ -668,12 +725,112 @@
             </div>
           </div>
 
-          <div class="saved-card">
-            <h3 class="section-title">Saved Finds</h3>
-            <div id="savedMeta" class="saved-meta">0 saved</div>
-            <div id="savedList" class="saved-list"></div>
+          <div class="stats-card">
+            <h3 class="section-title">Quick Stats</h3>
+            <div class="mini-stats">
+              <div class="mini-stat">
+                <span>Recommended</span>
+                <strong id="statRecommended">$0.00</strong>
+              </div>
+              <div class="mini-stat">
+                <span>Est. Profit</span>
+                <strong id="statProfit">$0.00</strong>
+              </div>
+              <div class="mini-stat">
+                <span>ROI</span>
+                <strong id="statRoi">0.00x</strong>
+              </div>
+              <div class="mini-stat">
+                <span>Demand</span>
+                <strong id="statDemand">—</strong>
+              </div>
+            </div>
           </div>
         </div>
+
+        <div class="form-grid">
+          <input id="queryInput" class="input" placeholder="Search item, brand, style, model..." />
+
+          <select id="sizeInput" class="select">
+            <option value="" selected>Optional Size</option>
+            <option value="XXS">XXS</option>
+            <option value="XS">XS</option>
+            <option value="S">S</option>
+            <option value="M">M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+            <option value="XXL">XXL</option>
+            <option value="2X">2X</option>
+            <option value="3X">3X</option>
+            <option value="4X">4X</option>
+            <option value="5X">5X</option>
+            <option value="6">6</option>
+            <option value="8">8</option>
+            <option value="10">10</option>
+            <option value="12">12</option>
+            <option value="14">14</option>
+            <option value="16">16</option>
+            <option value="18">18</option>
+            <option value="20">20</option>
+            <option value="24">24</option>
+            <option value="26">26</option>
+            <option value="28">28</option>
+            <option value="30">30</option>
+            <option value="32">32</option>
+            <option value="34">34</option>
+            <option value="36">36</option>
+            <option value="38">38</option>
+            <option value="40">40</option>
+            <option value="42">42</option>
+          </select>
+
+          <input id="buyCostInput" class="input" type="number" step="0.01" placeholder="Buy cost" />
+          <input id="shippingCostInput" class="input" type="number" step="0.01" placeholder="Shipping cost" />
+
+          <select id="shippingTypeInput" class="select">
+            <option value="Free Shipping">Free Shipping</option>
+            <option value="Buyer Pays Shipping">Buyer Pays Shipping</option>
+            <option value="Flat Shipping">Flat Shipping</option>
+          </select>
+
+          <input id="flatShippingInput" class="input" type="number" step="0.01" placeholder="Flat shipping charged" />
+        </div>
+
+        <div class="actions">
+          <button id="researchBtn" class="btn btn-primary">Research Item</button>
+          <button id="analyzeBtn" class="btn btn-analyze">Analyze</button>
+          <button id="saveBtn" class="btn btn-save">Save</button>
+
+          <label class="btn btn-fast">
+            Fast Scan
+            <input
+              id="fastPhotoInput"
+              type="file"
+              accept="image/*,.heic,.heif,image/heic,image/heif"
+              capture="environment"
+              hidden
+            />
+          </label>
+
+          <label class="btn btn-secondary">
+            Photo Scan Only
+            <input
+              id="photoInput"
+              type="file"
+              accept="image/*,.heic,.heif,image/heic,image/heif"
+              capture="environment"
+              hidden
+            />
+          </label>
+        </div>
+
+        <div id="statusBar" class="status">Ready.</div>
+      </section>
+
+      <section class="card">
+        <h3 class="section-title">Saved Finds</h3>
+        <div id="savedMeta" class="saved-meta">0 saved</div>
+        <div id="savedList" class="saved-list"></div>
       </section>
 
       <section class="card">
@@ -684,15 +841,20 @@
       <section class="card">
         <h3 class="section-title">Top Comps</h3>
         <div id="resultsGrid" class="results-grid"></div>
-        <div id="resultsEmpty" class="empty">Run a search or scan a photo to see results.</div>
+        <div id="resultsEmpty" class="empty">Run a search or use Fast Scan to see results.</div>
         <div class="footer-note">
-          Photo scan accepts regular images plus iPhone HEIC / HEIF files and auto-fills the search box from the best visual match.
+          Fast Scan uploads the photo, tries to extract the best match, sets shipping to Buyer Pays Shipping, and only runs research when a valid title string is found.
         </div>
       </section>
     </div>
   </div>
 
   <script>
+    const cameraHome = document.getElementById("cameraHome");
+    const dashboardApp = document.getElementById("dashboardApp");
+    const openDashboardBtn = document.getElementById("openDashboardBtn");
+    const homeFastPhotoInput = document.getElementById("homeFastPhotoInput");
+
     const statusBar = document.getElementById("statusBar");
     const resultsGrid = document.getElementById("resultsGrid");
     const resultsEmpty = document.getElementById("resultsEmpty");
@@ -712,13 +874,25 @@
     const analyzeBtn = document.getElementById("analyzeBtn");
     const saveBtn = document.getElementById("saveBtn");
     const photoInput = document.getElementById("photoInput");
+    const fastPhotoInput = document.getElementById("fastPhotoInput");
+
     const queryInput = document.getElementById("queryInput");
+    const shippingTypeInput = document.getElementById("shippingTypeInput");
 
     const savedMeta = document.getElementById("savedMeta");
     const savedList = document.getElementById("savedList");
 
     let lastResult = null;
-    const STORAGE_KEY = "goodfinds_saved_results_v2";
+    const STORAGE_KEY = "goodfinds_saved_results_v6";
+
+    function showDashboard() {
+      cameraHome.classList.add("hidden");
+      dashboardApp.classList.remove("hidden");
+    }
+
+    function isValidTitle(value) {
+      return typeof value === "string" && value.trim().length > 0;
+    }
 
     function setStatus(message, type = "") {
       statusBar.textContent = message;
@@ -922,6 +1096,59 @@
       }
     }
 
+    function getSavedResults() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        const parsed = raw ? JSON.parse(raw) : [];
+        return Array.isArray(parsed) ? parsed : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function renderSavedResults() {
+      const saved = getSavedResults();
+      savedMeta.textContent = `${saved.length} saved`;
+
+      if (!saved.length) {
+        savedList.innerHTML = `<div class="empty" style="padding:16px;">No saved finds yet.</div>`;
+        return;
+      }
+
+      savedList.innerHTML = saved.map(item => `
+        <div class="saved-item">
+          <div class="saved-item-left">
+            <div class="saved-item-title">${escapeHtml(item.query)}</div>
+            <div class="saved-item-sub">${escapeHtml(item.demand)} · ROI ${Number(item.roi || 0).toFixed(2)}x</div>
+          </div>
+          <div class="saved-item-price">${formatMoney(item.estimatedProfit || 0)}</div>
+        </div>
+      `).join("");
+    }
+
+    function saveCurrentResult() {
+      if (!lastResult) {
+        setStatus("Run research first, then save the result.", "warning");
+        return;
+      }
+
+      const saved = getSavedResults();
+      const item = {
+        id: Date.now(),
+        query: lastResult?.query || "Untitled",
+        recommendedPrice: Number(lastResult?.pricing?.recommendedPrice || 0),
+        estimatedProfit: Number(lastResult?.pricing?.estimatedProfit || 0),
+        roi: Number(lastResult?.pricing?.roi || 0),
+        demand: lastResult?.market?.demand || "—",
+        savedAt: new Date().toLocaleString()
+      };
+
+      saved.unshift(item);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(saved.slice(0, 20)));
+      renderSavedResults();
+      setStatus("Saved to this device.", "success");
+    }
+
     async function runResearch() {
       const inputs = getInputs();
 
@@ -1017,127 +1244,80 @@
       };
     }
 
-    function getSavedResults() {
-      try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        const parsed = raw ? JSON.parse(raw) : [];
-        return Array.isArray(parsed) ? parsed : [];
-      } catch {
-        return [];
-      }
-    }
+    async function scanPhotoOnly(file) {
+      const payload = await preparePhotoForUpload(file);
+      setStatus("Scanning photo...", "warning");
 
-    function renderSavedResults() {
-      const saved = getSavedResults();
-      savedMeta.textContent = `${saved.length} saved`;
+      const response = await fetch("/api/photo-scan", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
 
-      if (!saved.length) {
-        savedList.innerHTML = `<div class="empty" style="padding:16px;">No saved finds yet.</div>`;
-        return;
+      const data = await response.json();
+
+      if (!response.ok || !data.ok) {
+        throw new Error(data.error || "Photo scan failed");
       }
 
-      savedList.innerHTML = saved.map(item => `
-        <div class="saved-item">
-          <div class="saved-item-left">
-            <div class="saved-item-title">${escapeHtml(item.query)}</div>
-            <div class="saved-item-sub">${escapeHtml(item.demand)} · ROI ${Number(item.roi || 0).toFixed(2)}x</div>
+      lastResult = null;
+
+      statRecommended.textContent = "—";
+      statProfit.textContent = "—";
+      statRoi.textContent = "—";
+      statDemand.textContent = `${data?.total || 0}`;
+
+      verdictBadge.className = "verdict-badge verdict-maybe";
+      verdictBadge.textContent = "SCAN";
+      verdictText.textContent = "Photo scan found visually similar listings. The best match will only auto-analyze if it returns a usable title.";
+
+      heatMarker.style.left = "50%";
+      heatScore.textContent = "50 / 100";
+
+      marketSummary.innerHTML = `
+        <div class="summary-grid">
+          <div class="summary-box">
+            <div class="label">Scan Results</div>
+            <div class="value">${data?.total || 0}</div>
+            <div class="sub">matching listings</div>
           </div>
-          <div class="saved-item-price">${formatMoney(item.estimatedProfit || 0)}</div>
+          <div class="summary-box">
+            <div class="label">Source</div>
+            <div class="value">${escapeHtml(data?.source || "—")}</div>
+            <div class="sub">image search</div>
+          </div>
+          <div class="summary-box">
+            <div class="label">Mime Type</div>
+            <div class="value">${escapeHtml(data?.mimeType || "—")}</div>
+            <div class="sub">uploaded image</div>
+          </div>
+          <div class="summary-box">
+            <div class="label">Best Match</div>
+            <div class="value" style="font-size:16px;line-height:1.3;">${escapeHtml(data?.bestMatchTitle || "—")}</div>
+            <div class="sub">used for auto-fill when available</div>
+          </div>
         </div>
-      `).join("");
-    }
+      `;
 
-    function saveCurrentResult() {
-      if (!lastResult) {
-        setStatus("Run research first, then save the result.", "warning");
-        return;
+      renderResults(data?.results || []);
+
+      if (isValidTitle(data?.bestMatchTitle)) {
+        queryInput.value = data.bestMatchTitle.trim();
       }
 
-      const saved = getSavedResults();
-      const item = {
-        id: Date.now(),
-        query: lastResult?.query || "Untitled",
-        recommendedPrice: Number(lastResult?.pricing?.recommendedPrice || 0),
-        estimatedProfit: Number(lastResult?.pricing?.estimatedProfit || 0),
-        roi: Number(lastResult?.pricing?.roi || 0),
-        demand: lastResult?.market?.demand || "—",
-        savedAt: new Date().toLocaleString()
-      };
-
-      saved.unshift(item);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(saved.slice(0, 20)));
-      renderSavedResults();
-      setStatus("Saved to this device.", "success");
+      shippingTypeInput.value = "Buyer Pays Shipping";
+      return data;
     }
 
     async function handlePhotoScan(event) {
       const file = event.target.files?.[0];
       if (!file) return;
 
-      setStatus("Preparing photo scan...", "warning");
+      showDashboard();
 
       try {
-        const payload = await preparePhotoForUpload(file);
-        setStatus("Scanning photo...", "warning");
-
-        const response = await fetch("/api/photo-scan", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        });
-
-        const data = await response.json();
-
-        if (!response.ok || !data.ok) {
-          throw new Error(data.error || "Photo scan failed");
-        }
-
-        lastResult = null;
-
-        statRecommended.textContent = "—";
-        statProfit.textContent = "—";
-        statRoi.textContent = "—";
-        statDemand.textContent = `${data?.total || 0}`;
-
-        verdictBadge.className = "verdict-badge verdict-maybe";
-        verdictBadge.textContent = "SCAN";
-        verdictText.textContent = "Photo scan found visually similar listings. The search box has been filled with the best match title. Tap Analyze to run pricing research.";
-
-        heatMarker.style.left = "50%";
-        heatScore.textContent = "50 / 100";
-
-        marketSummary.innerHTML = `
-          <div class="summary-grid">
-            <div class="summary-box">
-              <div class="label">Scan Results</div>
-              <div class="value">${data?.total || 0}</div>
-              <div class="sub">matching listings</div>
-            </div>
-            <div class="summary-box">
-              <div class="label">Source</div>
-              <div class="value">${escapeHtml(data?.source || "—")}</div>
-              <div class="sub">image search</div>
-            </div>
-            <div class="summary-box">
-              <div class="label">Mime Type</div>
-              <div class="value">${escapeHtml(data?.mimeType || "—")}</div>
-              <div class="sub">uploaded image</div>
-            </div>
-            <div class="summary-box">
-              <div class="label">Best Match</div>
-              <div class="value" style="font-size:16px;line-height:1.3;">${escapeHtml(data?.bestMatchTitle || "—")}</div>
-              <div class="sub">search box auto-filled</div>
-            </div>
-          </div>
-        `;
-
-        renderResults(data?.results || []);
-
-        if (data?.bestMatchTitle) {
-          queryInput.value = data.bestMatchTitle;
-        }
-
-        setStatus("Photo scan complete. Search box updated from best match.", "success");
+        await scanPhotoOnly(file);
+        setStatus("Photo scan complete. Search updated when a usable title was found.", "success");
       } catch (error) {
         console.error(error);
         setStatus(error.message || "Photo scan failed.", "error");
@@ -1146,10 +1326,37 @@
       }
     }
 
+    async function handleFastScan(event) {
+      const file = event.target.files?.[0];
+      if (!file) return;
+
+      showDashboard();
+
+      try {
+        setStatus("Starting Fast Scan...", "warning");
+        const data = await scanPhotoOnly(file);
+
+        if (isValidTitle(data?.bestMatchTitle)) {
+          setStatus("Fast Scan found a valid match. Running research automatically...", "warning");
+          await runResearch();
+        } else {
+          setStatus("Fast Scan finished, but no usable title string came back. Review scan comps or type a search.", "warning");
+        }
+      } catch (error) {
+        console.error(error);
+        setStatus(error.message || "Fast Scan failed.", "error");
+      } finally {
+        event.target.value = "";
+      }
+    }
+
+    openDashboardBtn.addEventListener("click", showDashboard);
     researchBtn.addEventListener("click", runResearch);
     analyzeBtn.addEventListener("click", runResearch);
     saveBtn.addEventListener("click", saveCurrentResult);
     photoInput.addEventListener("change", handlePhotoScan);
+    fastPhotoInput.addEventListener("change", handleFastScan);
+    homeFastPhotoInput.addEventListener("change", handleFastScan);
 
     queryInput.addEventListener("keydown", (e) => {
       if (e.key === "Enter") runResearch();

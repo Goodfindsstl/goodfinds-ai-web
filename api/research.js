@@ -4,14 +4,20 @@ const CORS_HEADERS = {
   "Access-Control-Allow-Headers": "Content-Type, Authorization",
 };
 
-const EBAY_FINDING_URL = "https://svcs.ebay.com/services/search/FindingService/v1";
+const EBAY_TOKEN_URL = "https://api.ebay.com/identity/v1/oauth2/token";
+const EBAY_BROWSE_SEARCH_URL = "https://api.ebay.com/buy/browse/v1/item_summary/search";
+
+const DEFAULT_MARKETPLACE = process.env.EBAY_MARKETPLACE_ID || "EBAY_US";
 const DEFAULT_FEE_PERCENT = 0.1325;
 const DEFAULT_ORDER_FEE = 0.3;
-const MAX_ACTIVE_RESULTS = 10;
-const MAX_SOLD_RESULTS = 10;
+
+let tokenCache = {
+  accessToken: null,
+  expiresAt: 0,
+};
 
 function setCors(res) {
-  Object.entries(CORS_HEADERS).forEach(([key, value]) => res.setHeader(key, value));
+  Object.entries(CORS_HEADERS).forEach(([k, v]) => res.setHeader(k, v));
 }
 
 function sendJson(res, status, payload) {
@@ -33,14 +39,14 @@ function round2(n) {
 }
 
 function median(values = []) {
-  const nums = values.filter((v) => Number.isFinite(v)).sort((a, b) => a - b);
+  const nums = values.filter(Number.isFinite).sort((a, b) => a - b);
   if (!nums.length) return 0;
   const mid = Math.floor(nums.length / 2);
   return nums.length % 2 === 0 ? (nums[mid - 1] + nums[mid]) / 2 : nums[mid];
 }
 
 function percentile(values = [], p = 0.5) {
-  const nums = values.filter((v) => Number.isFinite(v)).sort((a, b) => a - b);
+  const nums = values.filter(Number.isFinite).sort((a, b) => a - b);
   if (!nums.length) return 0;
   const index = Math.min(nums.length - 1, Math.max(0, Math.round((nums.length - 1) * p)));
   return nums[index];
@@ -53,48 +59,77 @@ function parseShippingType(value = "") {
   return "free";
 }
 
-function safeArray(value) {
-  return Array.isArray(value) ? value : [];
+function buildResearchQuery({ query, size }) {
+  return cleanString([query, size].filter(Boolean).join(" "));
 }
 
-function extractItems(raw) {
-  return raw?.findItemsAdvancedResponse?.[0]?.searchResult?.[0]?.item || [];
+async function getEbayAccessToken() {
+  const now = Date.now();
+  if (tokenCache.accessToken && now < tokenCache.expiresAt) {
+    return tokenCache.accessToken;
+  }
+
+  const clientId = process.env.EBAY_CLIENT_ID;
+  const clientSecret = process.env.EBAY_CLIENT_SECRET;
+
+  if (!clientId || !clientSecret) {
+    throw new Error("Missing EBAY_CLIENT_ID or EBAY_CLIENT_SECRET");
+  }
+
+  const basic = Buffer.from(`${clientId}:${clientSecret}`).toString("base64");
+  const body = new URLSearchParams({
+    grant_type: "client_credentials",
+    scope: "https://api.ebay.com/oauth/api_scope",
+  });
+
+  const response = await fetch(EBAY_TOKEN_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Basic ${basic}`,
+    },
+    body: body.toString(),
+  });
+
+  const data = await response.json().catch(() => null);
+
+  if (!response.ok || !data?.access_token) {
+    throw new Error(data?.error_description || data?.error || "Failed to get eBay access token");
+  }
+
+  tokenCache = {
+    accessToken: data.access_token,
+    expiresAt: now + ((data.expires_in || 7200) - 120) * 1000,
+  };
+
+  return tokenCache.accessToken;
 }
 
-function extractEbayErrors(raw) {
-  return raw?.errorMessage?.error || [];
-}
-
-function parseItem(item) {
-  const title = cleanString(item?.title?.[0] || "");
-  const itemId = item?.itemId?.[0] || "";
-  const viewUrl = item?.viewItemURL?.[0] || "";
-  const listingInfo = item?.listingInfo?.[0] || {};
-  const sellingStatus = item?.sellingStatus?.[0] || {};
-  const shippingInfo = item?.shippingInfo?.[0] || {};
-  const condition = item?.condition?.[0]?.conditionDisplayName?.[0] || "";
+function parseBrowseItem(item = {}) {
   const image =
-    item?.pictureURLLarge?.[0] ||
-    item?.galleryPlusPictureURL?.[0] ||
-    item?.galleryURL?.[0] ||
+    item?.image?.imageUrl ||
+    item?.thumbnailImages?.[0]?.imageUrl ||
+    item?.additionalImages?.[0]?.imageUrl ||
     "";
 
-  const price = toNumber(sellingStatus?.currentPrice?.[0]?.__value__);
-  const shipping = toNumber(shippingInfo?.shippingServiceCost?.[0]?.__value__);
+  const price = toNumber(item?.price?.value, 0);
+  const shipping = toNumber(item?.shippingOptions?.[0]?.shippingCost?.value, 0);
   const total = price + shipping;
 
   return {
-    itemId,
-    title,
-    url: viewUrl,
+    itemId: item?.itemId || "",
+    legacyItemId: item?.legacyItemId || "",
+    title: cleanString(item?.title || ""),
+    url: item?.itemWebUrl || "",
     image,
-    condition,
-    listingType: listingInfo?.listingType?.[0] || "",
-    endTime: listingInfo?.endTime?.[0] || "",
+    condition: item?.condition || "",
     price: round2(price),
     shipping: round2(shipping),
     total: round2(total),
-    location: item?.location?.[0] || "",
+    seller: item?.seller?.username || "",
+    category: item?.categories?.[0]?.categoryName || "",
+    buyingOptions: item?.buyingOptions || [],
+    itemEndDate: item?.itemEndDate || "",
   };
 }
 
@@ -125,29 +160,12 @@ function computeFees({
   return round2(Math.max(0, feeBase + shippingCost));
 }
 
-function buildResearchQuery({ query, size }) {
-  return cleanString([query, size].filter(Boolean).join(" "));
-}
-
-function pickRecommendedPrice({ soldSummary, activeSummary, soldItems, activeItems }) {
-  const soldMedian = soldSummary.medianPrice;
-  const activeMedian = activeSummary.medianPrice;
-
-  if (soldItems.length >= 5 && soldMedian > 0) return round2(soldMedian);
-  if (soldItems.length >= 2 && soldMedian > 0 && activeMedian > 0) {
-    return round2((soldMedian * 0.7) + (activeMedian * 0.3));
-  }
-  if (activeMedian > 0) return round2(activeMedian);
-  return 0;
-}
-
-function scoreResearchQuality({ soldItems, activeItems, query }) {
+function scoreResearchQuality({ items, query }) {
   let score = 0;
-  if (cleanString(query).length >= 8) score += 15;
-  if (activeItems.length >= 5) score += 25;
-  if (soldItems.length >= 3) score += 35;
-  if (soldItems.length >= 8) score += 15;
-  if (activeItems.length >= 10) score += 10;
+  if (cleanString(query).length >= 8) score += 20;
+  if (items.length >= 5) score += 35;
+  if (items.length >= 12) score += 25;
+  if (items.length >= 24) score += 20;
   return Math.min(100, score);
 }
 
@@ -157,63 +175,36 @@ function buildConfidenceLabel(score) {
   return "Low";
 }
 
-async function ebayFindItems({ appId, keywords, sold = false, entriesPerPage = 10 }) {
-  const params = new URLSearchParams({
-    "OPERATION-NAME": "findItemsAdvanced",
-    "SERVICE-VERSION": "1.13.0",
-    "SECURITY-APPNAME": appId,
-    "RESPONSE-DATA-FORMAT": "JSON",
-    "REST-PAYLOAD": "true",
-    keywords,
-    "paginationInput.entriesPerPage": String(entriesPerPage),
-    "outputSelector(0)": "PictureURLLarge",
-    "outputSelector(1)": "GalleryInfo",
-    sortOrder: sold ? "EndTimeSoonest" : "BestMatch",
-  });
+function buildDemandLabel(count) {
+  if (count >= 30) return "Very strong";
+  if (count >= 18) return "Strong";
+  if (count >= 8) return "Moderate";
+  return "Thin";
+}
 
-  if (sold) {
-    params.set("itemFilter(0).name", "SoldItemsOnly");
-    params.set("itemFilter(0).value(0)", "true");
-  } else {
-    params.set("itemFilter(0).name", "HideDuplicateItems");
-    params.set("itemFilter(0).value(0)", "true");
-  }
+async function browseSearch({ accessToken, query, limit = 24 }) {
+  const url = new URL(EBAY_BROWSE_SEARCH_URL);
+  url.searchParams.set("q", query);
+  url.searchParams.set("limit", String(limit));
+  url.searchParams.set("filter", "buyingOptions:{FIXED_PRICE}");
 
-  const response = await fetch(`${EBAY_FINDING_URL}?${params.toString()}`, {
+  const response = await fetch(url.toString(), {
     method: "GET",
     headers: {
-      "X-EBAY-SOA-SECURITY-APPNAME": appId,
+      Authorization: `Bearer ${accessToken}`,
+      "X-EBAY-C-MARKETPLACE-ID": DEFAULT_MARKETPLACE,
+      Accept: "application/json",
     },
   });
 
-  const text = await response.text();
-
-  let data;
-  try {
-    data = JSON.parse(text);
-  } catch {
-    throw new Error("eBay returned invalid JSON");
-  }
+  const data = await response.json().catch(() => null);
 
   if (!response.ok) {
-    throw new Error(`eBay HTTP ${response.status}`);
-  }
-
-  const ebayErrors = extractEbayErrors(data);
-  if (ebayErrors.length) {
     const message =
-      ebayErrors?.[0]?.message?.[0] ||
-      ebayErrors?.[0]?.message ||
-      "eBay API returned an error";
-    const code =
-      ebayErrors?.[0]?.errorId?.[0] ||
-      ebayErrors?.[0]?.errorId ||
-      "";
-
-    const err = new Error(message);
-    err.code = code;
-    err.isEbay = true;
-    throw err;
+      data?.errors?.[0]?.message ||
+      data?.errors?.[0]?.longMessage ||
+      `eBay Browse HTTP ${response.status}`;
+    throw new Error(message);
   }
 
   return data;
@@ -230,11 +221,6 @@ export default async function handler(req, res) {
   }
 
   try {
-    const appId = process.env.EBAY_APP_ID;
-    if (!appId) {
-      return sendJson(res, 500, { ok: false, error: "Missing EBAY_APP_ID" });
-    }
-
     const input = req.method === "POST" ? (req.body || {}) : (req.query || {});
     const query = cleanString(input.query || input.q || "");
     const size = cleanString(input.size || "");
@@ -250,50 +236,19 @@ export default async function handler(req, res) {
     }
 
     const researchQuery = buildResearchQuery({ query, size });
-
-    let activeItems = [];
-    let soldItems = [];
-    let soldWarning = null;
-
-    const activeRaw = await ebayFindItems({
-      appId,
-      keywords: researchQuery,
-      sold: false,
-      entriesPerPage: MAX_ACTIVE_RESULTS,
+    const accessToken = await getEbayAccessToken();
+    const raw = await browseSearch({
+      accessToken,
+      query: researchQuery,
+      limit: 24,
     });
 
-    activeItems = safeArray(extractItems(activeRaw))
-      .map(parseItem)
+    const items = (raw?.itemSummaries || [])
+      .map(parseBrowseItem)
       .filter((i) => i.price > 0);
 
-    try {
-      const soldRaw = await ebayFindItems({
-        appId,
-        keywords: researchQuery,
-        sold: true,
-        entriesPerPage: MAX_SOLD_RESULTS,
-      });
-
-      soldItems = safeArray(extractItems(soldRaw))
-        .map(parseItem)
-        .filter((i) => i.price > 0);
-    } catch (err) {
-      soldWarning = err.message || "Sold lookup failed";
-    }
-
-    const activeSummary = buildMarketSummary(activeItems);
-    const soldSummary = buildMarketSummary(soldItems);
-
-    const sellThroughRate = activeItems.length > 0
-      ? round2((soldItems.length / activeItems.length) * 100)
-      : 0;
-
-    const recommendedPrice = pickRecommendedPrice({
-      soldSummary,
-      activeSummary,
-      soldItems,
-      activeItems,
-    });
+    const summary = buildMarketSummary(items);
+    const recommendedPrice = summary.medianPrice || 0;
 
     let shippingCharged = 0;
     if (shippingType === "flat") shippingCharged = flatShippingCharge;
@@ -312,17 +267,16 @@ export default async function handler(req, res) {
     );
 
     const roi = buyCost > 0 ? round2(estimatedProfit / buyCost) : 0;
-
     const researchScore = scoreResearchQuality({
-      soldItems,
-      activeItems,
+      items,
       query: researchQuery,
     });
 
     return sendJson(res, 200, {
       ok: true,
+      source: "ebay_browse",
       query: researchQuery,
-      warning: soldWarning,
+      note: "Modern Browse API active-market research. Sold comps are not included in this endpoint.",
       inputs: {
         buyCost: round2(buyCost),
         size,
@@ -331,52 +285,32 @@ export default async function handler(req, res) {
         shippingCost: round2(shippingCost),
       },
       market: {
-        sellThroughRate,
+        activeCount: items.length,
+        demand: buildDemandLabel(items.length),
         researchScore,
         confidence: buildConfidenceLabel(researchScore),
-        activeCount: activeItems.length,
-        soldCount: soldItems.length,
         activePanel: {
           label: "Active Market",
-          ...activeSummary,
-          sample: activeItems.slice(0, 8),
-        },
-        soldPanel: {
-          label: "Sold Market",
-          ...soldSummary,
-          sample: soldItems.slice(0, 8),
+          ...summary,
+          sample: items.slice(0, 8),
         },
       },
       pricing: {
         recommendedPrice: round2(recommendedPrice),
-        medianActivePrice: round2(activeSummary.medianPrice),
-        medianSoldPrice: round2(soldSummary.medianPrice),
+        medianActivePrice: round2(summary.medianPrice),
         estimatedFees,
         estimatedProfit,
         roi,
       },
       topComps: {
-        sold: soldItems.slice(0, 12),
-        active: activeItems.slice(0, 12),
+        active: items.slice(0, 12),
       },
+      rawCountEstimate: raw?.total || items.length,
     });
   } catch (error) {
-    const msg = error?.message || "Research failed";
-
-    if (
-      msg.toLowerCase().includes("exceeded") ||
-      msg.toLowerCase().includes("rate") ||
-      error?.code === "10001"
-    ) {
-      return sendJson(res, 429, {
-        ok: false,
-        error: "eBay rate limit hit. Wait a bit and try again.",
-      });
-    }
-
     return sendJson(res, 500, {
       ok: false,
-      error: msg,
+      error: error?.message || "Research failed",
     });
   }
 }

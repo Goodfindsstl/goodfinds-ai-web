@@ -2,898 +2,1176 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  />
   <title>GoodFinds AI</title>
-  <script src="https://unpkg.com/heic2any/dist/heic2any.min.js"></script>
   <style>
-    :root {
-      --bg: #06101d;
-      --bg2: #09172c;
-      --panel: rgba(13, 22, 41, 0.95);
-      --panel2: rgba(19, 31, 58, 0.95);
-      --line: rgba(255,255,255,0.08);
-      --line2: rgba(255,255,255,0.12);
-      --text: #eef4ff;
-      --muted: #9db0d1;
-      --blue: #4da3ff;
-      --purple: #7a5cff;
-      --green: #28c76f;
-      --yellow: #ffb020;
-      --red: #ff5d6c;
-      --shadow: 0 18px 50px rgba(0,0,0,0.35);
-      --radius: 24px;
+    :root{
+      --bg:#07111f;
+      --bg-2:#0a1730;
+      --card:rgba(13,24,45,.82);
+      --card-2:rgba(18,31,57,.92);
+      --line:rgba(105,146,220,.18);
+      --line-strong:rgba(118,170,255,.28);
+      --text:#eef4ff;
+      --muted:#9fb2d4;
+      --muted-2:#7f93b7;
+      --accent:#52a8ff;
+      --accent-2:#6f6bff;
+      --success:#2ed47a;
+      --warn:#f3b949;
+      --danger:#ff6b6b;
+      --shadow:0 20px 60px rgba(0,0,0,.35);
+      --radius:24px;
+      --radius-sm:16px;
+      --input-h:56px;
+      --max:1280px;
     }
 
-    * { box-sizing: border-box; }
+    * { box-sizing:border-box; }
+
+    html, body {
+      margin:0;
+      padding:0;
+      background:
+        radial-gradient(circle at top left, rgba(82,168,255,.18), transparent 28%),
+        radial-gradient(circle at top right, rgba(111,107,255,.18), transparent 26%),
+        linear-gradient(180deg, #07111f 0%, #081427 42%, #07101d 100%);
+      color:var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      min-height:100%;
+    }
 
     body {
-      margin: 0;
-      font-family: Inter, Arial, Helvetica, sans-serif;
-      color: var(--text);
-      min-height: 100vh;
-      background:
-        radial-gradient(circle at top left, rgba(77,163,255,0.20), transparent 25%),
-        radial-gradient(circle at top right, rgba(122,92,255,0.16), transparent 25%),
-        linear-gradient(180deg, var(--bg), var(--bg2) 60%, #07111f);
+      padding:22px 16px 60px;
     }
 
-    .shell {
-      max-width: 1540px;
-      margin: 0 auto;
-      padding: 22px;
+    .app {
+      max-width:var(--max);
+      margin:0 auto;
     }
 
     .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:22px;
     }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 22px;
+    .brand-wrap {
+      display:flex;
+      align-items:center;
+      gap:14px;
     }
 
-    .logo {
-      width: 185px;
-      height: 185px;
-      object-fit: cover;
-      border-radius: 36px;
-      border: 1px solid var(--line2);
-      box-shadow: var(--shadow);
-      background: rgba(255,255,255,0.04);
-      flex-shrink: 0;
+    .logo-shell {
+      width:96px;
+      height:96px;
+      border-radius:28px;
+      display:grid;
+      place-items:center;
+      background:
+        linear-gradient(180deg, rgba(28,49,87,.95), rgba(15,27,49,.95));
+      border:1px solid var(--line);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.05),
+        0 18px 44px rgba(0,0,0,.35);
+      overflow:hidden;
+      flex:0 0 auto;
     }
 
-    .brand-copy h1 {
-      margin: 0;
-      font-size: 46px;
-      line-height: 1.02;
-      letter-spacing: 0.2px;
-    }
-
-    .brand-copy p {
-      margin: 8px 0 0;
-      color: var(--muted);
-      font-size: 15px;
-      max-width: 760px;
-      line-height: 1.5;
+    .logo-shell img {
+      width:72%;
+      height:72%;
+      object-fit:contain;
+      display:block;
+      filter: drop-shadow(0 12px 20px rgba(0,0,0,.28));
     }
 
     .top-pill {
-      padding: 10px 14px;
-      border-radius: 999px;
-      background: rgba(77,163,255,0.12);
-      border: 1px solid rgba(77,163,255,0.22);
-      color: #b9d8ff;
-      font-size: 13px;
-      white-space: nowrap;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap: 18px;
-    }
-
-    .card {
-      grid-column: span 12;
-      background: linear-gradient(180deg, var(--panel), var(--panel2));
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 20px;
-      backdrop-filter: blur(12px);
+      border:1px solid var(--line);
+      color:#d6e6ff;
+      background:rgba(18,31,57,.62);
+      border-radius:999px;
+      padding:10px 14px;
+      font-size:13px;
+      font-weight:700;
+      letter-spacing:.02em;
+      white-space:nowrap;
     }
 
     .hero {
-      position: relative;
-      overflow: hidden;
+      position:relative;
+      overflow:hidden;
+      background:
+        radial-gradient(circle at 8% 8%, rgba(82,168,255,.15), transparent 24%),
+        radial-gradient(circle at 92% 10%, rgba(111,107,255,.15), transparent 20%),
+        linear-gradient(180deg, rgba(14,26,49,.94), rgba(10,20,39,.94));
+      border:1px solid var(--line);
+      border-radius:32px;
+      padding:28px;
+      box-shadow:var(--shadow);
     }
 
     .hero::after {
-      content: "";
-      position: absolute;
-      right: -90px;
-      top: -90px;
-      width: 280px;
-      height: 280px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(77,163,255,0.15), transparent 68%);
-      pointer-events: none;
+      content:"";
+      position:absolute;
+      inset:auto -60px -90px auto;
+      width:240px;
+      height:240px;
+      background:radial-gradient(circle, rgba(82,168,255,.12), transparent 70%);
+      pointer-events:none;
     }
 
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 7px 11px;
-      border-radius: 999px;
-      background: rgba(77,163,255,0.14);
-      color: #b8d7ff;
-      font-size: 12px;
-      margin-bottom: 14px;
-      border: 1px solid rgba(77,163,255,0.18);
+    .eyebrow {
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      border:1px solid var(--line);
+      background:rgba(20,34,62,.68);
+      color:#bdd4ff;
+      padding:8px 12px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:.03em;
+      margin-bottom:14px;
     }
 
-    .hero h2 {
-      margin: 0;
-      font-size: 35px;
-      line-height: 1.08;
-      max-width: 980px;
+    .hero h1 {
+      margin:0;
+      font-size:clamp(34px, 6vw, 62px);
+      line-height:1.03;
+      letter-spacing:-.04em;
+      max-width:960px;
     }
 
-    .hero-sub {
-      margin: 12px 0 0;
-      color: var(--muted);
-      max-width: 940px;
-      line-height: 1.5;
-      font-size: 15px;
+    .hero p {
+      margin:14px 0 0;
+      max-width:820px;
+      color:var(--muted);
+      font-size:17px;
+      line-height:1.6;
     }
 
-    .scanner-modes {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-      margin-top: 18px;
+    .panel {
+      margin-top:18px;
+      background:linear-gradient(180deg, rgba(15,27,49,.78), rgba(11,21,39,.92));
+      border:1px solid var(--line);
+      border-radius:28px;
+      padding:20px;
     }
 
-    .mode-card {
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      background: rgba(255,255,255,0.03);
-      padding: 16px;
-      cursor: pointer;
-      transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+    .section-head {
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:14px;
+      margin-bottom:16px;
     }
 
-    .mode-card:hover {
-      transform: translateY(-1px);
-      border-color: rgba(255,255,255,0.18);
+    .section-head h2,
+    .section-head h3 {
+      margin:0;
+      font-size:22px;
+      letter-spacing:-.02em;
     }
 
-    .mode-card.active {
-      border-color: rgba(77,163,255,0.45);
-      background: rgba(77,163,255,0.08);
-      box-shadow: inset 0 0 0 1px rgba(77,163,255,0.12);
+    .section-head p {
+      margin:6px 0 0;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.5;
+      max-width:780px;
     }
 
-    .mode-card h3 {
-      margin: 0 0 8px;
-      font-size: 18px;
+    .mode-grid {
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:14px;
     }
 
-    .mode-card p {
-      margin: 0;
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.45;
+    .mode-btn {
+      appearance:none;
+      border:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(20,34,62,.75), rgba(15,26,48,.95));
+      color:var(--text);
+      border-radius:22px;
+      padding:18px;
+      text-align:left;
+      cursor:pointer;
+      transition:.2s ease;
+      min-height:118px;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.03);
     }
 
-    .top-insights {
-      display: grid;
-      grid-template-columns: 1.1fr 1fr 1fr;
-      gap: 14px;
-      margin-top: 18px;
+    .mode-btn:hover {
+      transform:translateY(-1px);
+      border-color:var(--line-strong);
     }
 
-    .verdict-card,
-    .heat-card,
-    .stats-card,
-    .saved-card {
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: 18px;
-      background: rgba(255,255,255,0.03);
-      min-height: 100%;
+    .mode-btn.active {
+      border-color:rgba(82,168,255,.5);
+      background:
+        radial-gradient(circle at top right, rgba(82,168,255,.18), transparent 30%),
+        linear-gradient(180deg, rgba(24,47,86,.95), rgba(15,28,52,.98));
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.05),
+        0 18px 38px rgba(15,43,94,.28);
     }
 
-    .section-title {
-      margin: 0 0 14px;
-      font-size: 20px;
+    .mode-title {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:10px;
+      font-size:20px;
+      font-weight:800;
+      letter-spacing:-.02em;
     }
 
-    .verdict-badge {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 140px;
-      padding: 12px 18px;
-      border-radius: 999px;
-      font-size: 16px;
-      font-weight: 900;
-      margin-bottom: 12px;
-      letter-spacing: 0.4px;
+    .mode-sub {
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.55;
     }
 
-    .verdict-buy {
-      background: rgba(40,199,111,0.16);
-      border: 1px solid rgba(40,199,111,0.30);
-      color: #8fe3b2;
+    .mode-check {
+      width:28px;
+      height:28px;
+      border-radius:999px;
+      display:grid;
+      place-items:center;
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.06);
+      color:#fff;
+      font-size:14px;
+      flex:0 0 auto;
     }
 
-    .verdict-maybe {
-      background: rgba(255,176,32,0.16);
-      border: 1px solid rgba(255,176,32,0.30);
-      color: #ffd07a;
+    .mode-btn.active .mode-check {
+      background:linear-gradient(180deg, var(--accent), #2a7fff);
+      border-color:transparent;
+      box-shadow:0 10px 20px rgba(82,168,255,.28);
     }
 
-    .verdict-pass {
-      background: rgba(255,93,108,0.16);
-      border: 1px solid rgba(255,93,108,0.30);
-      color: #ffadb6;
+    .helper-bar {
+      margin-top:14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      padding:14px 16px;
+      border-radius:18px;
+      border:1px solid var(--line);
+      background:rgba(10,21,40,.66);
+      color:var(--muted);
+      font-size:14px;
     }
 
-    .verdict-text {
-      color: var(--muted);
-      line-height: 1.5;
-      font-size: 14px;
+    .helper-bar strong {
+      color:#deebff;
     }
 
-    .heat-wrap { margin-top: 10px; }
-
-    .heat-bar {
-      width: 100%;
-      height: 20px;
-      border-radius: 999px;
-      background: linear-gradient(90deg, #ff5d6c 0%, #ffb020 45%, #28c76f 100%);
-      position: relative;
-      overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.12);
+    .grid-form {
+      margin-top:18px;
+      display:grid;
+      grid-template-columns:2fr 1fr 1fr 1fr 1fr 1fr;
+      gap:12px;
     }
 
-    .heat-marker {
-      position: absolute;
-      top: -4px;
-      width: 4px;
-      height: 28px;
-      border-radius: 999px;
-      background: #fff;
-      box-shadow: 0 0 12px rgba(255,255,255,0.8);
-      transform: translateX(-50%);
+    .field {
+      display:flex;
+      flex-direction:column;
+      gap:8px;
     }
 
-    .heat-labels {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 8px;
-      color: var(--muted);
-      font-size: 12px;
+    .label {
+      color:#c9daff;
+      font-size:13px;
+      font-weight:700;
+      letter-spacing:.01em;
     }
 
-    .heat-score {
-      margin-top: 12px;
-      font-size: 30px;
-      font-weight: 900;
-    }
-
-    .mini-stats {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-    }
-
-    .mini-stat {
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 14px;
-      background: rgba(255,255,255,0.03);
-    }
-
-    .mini-stat span {
-      display: block;
-      font-size: 12px;
-      color: var(--muted);
-      margin-bottom: 8px;
-    }
-
-    .mini-stat strong {
-      display: block;
-      font-size: 24px;
-      font-weight: 900;
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: 2.2fr 1fr 1fr 1fr 1fr 1fr;
-      gap: 12px;
-      margin-top: 18px;
-    }
-
-    .input {
-      width: 100%;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,0.04);
-      color: var(--text);
-      border-radius: 16px;
-      padding: 14px 15px;
-      outline: none;
-      font-size: 14px;
+    .input,
+    .select,
+    .file-btn,
+    .btn {
+      width:100%;
+      min-height:var(--input-h);
+      border-radius:18px;
+      border:1px solid var(--line);
+      background:rgba(12,23,43,.92);
+      color:var(--text);
+      outline:none;
+      padding:0 16px;
+      font-size:15px;
+      transition:.18s ease;
     }
 
     .input::placeholder {
-      color: #89a2ca;
+      color:var(--muted-2);
+    }
+
+    .input:focus,
+    .select:focus {
+      border-color:rgba(82,168,255,.45);
+      box-shadow:0 0 0 4px rgba(82,168,255,.12);
     }
 
     .select {
-      width: 100%;
-      border: 1px solid var(--line);
-      background-color: rgba(255,255,255,0.04);
-      color: var(--text);
-      border-radius: 16px;
-      padding: 14px 42px 14px 15px;
-      outline: none;
-      font-size: 14px;
-      appearance: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
+      appearance:none;
+      cursor:pointer;
       background-image:
-        linear-gradient(45deg, transparent 50%, #cfe0ff 50%),
-        linear-gradient(135deg, #cfe0ff 50%, transparent 50%);
+        linear-gradient(45deg, transparent 50%, #adc9ff 50%),
+        linear-gradient(135deg, #adc9ff 50%, transparent 50%);
       background-position:
-        calc(100% - 18px) calc(50% - 3px),
-        calc(100% - 12px) calc(50% - 3px);
-      background-size: 6px 6px, 6px 6px;
-      background-repeat: no-repeat;
+        calc(100% - 22px) 24px,
+        calc(100% - 16px) 24px;
+      background-size:6px 6px, 6px 6px;
+      background-repeat:no-repeat;
+      padding-right:44px;
     }
 
-    .select option {
-      background: #0f1b32;
-      color: #ffffff;
+    .file-wrap {
+      display:flex;
+      gap:10px;
+      align-items:center;
     }
 
-    .actions {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 16px;
-      align-items: center;
+    .file-btn {
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      font-weight:700;
+      background:linear-gradient(180deg, rgba(20,37,67,.96), rgba(13,24,45,.96));
+      text-align:center;
+      text-decoration:none;
+    }
+
+    .file-btn:hover {
+      border-color:var(--line-strong);
+    }
+
+    input[type="file"] {
+      display:none;
+    }
+
+    .btn-row {
+      margin-top:16px;
+      display:flex;
+      gap:12px;
+      align-items:center;
+      flex-wrap:wrap;
     }
 
     .btn {
-      border: none;
-      cursor: pointer;
-      border-radius: 16px;
-      padding: 13px 18px;
-      font-weight: 800;
-      font-size: 14px;
-      transition: transform 0.15s ease, opacity 0.15s ease;
-      text-decoration: none;
+      cursor:pointer;
+      font-weight:800;
+      letter-spacing:.01em;
+      padding:0 20px;
     }
-
-    .btn:hover { transform: translateY(-1px); }
-    .btn:disabled { opacity: 0.65; cursor: not-allowed; transform: none; }
 
     .btn-primary {
-      background: linear-gradient(135deg, var(--blue), var(--purple));
-      color: #fff;
-      box-shadow: 0 10px 30px rgba(77,163,255,0.25);
+      border:none;
+      color:#08111f;
+      background:linear-gradient(135deg, #f6c768, #f1aa38);
+      box-shadow:0 18px 35px rgba(241,170,56,.25);
     }
 
-    .btn-fast {
-      background: linear-gradient(135deg, #28c76f, #15a85a);
-      color: #fff;
-      box-shadow: 0 10px 30px rgba(40,199,111,0.22);
-    }
-
-    .btn-analyze {
-      background: linear-gradient(135deg, #875dff, #5a67ff);
-      color: #fff;
-    }
-
-    .btn-save {
-      background: linear-gradient(135deg, #1a9dff, #246dff);
-      color: #fff;
+    .btn-primary:hover {
+      filter:brightness(1.03);
+      transform:translateY(-1px);
     }
 
     .btn-secondary {
-      background: rgba(255,255,255,0.06);
-      color: #fff;
-      border: 1px solid var(--line);
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
+      background:linear-gradient(180deg, rgba(18,32,58,.92), rgba(14,25,46,.98));
+      color:#dfeaff;
+    }
+
+    .btn-secondary:hover {
+      border-color:var(--line-strong);
     }
 
     .status {
-      margin-top: 14px;
-      min-height: 20px;
-      color: var(--muted);
-      font-size: 14px;
+      color:var(--muted);
+      font-size:14px;
+      min-height:22px;
     }
 
-    .status.success { color: #8ce2af; }
-    .status.error { color: #ff9aa5; }
-    .status.warning { color: #ffd07b; }
-
-    .summary-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
+    .results {
+      margin-top:18px;
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:18px;
     }
 
-    .summary-box {
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,0.03);
-      border-radius: 18px;
-      padding: 16px;
+    .decision-card,
+    .price-card,
+    .stats-card,
+    .table-card,
+    .scan-card {
+      background:linear-gradient(180deg, rgba(16,29,53,.88), rgba(11,21,39,.98));
+      border:1px solid var(--line);
+      border-radius:26px;
+      padding:20px;
+      box-shadow:var(--shadow);
     }
 
-    .summary-box .label {
-      color: var(--muted);
-      font-size: 13px;
-      margin-bottom: 8px;
+    .decision-top {
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:16px;
     }
 
-    .summary-box .value {
-      font-size: 22px;
-      font-weight: 800;
+    .small-kicker {
+      color:#c9daff;
+      font-size:13px;
+      font-weight:700;
+      letter-spacing:.05em;
+      text-transform:uppercase;
     }
 
-    .summary-box .sub {
-      margin-top: 6px;
-      color: #8ea8d1;
-      font-size: 12px;
+    .verdict {
+      margin-top:10px;
+      font-size:clamp(42px, 6vw, 76px);
+      line-height:.92;
+      letter-spacing:-.06em;
+      font-weight:900;
     }
 
-    .saved-meta {
-      color: var(--muted);
-      font-size: 14px;
-      margin-bottom: 12px;
+    .verdict.buy { color:var(--success); }
+    .verdict.hold { color:var(--warn); }
+    .verdict.pass { color:var(--danger); }
+
+    .score-badge {
+      min-width:110px;
+      padding:14px 14px;
+      border-radius:18px;
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.06);
+      text-align:right;
     }
 
-    .saved-list {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      max-height: 220px;
-      overflow: auto;
-      padding-right: 4px;
+    .score-badge .label-mini {
+      color:var(--muted);
+      font-size:12px;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:.05em;
     }
 
-    .saved-item {
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 10px 12px;
-      background: rgba(255,255,255,0.03);
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      align-items: center;
-      font-size: 13px;
+    .score-badge .big {
+      margin-top:4px;
+      font-size:30px;
+      font-weight:900;
+      letter-spacing:-.04em;
     }
 
-    .saved-item-left {
-      min-width: 0;
+    .decision-copy {
+      color:var(--muted);
+      font-size:15px;
+      line-height:1.6;
+      margin-bottom:18px;
     }
 
-    .saved-item-title {
-      font-weight: 800;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+    .heat-wrap {
+      margin-top:8px;
     }
 
-    .saved-item-sub {
-      color: var(--muted);
-      margin-top: 4px;
-      font-size: 12px;
+    .heat-bar {
+      height:16px;
+      border-radius:999px;
+      overflow:hidden;
+      background:linear-gradient(90deg, #ff6767 0%, #f4b84f 48%, #33d17a 100%);
+      position:relative;
     }
 
-    .saved-item-price {
-      font-weight: 900;
-      white-space: nowrap;
+    .heat-knob {
+      position:absolute;
+      top:50%;
+      transform:translate(-50%, -50%);
+      width:22px;
+      height:22px;
+      border-radius:999px;
+      border:3px solid rgba(255,255,255,.95);
+      box-shadow:0 12px 24px rgba(0,0,0,.35);
+      background:#fff;
+      left:50%;
     }
 
-    .results-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
+    .heat-scale {
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      margin-top:10px;
+      color:var(--muted);
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:.02em;
     }
 
-    .comp {
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,0.03);
-      border-radius: 18px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      min-height: 100%;
+    .scan-summary {
+      margin-top:18px;
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:12px;
     }
 
-    .comp-image-wrap {
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      background: rgba(255,255,255,0.04);
-      overflow: hidden;
-      border-bottom: 1px solid var(--line);
+    .mini-stat {
+      border:1px solid var(--line);
+      background:rgba(10,20,38,.6);
+      border-radius:18px;
+      padding:16px;
     }
 
-    .comp-image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
+    .mini-stat .mini-label {
+      color:var(--muted);
+      font-size:12px;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:.05em;
+      margin-bottom:8px;
     }
 
-    .comp-body {
-      padding: 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      flex: 1;
+    .mini-stat .mini-value {
+      font-size:30px;
+      font-weight:900;
+      letter-spacing:-.04em;
     }
 
-    .comp-title {
-      margin: 0;
-      font-size: 14px;
-      line-height: 1.4;
-      min-height: 40px;
+    .mini-stat .mini-sub {
+      margin-top:4px;
+      color:var(--muted);
+      font-size:13px;
     }
 
-    .comp-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
+    .price-stack {
+      display:grid;
+      grid-template-columns:repeat(2, 1fr);
+      gap:12px;
+      margin-top:16px;
+    }
+
+    .price-pill {
+      border:1px solid var(--line);
+      background:rgba(11,22,41,.64);
+      border-radius:20px;
+      padding:16px;
+    }
+
+    .price-pill .platform {
+      color:#d6e6ff;
+      font-size:13px;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+      margin-bottom:8px;
+    }
+
+    .price-pill .amount {
+      font-size:30px;
+      font-weight:900;
+      letter-spacing:-.04em;
+    }
+
+    .meta-line {
+      margin-top:16px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
     }
 
     .chip {
-      padding: 6px 9px;
-      font-size: 11px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid var(--line);
-      color: #cfe0ff;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      border:1px solid var(--line);
+      background:rgba(10,20,38,.65);
+      color:#dce8ff;
+      border-radius:999px;
+      padding:9px 12px;
+      font-size:13px;
+      font-weight:700;
     }
 
-    .price-row {
-      display: flex;
-      justify-content: space-between;
-      gap: 8px;
-      align-items: center;
-      margin-top: auto;
+    .tables {
+      margin-top:18px;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
     }
 
-    .price-main {
-      font-size: 22px;
-      font-weight: 900;
+    .table-head {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:14px;
     }
 
-    .price-sub {
-      font-size: 12px;
-      color: var(--muted);
-      text-align: right;
+    .table-head h3 {
+      margin:0;
+      font-size:20px;
+      letter-spacing:-.02em;
     }
 
-    .comp-link {
-      text-decoration: none;
-      color: #fff;
-      text-align: center;
-      padding: 12px;
-      border-top: 1px solid var(--line);
-      background: rgba(255,255,255,0.03);
-      font-size: 13px;
-      font-weight: 800;
+    .table-count {
+      color:var(--muted);
+      font-size:13px;
+      font-weight:700;
+    }
+
+    .comp-list {
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      max-height:520px;
+      overflow:auto;
+      padding-right:4px;
+    }
+
+    .comp {
+      border:1px solid var(--line);
+      background:rgba(9,18,35,.64);
+      border-radius:18px;
+      padding:14px;
+    }
+
+    .comp-top {
+      display:flex;
+      justify-content:space-between;
+      gap:14px;
+      align-items:flex-start;
+    }
+
+    .comp-title {
+      font-size:14px;
+      font-weight:700;
+      line-height:1.45;
+      color:#eef4ff;
+    }
+
+    .comp-price {
+      font-size:21px;
+      font-weight:900;
+      letter-spacing:-.03em;
+      white-space:nowrap;
+    }
+
+    .comp-meta {
+      margin-top:8px;
+      color:var(--muted);
+      font-size:12px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+
+    .comp a {
+      color:#9cc8ff;
+      text-decoration:none;
+    }
+
+    .comp a:hover {
+      text-decoration:underline;
     }
 
     .empty {
-      color: var(--muted);
-      border: 1px dashed var(--line2);
-      border-radius: 18px;
-      padding: 24px;
-      text-align: center;
-      background: rgba(255,255,255,0.02);
+      border:1px dashed var(--line);
+      background:rgba(10,18,34,.4);
+      border-radius:18px;
+      padding:18px;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.6;
     }
 
     .footer-note {
-      margin-top: 16px;
-      color: #86a1ca;
-      font-size: 12px;
-      line-height: 1.5;
+      margin-top:18px;
+      color:var(--muted-2);
+      font-size:13px;
+      text-align:center;
     }
 
-    @media (max-width: 1280px) {
-      .scanner-modes,
-      .top-insights,
-      .form-grid,
-      .summary-grid,
-      .results-grid {
-        grid-template-columns: repeat(2, 1fr);
+    @media (max-width: 1180px) {
+      .grid-form {
+        grid-template-columns:repeat(2, 1fr);
+      }
+
+      .results,
+      .tables {
+        grid-template-columns:1fr;
       }
     }
 
-    @media (max-width: 860px) {
-      .shell { padding: 16px; }
-      .topbar { flex-direction: column; align-items: flex-start; }
-      .logo { width: 125px; height: 125px; }
-      .brand-copy h1 { font-size: 33px; }
-      .hero h2 { font-size: 28px; }
-      .scanner-modes,
-      .top-insights,
-      .form-grid,
-      .summary-grid,
-      .results-grid,
-      .mini-stats {
-        grid-template-columns: 1fr;
+    @media (max-width: 820px) {
+      body { padding:14px 12px 40px; }
+      .topbar { margin-bottom:16px; }
+      .logo-shell { width:78px; height:78px; border-radius:24px; }
+      .hero { padding:20px; border-radius:24px; }
+      .mode-grid,
+      .scan-summary,
+      .price-stack {
+        grid-template-columns:1fr;
+      }
+      .grid-form {
+        grid-template-columns:1fr;
+      }
+      .scan-summary {
+        gap:10px;
+      }
+      .decision-top {
+        flex-direction:column;
+      }
+      .score-badge {
+        text-align:left;
+        width:100%;
+      }
+      .helper-bar {
+        flex-direction:column;
+        align-items:flex-start;
+      }
+      .top-pill {
+        display:none;
       }
     }
   </style>
 </head>
 <body>
-  <div class="shell">
+  <div class="app">
     <div class="topbar">
-      <div class="brand">
-        <img src="logo.png" alt="GoodFinds AI logo" class="logo" />
-        <div class="brand-copy">
-          <h1>GoodFinds AI</h1>
-          <p>Scanner V2 keeps everything on one page so you can scan, analyze, and decide fast without losing your place in-store.</p>
+      <div class="brand-wrap">
+        <div class="logo-shell">
+          <img src="logo.png" alt="GoodFinds AI logo" />
         </div>
       </div>
-      <div class="top-pill">Scanner V2</div>
+      <div class="top-pill">Premium Reseller Scanner</div>
     </div>
 
-    <div class="grid">
-      <section class="card hero">
-        <div class="badge">One-page scanner + live research + verdict engine</div>
-        <h2>Choose the right scan mode first, then let the app guide the fastest path to a buy or pass decision.</h2>
-        <p class="hero-sub">
-          Tag Scan is best for clothing labels and style tags. Item Scan is best for the whole product. UPC Scan is best for boxed goods. Fast Scan tries to auto-run research when it gets a strong match.
-        </p>
+    <section class="hero">
+      <div class="eyebrow">Built for fast buy-or-pass decisions</div>
+      <h1>Scan smarter. Price faster. Decide with confidence.</h1>
+      <p>
+        Pick the scan mode first, let the app pull live data, then get a clear
+        verdict with pricing, ROI, demand, and sell-through in one clean screen.
+      </p>
 
-        <div class="scanner-modes">
-          <div class="mode-card active" id="modeTagCard" data-mode="tag">
-            <h3>Tag Scan</h3>
-            <p>Best for clothing tags, brand labels, style tags, and size labels. Recommended default for apparel.</p>
-          </div>
-          <div class="mode-card" id="modeItemCard" data-mode="item">
-            <h3>Item Scan</h3>
-            <p>Best for full-item photos when the tag is missing or hard to read. Good fallback for shoes and apparel.</p>
-          </div>
-          <div class="mode-card" id="modeUpcCard" data-mode="upc">
-            <h3>UPC Scan</h3>
-            <p>Best for boxed goods, toys, electronics, and retail arbitrage items with a barcode or UPC.</p>
+      <div class="panel">
+        <div class="section-head">
+          <div>
+            <h2>Choose scan mode</h2>
+            <p id="modeDescription">
+              Tag mode is best for clothing labels, brand tags, and size labels.
+            </p>
           </div>
         </div>
 
-        <div class="top-insights">
-          <div class="verdict-card">
-            <h3 class="section-title">Buy / Pass</h3>
-            <div id="verdictBadge" class="verdict-badge verdict-maybe">ANALYZE</div>
-            <div id="verdictText" class="verdict-text">
-              Run research or Fast Scan to score the item using profit, ROI, demand, and confidence.
+        <div class="mode-grid">
+          <button class="mode-btn active" data-mode="tag" type="button">
+            <div class="mode-title">
+              <span>Tag</span>
+              <span class="mode-check">✓</span>
             </div>
-          </div>
+            <div class="mode-sub">
+              Best for apparel labels, style tags, size tags, and care labels.
+            </div>
+          </button>
 
-          <div class="heat-card">
-            <h3 class="section-title">Heat Map</h3>
-            <div class="heat-wrap">
-              <div class="heat-bar">
-                <div id="heatMarker" class="heat-marker" style="left:50%;"></div>
-              </div>
-              <div class="heat-labels">
-                <span>Pass</span>
-                <span>Borderline</span>
-                <span>Buy</span>
-              </div>
-              <div id="heatScore" class="heat-score">50 / 100</div>
+          <button class="mode-btn" data-mode="item" type="button">
+            <div class="mode-title">
+              <span>Item</span>
+              <span class="mode-check">✓</span>
             </div>
-          </div>
+            <div class="mode-sub">
+              Best for full item photos when the tag is missing or hard to read.
+            </div>
+          </button>
 
-          <div class="stats-card">
-            <h3 class="section-title">Quick Stats</h3>
-            <div class="mini-stats">
-              <div class="mini-stat">
-                <span>Recommended</span>
-                <strong id="statRecommended">$0.00</strong>
-              </div>
-              <div class="mini-stat">
-                <span>Est. Profit</span>
-                <strong id="statProfit">$0.00</strong>
-              </div>
-              <div class="mini-stat">
-                <span>ROI</span>
-                <strong id="statRoi">0.00x</strong>
-              </div>
-              <div class="mini-stat">
-                <span>Demand</span>
-                <strong id="statDemand">—</strong>
-              </div>
+          <button class="mode-btn" data-mode="upc" type="button">
+            <div class="mode-title">
+              <span>UPC</span>
+              <span class="mode-check">✓</span>
             </div>
+            <div class="mode-sub">
+              Best for retail items, toys, electronics, boxed goods, and RA finds.
+            </div>
+          </button>
+        </div>
+
+        <div class="helper-bar">
+          <div>
+            <strong>Shipping default:</strong> Buyer pays shipping
+          </div>
+          <div>
+            <strong>Flow:</strong> Scan → Research → Pricing → Verdict
           </div>
         </div>
 
-        <div class="form-grid">
-          <input id="queryInput" class="input" placeholder="Search item, brand, style, model..." />
-
-          <select id="sizeInput" class="select">
-            <option value="" selected>Optional Size</option>
-            <option value="XXS">XXS</option>
-            <option value="XS">XS</option>
-            <option value="S">S</option>
-            <option value="M">M</option>
-            <option value="L">L</option>
-            <option value="XL">XL</option>
-            <option value="XXL">XXL</option>
-            <option value="2X">2X</option>
-            <option value="3X">3X</option>
-            <option value="4X">4X</option>
-            <option value="5X">5X</option>
-            <option value="6">6</option>
-            <option value="8">8</option>
-            <option value="10">10</option>
-            <option value="12">12</option>
-            <option value="14">14</option>
-            <option value="16">16</option>
-            <option value="18">18</option>
-            <option value="20">20</option>
-            <option value="24">24</option>
-            <option value="26">26</option>
-            <option value="28">28</option>
-            <option value="30">30</option>
-            <option value="32">32</option>
-            <option value="34">34</option>
-            <option value="36">36</option>
-            <option value="38">38</option>
-            <option value="40">40</option>
-            <option value="42">42</option>
-          </select>
-
-          <input id="buyCostInput" class="input" type="number" step="0.01" placeholder="Buy cost" />
-          <input id="shippingCostInput" class="input" type="number" step="0.01" placeholder="Shipping cost" />
-
-          <select id="shippingTypeInput" class="select">
-            <option value="Free Shipping">Free Shipping</option>
-            <option value="Buyer Pays Shipping">Buyer Pays Shipping</option>
-            <option value="Flat Shipping">Flat Shipping</option>
-          </select>
-
-          <input id="flatShippingInput" class="input" type="number" step="0.01" placeholder="Flat shipping charged" />
-        </div>
-
-        <div class="actions">
-          <button id="researchBtn" class="btn btn-primary">Research Item</button>
-          <button id="analyzeBtn" class="btn btn-analyze">Analyze</button>
-          <button id="saveBtn" class="btn btn-save">Save</button>
-
-          <label class="btn btn-fast">
-            Fast Scan
+        <div class="grid-form">
+          <div class="field">
+            <label class="label" for="queryInput">Scanned title or manual search</label>
             <input
-              id="fastPhotoInput"
-              type="file"
-              accept="image/*,.heic,.heif,image/heic,image/heif"
-              capture="environment"
-              hidden
+              id="queryInput"
+              class="input"
+              type="text"
+              placeholder="Scan an item or type brand, style, model, or UPC"
             />
-          </label>
+          </div>
 
-          <label class="btn btn-secondary">
-            Scan Only
-            <input
-              id="photoInput"
-              type="file"
-              accept="image/*,.heic,.heif,image/heic,image/heif"
-              capture="environment"
-              hidden
-            />
-          </label>
+          <div class="field">
+            <label class="label" for="sizeInput">Optional size</label>
+            <select id="sizeInput" class="select">
+              <option value="">No size</option>
+              <option>XXS</option>
+              <option>XS</option>
+              <option>S</option>
+              <option>M</option>
+              <option>L</option>
+              <option>XL</option>
+              <option>XXL</option>
+              <option>2XL</option>
+              <option>3XL</option>
+              <option>4</option>
+              <option>6</option>
+              <option>8</option>
+              <option>10</option>
+              <option>12</option>
+              <option>14</option>
+              <option>16</option>
+              <option>18</option>
+              <option>20</option>
+            </select>
+          </div>
 
-          <button id="upcLookupBtn" class="btn btn-secondary" type="button">UPC Lookup</button>
+          <div class="field">
+            <label class="label" for="buyCostInput">Buy cost</label>
+            <input id="buyCostInput" class="input" type="number" min="0" step="0.01" placeholder="0.00" />
+          </div>
+
+          <div class="field">
+            <label class="label" for="shippingCostInput">Shipping cost</label>
+            <input id="shippingCostInput" class="input" type="number" min="0" step="0.01" placeholder="0.00" />
+          </div>
+
+          <div class="field">
+            <label class="label" for="shippingModeInput">Shipping mode</label>
+            <select id="shippingModeInput" class="select">
+              <option value="buyer" selected>Buyer pays shipping</option>
+              <option value="free">Free shipping</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label class="label">Photo scan</label>
+            <label class="file-btn" for="photoInput">Choose photo</label>
+            <input id="photoInput" type="file" accept="image/*" />
+          </div>
         </div>
 
-        <div id="statusBar" class="status">Ready.</div>
-      </section>
-
-      <section class="card">
-        <h3 class="section-title">Saved Finds</h3>
-        <div id="savedMeta" class="saved-meta">0 saved</div>
-        <div id="savedList" class="saved-list"></div>
-      </section>
-
-      <section class="card">
-        <h3 class="section-title">Market Snapshot</h3>
-        <div id="marketSummary" class="empty">No research yet.</div>
-      </section>
-
-      <section class="card">
-        <h3 class="section-title">Top Comps</h3>
-        <div id="resultsGrid" class="results-grid"></div>
-        <div id="resultsEmpty" class="empty">Run a search or use Fast Scan to see results.</div>
-        <div class="footer-note">
-          Tag Scan is the best default for apparel. Fast Scan only auto-runs research when it gets a usable title string.
+        <div class="btn-row">
+          <button id="scanBtn" class="btn btn-secondary" type="button">Run Scan</button>
+          <button id="researchBtn" class="btn btn-primary" type="button">Analyze</button>
+          <button id="clearBtn" class="btn btn-secondary" type="button">Clear</button>
+          <div id="statusText" class="status">Ready.</div>
         </div>
-      </section>
+      </div>
+    </section>
+
+    <section class="results">
+      <div class="decision-card">
+        <div class="decision-top">
+          <div>
+            <div class="small-kicker">Verdict</div>
+            <div id="verdictText" class="verdict pass">PASS</div>
+          </div>
+          <div class="score-badge">
+            <div class="label-mini">Heat score</div>
+            <div id="heatScoreText" class="big">50</div>
+          </div>
+        </div>
+
+        <div id="decisionCopy" class="decision-copy">
+          Run research to score the item using profit, ROI, demand, and sell-through.
+        </div>
+
+        <div class="heat-wrap">
+          <div class="heat-bar">
+            <div id="heatKnob" class="heat-knob" style="left:50%;"></div>
+          </div>
+          <div class="heat-scale">
+            <span>Pass</span>
+            <span>Borderline</span>
+            <span>Buy</span>
+          </div>
+        </div>
+
+        <div class="scan-summary">
+          <div class="mini-stat">
+            <div class="mini-label">Recommended</div>
+            <div id="recommendedPrice" class="mini-value">$0.00</div>
+            <div class="mini-sub">Suggested eBay list price</div>
+          </div>
+
+          <div class="mini-stat">
+            <div class="mini-label">Est. Profit</div>
+            <div id="profitText" class="mini-value">$0.00</div>
+            <div class="mini-sub">After estimated fees</div>
+          </div>
+
+          <div class="mini-stat">
+            <div class="mini-label">ROI</div>
+            <div id="roiText" class="mini-value">0.00x</div>
+            <div class="mini-sub">Based on buy cost</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="price-card">
+        <div class="section-head">
+          <div>
+            <h3>Pricing + demand</h3>
+            <p>Platform suggestions built from live comps and sell-through.</p>
+          </div>
+        </div>
+
+        <div class="price-stack">
+          <div class="price-pill">
+            <div class="platform">eBay</div>
+            <div id="priceEbay" class="amount">$0.00</div>
+          </div>
+          <div class="price-pill">
+            <div class="platform">Poshmark</div>
+            <div id="pricePoshmark" class="amount">$0.00</div>
+          </div>
+          <div class="price-pill">
+            <div class="platform">Mercari</div>
+            <div id="priceMercari" class="amount">$0.00</div>
+          </div>
+          <div class="price-pill">
+            <div class="platform">Depop</div>
+            <div id="priceDepop" class="amount">$0.00</div>
+          </div>
+        </div>
+
+        <div class="meta-line">
+          <div class="chip">Sell-through: <span id="sellThroughText">0%</span></div>
+          <div class="chip">Demand: <span id="demandText">—</span></div>
+          <div class="chip">Days to sell: <span id="daysToSellText">—</span></div>
+          <div class="chip">Confidence: <span id="confidenceText">—</span></div>
+        </div>
+
+        <div class="meta-line">
+          <div class="chip">Active comps: <span id="activeCountText">0</span></div>
+          <div class="chip">Sold comps: <span id="soldCountText">0</span></div>
+          <div class="chip">Median sold: <span id="medianSoldText">$0.00</span></div>
+          <div class="chip">Median active: <span id="medianActiveText">$0.00</span></div>
+        </div>
+
+        <div class="meta-line">
+          <div class="chip">Brand: <span id="brandText">—</span></div>
+          <div class="chip">Size: <span id="detectedSizeText">—</span></div>
+          <div class="chip">Scan mode: <span id="scanModeText">Tag</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="tables">
+      <div class="table-card">
+        <div class="table-head">
+          <h3>Sold comps</h3>
+          <div class="table-count"><span id="soldCountHead">0</span> results</div>
+        </div>
+        <div id="soldList" class="comp-list">
+          <div class="empty">No sold comps yet. Run a scan or manual analyze to load data.</div>
+        </div>
+      </div>
+
+      <div class="table-card">
+        <div class="table-head">
+          <h3>Active comps</h3>
+          <div class="table-count"><span id="activeCountHead">0</span> results</div>
+        </div>
+        <div id="activeList" class="comp-list">
+          <div class="empty">No active comps yet. Run a scan or manual analyze to load data.</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer-note">
+      GoodFinds AI helps you make faster sourcing decisions with scan-first research and cleaner pricing signals.
     </div>
   </div>
 
   <script>
-    const statusBar = document.getElementById("statusBar");
-    const resultsGrid = document.getElementById("resultsGrid");
-    const resultsEmpty = document.getElementById("resultsEmpty");
-    const marketSummary = document.getElementById("marketSummary");
+    const state = {
+      mode: "tag",
+      lastScan: null,
+      lastResearch: null
+    };
 
-    const statRecommended = document.getElementById("statRecommended");
-    const statProfit = document.getElementById("statProfit");
-    const statRoi = document.getElementById("statRoi");
-    const statDemand = document.getElementById("statDemand");
+    const modeDescriptions = {
+      tag: "Tag mode is best for clothing labels, brand tags, and size labels.",
+      item: "Item mode is best for full item photos when the label is missing or unclear.",
+      upc: "UPC mode is best for boxed goods, toys, electronics, and retail arbitrage."
+    };
 
-    const verdictBadge = document.getElementById("verdictBadge");
-    const verdictText = document.getElementById("verdictText");
-    const heatMarker = document.getElementById("heatMarker");
-    const heatScore = document.getElementById("heatScore");
+    const els = {
+      modeButtons: [...document.querySelectorAll(".mode-btn")],
+      modeDescription: document.getElementById("modeDescription"),
+      queryInput: document.getElementById("queryInput"),
+      sizeInput: document.getElementById("sizeInput"),
+      buyCostInput: document.getElementById("buyCostInput"),
+      shippingCostInput: document.getElementById("shippingCostInput"),
+      shippingModeInput: document.getElementById("shippingModeInput"),
+      photoInput: document.getElementById("photoInput"),
+      scanBtn: document.getElementById("scanBtn"),
+      researchBtn: document.getElementById("researchBtn"),
+      clearBtn: document.getElementById("clearBtn"),
+      statusText: document.getElementById("statusText"),
 
-    const researchBtn = document.getElementById("researchBtn");
-    const analyzeBtn = document.getElementById("analyzeBtn");
-    const saveBtn = document.getElementById("saveBtn");
-    const photoInput = document.getElementById("photoInput");
-    const fastPhotoInput = document.getElementById("fastPhotoInput");
-    const upcLookupBtn = document.getElementById("upcLookupBtn");
+      verdictText: document.getElementById("verdictText"),
+      heatScoreText: document.getElementById("heatScoreText"),
+      heatKnob: document.getElementById("heatKnob"),
+      decisionCopy: document.getElementById("decisionCopy"),
+      recommendedPrice: document.getElementById("recommendedPrice"),
+      profitText: document.getElementById("profitText"),
+      roiText: document.getElementById("roiText"),
 
-    const queryInput = document.getElementById("queryInput");
-    const shippingTypeInput = document.getElementById("shippingTypeInput");
+      priceEbay: document.getElementById("priceEbay"),
+      pricePoshmark: document.getElementById("pricePoshmark"),
+      priceMercari: document.getElementById("priceMercari"),
+      priceDepop: document.getElementById("priceDepop"),
 
-    const savedMeta = document.getElementById("savedMeta");
-    const savedList = document.getElementById("savedList");
+      sellThroughText: document.getElementById("sellThroughText"),
+      demandText: document.getElementById("demandText"),
+      daysToSellText: document.getElementById("daysToSellText"),
+      confidenceText: document.getElementById("confidenceText"),
+      activeCountText: document.getElementById("activeCountText"),
+      soldCountText: document.getElementById("soldCountText"),
+      medianSoldText: document.getElementById("medianSoldText"),
+      medianActiveText: document.getElementById("medianActiveText"),
+      brandText: document.getElementById("brandText"),
+      detectedSizeText: document.getElementById("detectedSizeText"),
+      scanModeText: document.getElementById("scanModeText"),
 
-    const modeCards = document.querySelectorAll(".mode-card");
+      soldCountHead: document.getElementById("soldCountHead"),
+      activeCountHead: document.getElementById("activeCountHead"),
+      soldList: document.getElementById("soldList"),
+      activeList: document.getElementById("activeList")
+    };
 
-    let lastResult = null;
-    let activeScanMode = "tag";
-    const STORAGE_KEY = "goodfinds_saved_results_v7";
-
-    function setActiveMode(mode) {
-      activeScanMode = mode;
-      modeCards.forEach(card => {
-        card.classList.toggle("active", card.dataset.mode === mode);
+    function setMode(mode) {
+      state.mode = mode;
+      els.modeButtons.forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.mode === mode);
       });
-
-      if (mode === "tag") {
-        setStatus("Tag Scan selected. Best for apparel labels and tags.", "success");
-      } else if (mode === "item") {
-        setStatus("Item Scan selected. Best for whole-item photos.", "success");
-      } else {
-        setStatus("UPC Scan selected. Best for boxed items and retail goods.", "success");
-      }
+      els.modeDescription.textContent = modeDescriptions[mode] || "";
+      els.scanModeText.textContent = capitalize(mode);
     }
 
-    modeCards.forEach(card => {
-      card.addEventListener("click", () => setActiveMode(card.dataset.mode));
-    });
-
-    function isValidTitle(value) {
-      return typeof value === "string" && value.trim().length > 0;
+    function capitalize(v = "") {
+      return v ? v.charAt(0).toUpperCase() + v.slice(1) : "";
     }
 
-    function setStatus(message, type = "") {
-      statusBar.textContent = message;
-      statusBar.className = "status" + (type ? " " + type : "");
-    }
-
-    function formatMoney(value) {
+    function money(value) {
       const num = Number(value || 0);
-      return `$${num.toFixed(2)}`;
+      return num.toLocaleString("en-US", {
+        style: "currency",
+        currency: "USD"
+      });
+    }
+
+    function roiFormat(value) {
+      const num = Number(value || 0);
+      return `${num.toFixed(2)}x`;
+    }
+
+    function setStatus(message, isError = false) {
+      els.statusText.textContent = message;
+      els.statusText.style.color = isError ? "#ff9e9e" : "var(--muted)";
+    }
+
+    function scoreFromResearch(data) {
+      const roi = Number(data?.economics?.roi || 0);
+      const profit = Number(data?.economics?.estimatedProfit || 0);
+      const st = Number(data?.sellThrough?.percent || 0);
+
+      let score = 0;
+      score += Math.min(40, roi * 15);
+      score += Math.min(35, profit * 1.8);
+      score += Math.min(25, st * 0.25);
+
+      return Math.max(0, Math.min(100, Math.round(score)));
+    }
+
+    function demandLabel(ratePercent = 0) {
+      const n = Number(ratePercent || 0);
+      if (n >= 80) return "Very fast";
+      if (n >= 50) return "Good";
+      if (n >= 30) return "Okay";
+      return "Slow";
+    }
+
+    function buildDecisionCopy(data) {
+      const verdict = String(data?.verdict || "PASS").toUpperCase();
+      const profit = money(data?.economics?.estimatedProfit || 0);
+      const roi = roiFormat(data?.economics?.roi || 0);
+      const st = `${Number(data?.sellThrough?.percent || 0).toFixed(1)}%`;
+
+      if (verdict === "BUY") {
+        return `Strong buy signal based on estimated profit ${profit}, ROI ${roi}, and sell-through ${st}.`;
+      }
+      if (verdict === "HOLD") {
+        return `Borderline item. The numbers are workable, but demand or margin is not strong enough for a clear buy.`;
+      }
+      return `Pass signal right now. Margin, demand, or sell-through is not strong enough to support a confident buy.`;
+    }
+
+    function updateVerdict(verdict, score) {
+      const normalized = String(verdict || "PASS").toLowerCase();
+      els.verdictText.textContent = String(verdict || "PASS").toUpperCase();
+      els.verdictText.className = `verdict ${normalized}`;
+      els.heatScoreText.textContent = String(score);
+      els.heatKnob.style.left = `${Math.max(0, Math.min(100, score))}%`;
+    }
+
+    function renderCompList(target, items = [], emptyText = "No comps found.") {
+      if (!items.length) {
+        target.innerHTML = `<div class="empty">${emptyText}</div>`;
+        return;
+      }
+
+      target.innerHTML = items.map(item => {
+        const title = escapeHtml(item.title || "Untitled comp");
+        const price = money(item.price || 0);
+        const condition = escapeHtml(item.condition || "—");
+        const shipping = item.shippingPrice ? `Shipping ${money(item.shippingPrice)}` : "Shipping n/a";
+        const seller = item.seller ? `Seller ${escapeHtml(item.seller)}` : "";
+        const url = item.itemWebUrl || "";
+
+        return `
+          <div class="comp">
+            <div class="comp-top">
+              <div class="comp-title">${title}</div>
+              <div class="comp-price">${price}</div>
+            </div>
+            <div class="comp-meta">
+              <span>${condition}</span>
+              <span>${shipping}</span>
+              ${seller ? `<span>${seller}</span>` : ""}
+              ${url ? `<a href="${url}" target="_blank" rel="noopener noreferrer">Open listing</a>` : ""}
+            </div>
+          </div>
+        `;
+      }).join("");
     }
 
     function escapeHtml(str = "") {
@@ -902,491 +1180,242 @@
         .replaceAll("<", "&lt;")
         .replaceAll(">", "&gt;")
         .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#39;");
+        .replaceAll("'", "&#039;");
     }
 
-    function getInputs() {
-      return {
-        query: document.getElementById("queryInput").value.trim(),
-        size: document.getElementById("sizeInput").value.trim(),
-        buyCost: document.getElementById("buyCostInput").value.trim(),
-        shippingCost: document.getElementById("shippingCostInput").value.trim(),
-        shippingType: document.getElementById("shippingTypeInput").value,
-        flatShippingCharge: document.getElementById("flatShippingInput").value.trim()
-      };
-    }
+    function updateResearchUI(data) {
+      const score = scoreFromResearch(data);
+      const pricing = data?.pricing || {};
+      const sellThrough = data?.sellThrough || {};
+      const compStats = data?.compStats || {};
+      const economics = data?.economics || {};
+      const scanExtracted = state.lastScan?.extracted || {};
 
-    function toggleLoading(isLoading) {
-      researchBtn.disabled = isLoading;
-      analyzeBtn.disabled = isLoading;
-      saveBtn.disabled = isLoading;
-      researchBtn.textContent = isLoading ? "Researching..." : "Research Item";
-      analyzeBtn.textContent = isLoading ? "Analyzing..." : "Analyze";
-    }
+      updateVerdict(data?.verdict || "PASS", score);
+      els.decisionCopy.textContent = buildDecisionCopy(data);
 
-    function computeHeatAndVerdict(data) {
-      const roi = Number(data?.pricing?.roi || 0);
-      const profit = Number(data?.pricing?.estimatedProfit || 0);
-      const demand = String(data?.market?.demand || "").toLowerCase();
-      const score = Number(data?.market?.researchScore || 0);
-      const count = Number(data?.market?.activeCount || 0);
+      els.recommendedPrice.textContent = money(pricing.ebay || 0);
+      els.profitText.textContent = money(economics.estimatedProfit || 0);
+      els.roiText.textContent = roiFormat(economics.roi || 0);
 
-      let heat = 0;
+      els.priceEbay.textContent = money(pricing.ebay || 0);
+      els.pricePoshmark.textContent = money(pricing.poshmark || 0);
+      els.priceMercari.textContent = money(pricing.mercari || 0);
+      els.priceDepop.textContent = money(pricing.depop || 0);
 
-      if (profit >= 25) heat += 30;
-      else if (profit >= 15) heat += 22;
-      else if (profit >= 8) heat += 15;
-      else if (profit > 0) heat += 8;
+      els.sellThroughText.textContent = `${Number(sellThrough.percent || 0).toFixed(1)}%`;
+      els.demandText.textContent = demandLabel(sellThrough.percent || 0);
+      els.daysToSellText.textContent = sellThrough.estimatedDaysToSell || "—";
+      els.confidenceText.textContent = state.lastScan ? `${Math.round((state.lastScan.confidenceScore || 0) * 100)}%` : "Manual";
 
-      if (roi >= 3) heat += 28;
-      else if (roi >= 2) heat += 22;
-      else if (roi >= 1.25) heat += 14;
-      else if (roi > 0) heat += 8;
+      els.activeCountText.textContent = String(compStats.activeCount || 0);
+      els.soldCountText.textContent = String(compStats.soldCount || 0);
+      els.activeCountHead.textContent = String(compStats.activeCount || 0);
+      els.soldCountHead.textContent = String(compStats.soldCount || 0);
 
-      if (demand.includes("very strong")) heat += 20;
-      else if (demand.includes("strong")) heat += 16;
-      else if (demand.includes("moderate")) heat += 10;
-      else heat += 4;
+      els.medianSoldText.textContent = money(compStats.medianSold || 0);
+      els.medianActiveText.textContent = money(compStats.medianActive || 0);
 
-      if (score >= 80) heat += 14;
-      else if (score >= 60) heat += 10;
-      else if (score >= 40) heat += 6;
-      else heat += 2;
+      els.brandText.textContent = scanExtracted.brand || "—";
+      els.detectedSizeText.textContent = scanExtracted.size || els.sizeInput.value || "—";
 
-      if (count >= 20) heat += 8;
-      else if (count >= 10) heat += 5;
-      else if (count >= 5) heat += 3;
-      else heat += 1;
-
-      heat = Math.max(0, Math.min(100, Math.round(heat)));
-
-      let verdict = "PASS";
-      let verdictClass = "verdict-pass";
-      let message = "Thin opportunity. Margin or demand is too weak.";
-
-      if (heat >= 75) {
-        verdict = "BUY";
-        verdictClass = "verdict-buy";
-        message = "Strong pickup. The numbers support buying this item if condition is solid.";
-      } else if (heat >= 50) {
-        verdict = "MAYBE";
-        verdictClass = "verdict-maybe";
-        message = "Borderline. Worth it if condition, brand strength, and sell speed look good.";
-      }
-
-      return { heat, verdict, verdictClass, message };
-    }
-
-    function renderInsights(data) {
-      const insight = computeHeatAndVerdict(data);
-      verdictBadge.className = `verdict-badge ${insight.verdictClass}`;
-      verdictBadge.textContent = insight.verdict;
-      verdictText.textContent = insight.message;
-      heatMarker.style.left = `${insight.heat}%`;
-      heatScore.textContent = `${insight.heat} / 100`;
-    }
-
-    function renderSummary(data) {
-      const market = data?.market || {};
-      const panel = market?.activePanel || {};
-      const confidence = market?.confidence || "—";
-      const demand = market?.demand || "—";
-      const activeCount = market?.activeCount ?? 0;
-      const score = market?.researchScore ?? 0;
-
-      marketSummary.innerHTML = `
-        <div class="summary-grid">
-          <div class="summary-box">
-            <div class="label">Median Price</div>
-            <div class="value">${formatMoney(panel.medianPrice || 0)}</div>
-            <div class="sub">active market</div>
-          </div>
-          <div class="summary-box">
-            <div class="label">Low Range</div>
-            <div class="value">${formatMoney(panel.lowPrice || 0)}</div>
-            <div class="sub">lower-end comp range</div>
-          </div>
-          <div class="summary-box">
-            <div class="label">High Range</div>
-            <div class="value">${formatMoney(panel.highPrice || 0)}</div>
-            <div class="sub">upper-end comp range</div>
-          </div>
-          <div class="summary-box">
-            <div class="label">Active Count</div>
-            <div class="value">${activeCount}</div>
-            <div class="sub">${escapeHtml(demand)} demand</div>
-          </div>
-          <div class="summary-box">
-            <div class="label">Confidence</div>
-            <div class="value">${escapeHtml(confidence)}</div>
-            <div class="sub">research quality</div>
-          </div>
-          <div class="summary-box">
-            <div class="label">Research Score</div>
-            <div class="value">${score}</div>
-            <div class="sub">data strength</div>
-          </div>
-          <div class="summary-box">
-            <div class="label">Median Total</div>
-            <div class="value">${formatMoney(panel.medianTotal || 0)}</div>
-            <div class="sub">item + shipping</div>
-          </div>
-          <div class="summary-box">
-            <div class="label">Source</div>
-            <div class="value">${escapeHtml(data?.source || "—")}</div>
-            <div class="sub">live lookup engine</div>
-          </div>
-        </div>
-      `;
-
-      statRecommended.textContent = formatMoney(data?.pricing?.recommendedPrice || 0);
-      statProfit.textContent = formatMoney(data?.pricing?.estimatedProfit || 0);
-      statRoi.textContent = `${Number(data?.pricing?.roi || 0).toFixed(2)}x`;
-      statDemand.textContent = demand;
-    }
-
-    function renderResults(items = []) {
-      resultsGrid.innerHTML = "";
-
-      if (!items.length) {
-        resultsEmpty.style.display = "block";
-        return;
-      }
-
-      resultsEmpty.style.display = "none";
-
-      for (const item of items) {
-        const img = item.image
-          ? `<img class="comp-image" src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title || "Item image")}" />`
-          : `<div class="comp-image" style="display:flex;align-items:center;justify-content:center;color:#8ea8d1;background:rgba(255,255,255,0.03);">No image</div>`;
-
-        const html = `
-          <article class="comp">
-            <div class="comp-image-wrap">${img}</div>
-            <div class="comp-body">
-              <h4 class="comp-title">${escapeHtml(item.title || "Untitled item")}</h4>
-              <div class="comp-meta">
-                ${item.condition ? `<span class="chip">${escapeHtml(item.condition)}</span>` : ""}
-                ${item.category ? `<span class="chip">${escapeHtml(item.category)}</span>` : ""}
-                ${item.seller ? `<span class="chip">${escapeHtml(item.seller)}</span>` : ""}
-              </div>
-              <div class="price-row">
-                <div class="price-main">${formatMoney(item.price || 0)}</div>
-                <div class="price-sub">
-                  Ship ${formatMoney(item.shipping || 0)}<br />
-                  Total ${formatMoney(item.total || 0)}
-                </div>
-              </div>
-            </div>
-            ${item.url
-              ? `<a class="comp-link" href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer">View listing</a>`
-              : `<div class="comp-link">No link</div>`
-            }
-          </article>
-        `;
-        resultsGrid.insertAdjacentHTML("beforeend", html);
-      }
-    }
-
-    function getSavedResults() {
-      try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        const parsed = raw ? JSON.parse(raw) : [];
-        return Array.isArray(parsed) ? parsed : [];
-      } catch {
-        return [];
-      }
-    }
-
-    function renderSavedResults() {
-      const saved = getSavedResults();
-      savedMeta.textContent = `${saved.length} saved`;
-
-      if (!saved.length) {
-        savedList.innerHTML = `<div class="empty" style="padding:16px;">No saved finds yet.</div>`;
-        return;
-      }
-
-      savedList.innerHTML = saved.map(item => `
-        <div class="saved-item">
-          <div class="saved-item-left">
-            <div class="saved-item-title">${escapeHtml(item.query)}</div>
-            <div class="saved-item-sub">${escapeHtml(item.demand)} · ROI ${Number(item.roi || 0).toFixed(2)}x</div>
-          </div>
-          <div class="saved-item-price">${formatMoney(item.estimatedProfit || 0)}</div>
-        </div>
-      `).join("");
-    }
-
-    function saveCurrentResult() {
-      if (!lastResult) {
-        setStatus("Run research first, then save the result.", "warning");
-        return;
-      }
-
-      const saved = getSavedResults();
-      const item = {
-        id: Date.now(),
-        query: lastResult?.query || "Untitled",
-        recommendedPrice: Number(lastResult?.pricing?.recommendedPrice || 0),
-        estimatedProfit: Number(lastResult?.pricing?.estimatedProfit || 0),
-        roi: Number(lastResult?.pricing?.roi || 0),
-        demand: lastResult?.market?.demand || "—",
-        savedAt: new Date().toLocaleString()
-      };
-
-      saved.unshift(item);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(saved.slice(0, 20)));
-      renderSavedResults();
-      setStatus("Saved to this device.", "success");
-    }
-
-    async function runResearch() {
-      const inputs = getInputs();
-
-      if (!inputs.query) {
-        setStatus("Enter an item to research first.", "warning");
-        return;
-      }
-
-      toggleLoading(true);
-      setStatus("Running live research...", "warning");
-
-      try {
-        const params = new URLSearchParams();
-        params.set("query", inputs.query);
-        if (inputs.size) params.set("size", inputs.size);
-        if (inputs.buyCost) params.set("buyCost", inputs.buyCost);
-        if (inputs.shippingCost) params.set("shippingCost", inputs.shippingCost);
-        if (inputs.shippingType) params.set("shippingType", inputs.shippingType);
-        if (inputs.flatShippingCharge) params.set("flatShippingCharge", inputs.flatShippingCharge);
-
-        const response = await fetch(`/api/research?${params.toString()}`);
-        const data = await response.json();
-
-        if (!response.ok || !data.ok) {
-          throw new Error(data.error || "Research failed");
-        }
-
-        lastResult = data;
-        renderSummary(data);
-        renderResults(data?.topComps?.active || []);
-        renderInsights(data);
-        setStatus("Research complete.", "success");
-      } catch (error) {
-        console.error(error);
-        setStatus(error.message || "Research failed.", "error");
-      } finally {
-        toggleLoading(false);
-      }
-    }
-
-    function isHeicFile(file) {
-      const name = (file?.name || "").toLowerCase();
-      const type = (file?.type || "").toLowerCase();
-      return (
-        name.endsWith(".heic") ||
-        name.endsWith(".heif") ||
-        type.includes("heic") ||
-        type.includes("heif")
+      renderCompList(
+        els.soldList,
+        data?.topComps?.sold || [],
+        "No sold comps were returned for this search."
+      );
+      renderCompList(
+        els.activeList,
+        data?.topComps?.active || [],
+        "No active comps were returned for this search."
       );
     }
 
-    function fileToDataUrl(file) {
+    async function fileToBase64(file) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = () => reject(new Error("Failed to read file"));
+        reader.onload = () => {
+          const result = reader.result || "";
+          const base64 = String(result).split(",")[1];
+          resolve(base64);
+        };
+        reader.onerror = reject;
         reader.readAsDataURL(file);
       });
     }
 
-    function blobToDataUrl(blob) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = () => reject(new Error("Failed to convert image"));
-        reader.readAsDataURL(blob);
-      });
-    }
-
-    async function preparePhotoForUpload(file) {
-      if (isHeicFile(file)) {
-        setStatus("Converting HEIC photo...", "warning");
-
-        const convertedBlob = await window.heic2any({
-          blob: file,
-          toType: "image/jpeg",
-          quality: 0.9
-        });
-
-        const blob = Array.isArray(convertedBlob) ? convertedBlob[0] : convertedBlob;
-        const dataUrl = await blobToDataUrl(blob);
-
-        return {
-          mimeType: "image/jpeg",
-          imageBase64: dataUrl.split(",")[1]
-        };
+    async function runPhotoScan() {
+      const file = els.photoInput.files?.[0];
+      if (!file) {
+        setStatus("Choose a photo first.", true);
+        return null;
       }
 
-      const dataUrl = await fileToDataUrl(file);
-      return {
-        mimeType: file.type || "image/jpeg",
-        imageBase64: dataUrl.split(",")[1]
-      };
-    }
-
-    async function scanPhotoOnly(file) {
-      const payload = await preparePhotoForUpload(file);
-      setStatus(`Scanning ${activeScanMode} photo...`, "warning");
+      setStatus("Scanning photo...");
+      const imageBase64 = await fileToBase64(file);
 
       const response = await fetch("/api/photo-scan", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json"
+        },
         body: JSON.stringify({
-          ...payload,
-          scanMode: activeScanMode
+          imageBase64,
+          scanMode: state.mode
         })
       });
 
       const data = await response.json();
 
       if (!response.ok || !data.ok) {
-        throw new Error(data.error || "Photo scan failed");
+        throw new Error(data?.error || "Photo scan failed.");
       }
 
-      lastResult = null;
+      state.lastScan = data;
 
-      statRecommended.textContent = "—";
-      statProfit.textContent = "—";
-      statRoi.textContent = "—";
-      statDemand.textContent = `${data?.total || 0}`;
-
-      verdictBadge.className = "verdict-badge verdict-maybe";
-      verdictBadge.textContent = "SCAN";
-      verdictText.textContent = "Scan completed. Research will auto-run only when a usable title comes back.";
-
-      heatMarker.style.left = "50%";
-      heatScore.textContent = "50 / 100";
-
-      marketSummary.innerHTML = `
-        <div class="summary-grid">
-          <div class="summary-box">
-            <div class="label">Scan Mode</div>
-            <div class="value">${escapeHtml(activeScanMode.toUpperCase())}</div>
-            <div class="sub">selected scanner</div>
-          </div>
-          <div class="summary-box">
-            <div class="label">Scan Results</div>
-            <div class="value">${data?.total || 0}</div>
-            <div class="sub">matching listings</div>
-          </div>
-          <div class="summary-box">
-            <div class="label">Best Match</div>
-            <div class="value" style="font-size:16px;line-height:1.3;">${escapeHtml(data?.bestMatchTitle || "—")}</div>
-            <div class="sub">used for search when available</div>
-          </div>
-          <div class="summary-box">
-            <div class="label">Source</div>
-            <div class="value">${escapeHtml(data?.source || "—")}</div>
-            <div class="sub">scan engine</div>
-          </div>
-        </div>
-      `;
-
-      renderResults(data?.results || []);
-
-      if (isValidTitle(data?.bestMatchTitle)) {
-        queryInput.value = data.bestMatchTitle.trim();
+      let filledTitle = data.cleanTitle || data.bestMatchTitle || "";
+      const detectedSize = data?.extracted?.size || "";
+      if (detectedSize && !els.sizeInput.value) {
+        const optionExists = [...els.sizeInput.options].some(opt => opt.value === detectedSize);
+        if (optionExists) els.sizeInput.value = detectedSize;
       }
 
-      shippingTypeInput.value = "Buyer Pays Shipping";
+      if (filledTitle) {
+        els.queryInput.value = filledTitle;
+      }
+
+      els.brandText.textContent = data?.extracted?.brand || "—";
+      els.detectedSizeText.textContent = data?.extracted?.size || els.sizeInput.value || "—";
+      els.scanModeText.textContent = capitalize(data?.scanMode || state.mode);
+      els.confidenceText.textContent = `${Math.round((data?.confidenceScore || 0) * 100)}%`;
+
+      setStatus(`Scan complete. ${filledTitle ? "Title filled in." : "Review result before analyzing."}`);
       return data;
     }
 
-    async function handleScanOnly(event) {
-      const file = event.target.files?.[0];
-      if (!file) return;
+    function buildSearchTitle() {
+      const base = (els.queryInput.value || "").trim();
+      const size = (els.sizeInput.value || "").trim();
 
-      try {
-        await scanPhotoOnly(file);
-        setStatus("Scan complete. Search updated when a usable match was found.", "success");
-      } catch (error) {
-        console.error(error);
-        setStatus(error.message || "Scan failed.", "error");
-      } finally {
-        event.target.value = "";
-      }
+      if (!base) return "";
+      if (!size) return base;
+
+      const baseLower = base.toLowerCase();
+      if (baseLower.includes(size.toLowerCase())) return base;
+      return `${base} ${size}`.trim();
     }
 
-    async function handleFastScan(event) {
-      const file = event.target.files?.[0];
-      if (!file) return;
+    async function runResearch() {
+      const title = buildSearchTitle();
 
-      try {
-        setStatus(`Starting Fast Scan in ${activeScanMode} mode...`, "warning");
-        const data = await scanPhotoOnly(file);
-
-        if (isValidTitle(data?.bestMatchTitle)) {
-          setStatus("Fast Scan found a valid match. Running research automatically...", "warning");
-          await runResearch();
-        } else {
-          setStatus("Fast Scan finished, but no usable title string came back. Review scan comps or type a search.", "warning");
-        }
-      } catch (error) {
-        console.error(error);
-        setStatus(error.message || "Fast Scan failed.", "error");
-      } finally {
-        event.target.value = "";
-      }
-    }
-
-    async function handleUpcLookup() {
-      if (activeScanMode !== "upc") {
-        setStatus("Switch to UPC Scan mode first for barcode or UPC items.", "warning");
+      if (!title) {
+        setStatus("Enter a title or run a scan first.", true);
         return;
       }
 
-      const raw = queryInput.value.trim();
-      if (!raw) {
-        setStatus("Enter or scan a UPC first.", "warning");
-        return;
+      setStatus("Analyzing live comps...");
+
+      const response = await fetch("/api/research", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          title,
+          buyCost: Number(els.buyCostInput.value || 0),
+          shippingCost: Number(els.shippingCostInput.value || 0),
+          buyerPaysShipping: els.shippingModeInput.value === "buyer"
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.ok) {
+        throw new Error(data?.error || "Research failed.");
       }
 
-      setStatus("Running UPC lookup...", "warning");
-
-      try {
-        const response = await fetch(`/api/upc?query=${encodeURIComponent(raw)}`);
-        const data = await response.json();
-
-        if (!response.ok || !data.ok) {
-          throw new Error(data.error || "UPC lookup failed");
-        }
-
-        if (isValidTitle(data?.title)) {
-          queryInput.value = data.title.trim();
-          setStatus("UPC matched. Search field updated with product title.", "success");
-        } else {
-          setStatus("UPC lookup finished, but no clean title came back.", "warning");
-        }
-      } catch (error) {
-        console.error(error);
-        setStatus(error.message || "UPC lookup failed.", "error");
-      }
+      state.lastResearch = data;
+      updateResearchUI(data);
+      setStatus("Analysis complete.");
     }
 
-    researchBtn.addEventListener("click", runResearch);
-    analyzeBtn.addEventListener("click", runResearch);
-    saveBtn.addEventListener("click", saveCurrentResult);
-    photoInput.addEventListener("change", handleScanOnly);
-    fastPhotoInput.addEventListener("change", handleFastScan);
-    upcLookupBtn.addEventListener("click", handleUpcLookup);
+    function clearAll() {
+      state.lastScan = null;
+      state.lastResearch = null;
 
-    queryInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") runResearch();
+      els.queryInput.value = "";
+      els.sizeInput.value = "";
+      els.buyCostInput.value = "";
+      els.shippingCostInput.value = "";
+      els.shippingModeInput.value = "buyer";
+      els.photoInput.value = "";
+
+      updateVerdict("PASS", 50);
+      els.decisionCopy.textContent = "Run research to score the item using profit, ROI, demand, and sell-through.";
+      els.recommendedPrice.textContent = "$0.00";
+      els.profitText.textContent = "$0.00";
+      els.roiText.textContent = "0.00x";
+
+      els.priceEbay.textContent = "$0.00";
+      els.pricePoshmark.textContent = "$0.00";
+      els.priceMercari.textContent = "$0.00";
+      els.priceDepop.textContent = "$0.00";
+
+      els.sellThroughText.textContent = "0%";
+      els.demandText.textContent = "—";
+      els.daysToSellText.textContent = "—";
+      els.confidenceText.textContent = "—";
+      els.activeCountText.textContent = "0";
+      els.soldCountText.textContent = "0";
+      els.activeCountHead.textContent = "0";
+      els.soldCountHead.textContent = "0";
+      els.medianSoldText.textContent = "$0.00";
+      els.medianActiveText.textContent = "$0.00";
+      els.brandText.textContent = "—";
+      els.detectedSizeText.textContent = "—";
+      els.scanModeText.textContent = capitalize(state.mode);
+
+      renderCompList(els.soldList, [], "No sold comps yet. Run a scan or manual analyze to load data.");
+      renderCompList(els.activeList, [], "No active comps yet. Run a scan or manual analyze to load data.");
+
+      setStatus("Cleared.");
+    }
+
+    els.modeButtons.forEach(btn => {
+      btn.addEventListener("click", () => setMode(btn.dataset.mode));
     });
 
-    renderSavedResults();
+    els.scanBtn.addEventListener("click", async () => {
+      try {
+        await runPhotoScan();
+      } catch (error) {
+        setStatus(error.message || "Photo scan failed.", true);
+      }
+    });
+
+    els.researchBtn.addEventListener("click", async () => {
+      try {
+        await runResearch();
+      } catch (error) {
+        setStatus(error.message || "Research failed.", true);
+      }
+    });
+
+    els.clearBtn.addEventListener("click", clearAll);
+
+    els.queryInput.addEventListener("keydown", async (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        try {
+          await runResearch();
+        } catch (error) {
+          setStatus(error.message || "Research failed.", true);
+        }
+      }
+    });
+
+    setMode("tag");
+    clearAll();
   </script>
 </body>
 </html>

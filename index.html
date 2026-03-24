@@ -38,64 +38,9 @@
     }
 
     .shell {
-      max-width: 1520px;
+      max-width: 1540px;
       margin: 0 auto;
-      padding: 24px;
-    }
-
-    .hidden { display: none !important; }
-
-    .camera-home {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-    }
-
-    .camera-home-card {
-      width: 100%;
-      max-width: 760px;
-      background: linear-gradient(180deg, var(--panel), var(--panel2));
-      border: 1px solid var(--line);
-      border-radius: 30px;
-      box-shadow: var(--shadow);
-      padding: 28px;
-      text-align: center;
-    }
-
-    .camera-logo {
-      width: 220px;
-      height: 220px;
-      object-fit: cover;
-      border-radius: 40px;
-      border: 1px solid var(--line2);
-      box-shadow: var(--shadow);
-      background: rgba(255,255,255,0.04);
-      margin: 0 auto 18px;
-      display: block;
-    }
-
-    .camera-home h1 {
-      margin: 0;
-      font-size: 42px;
-      line-height: 1.04;
-    }
-
-    .camera-home p {
-      max-width: 600px;
-      margin: 12px auto 0;
-      color: var(--muted);
-      line-height: 1.6;
-      font-size: 15px;
-    }
-
-    .camera-actions {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-top: 22px;
+      padding: 22px;
     }
 
     .topbar {
@@ -113,8 +58,8 @@
     }
 
     .logo {
-      width: 190px;
-      height: 190px;
+      width: 185px;
+      height: 185px;
       object-fit: cover;
       border-radius: 36px;
       border: 1px solid var(--line2);
@@ -196,7 +141,7 @@
 
     .hero h2 {
       margin: 0;
-      font-size: 36px;
+      font-size: 35px;
       line-height: 1.08;
       max-width: 980px;
     }
@@ -209,15 +154,56 @@
       font-size: 15px;
     }
 
+    .scanner-modes {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .mode-card {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: rgba(255,255,255,0.03);
+      padding: 16px;
+      cursor: pointer;
+      transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+    }
+
+    .mode-card:hover {
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,0.18);
+    }
+
+    .mode-card.active {
+      border-color: rgba(77,163,255,0.45);
+      background: rgba(77,163,255,0.08);
+      box-shadow: inset 0 0 0 1px rgba(77,163,255,0.12);
+    }
+
+    .mode-card h3 {
+      margin: 0 0 8px;
+      font-size: 18px;
+    }
+
+    .mode-card p {
+      margin: 0;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
     .top-insights {
       display: grid;
       grid-template-columns: 1.1fr 1fr 1fr;
       gap: 14px;
+      margin-top: 18px;
     }
 
     .verdict-card,
     .heat-card,
-    .stats-card {
+    .stats-card,
+    .saved-card {
       border: 1px solid var(--line);
       border-radius: 18px;
       padding: 18px;
@@ -630,6 +616,7 @@
     }
 
     @media (max-width: 1280px) {
+      .scanner-modes,
       .top-insights,
       .form-grid,
       .summary-grid,
@@ -642,10 +629,9 @@
       .shell { padding: 16px; }
       .topbar { flex-direction: column; align-items: flex-start; }
       .logo { width: 125px; height: 125px; }
-      .camera-logo { width: 170px; height: 170px; }
       .brand-copy h1 { font-size: 33px; }
-      .camera-home h1 { font-size: 34px; }
       .hero h2 { font-size: 28px; }
+      .scanner-modes,
       .top-insights,
       .form-grid,
       .summary-grid,
@@ -657,51 +643,42 @@
   </style>
 </head>
 <body>
-  <div id="cameraHome" class="camera-home">
-    <div class="camera-home-card">
-      <img src="logo.png" alt="GoodFinds AI logo" class="camera-logo" />
-      <h1>GoodFinds AI</h1>
-      <p>
-        Camera-first mode is built for fast thrift decisions. Open the camera, scan the item,
-        auto-fill the best match, run pricing research, and get the buy or pass verdict at the top.
-      </p>
-      <div class="camera-actions">
-        <label class="btn btn-fast">
-          Fast Scan Now
-          <input
-            id="homeFastPhotoInput"
-            type="file"
-            accept="image/*,.heic,.heif,image/heic,image/heif"
-            capture="environment"
-            hidden
-          />
-        </label>
-        <button id="openDashboardBtn" class="btn btn-primary">Open Dashboard</button>
-      </div>
-    </div>
-  </div>
-
-  <div id="dashboardApp" class="shell hidden">
+  <div class="shell">
     <div class="topbar">
       <div class="brand">
         <img src="logo.png" alt="GoodFinds AI logo" class="logo" />
         <div class="brand-copy">
           <h1>GoodFinds AI</h1>
-          <p>Built for real reseller decisions with live comps, visual scan, pricing guidance, profit math, and sourcing confidence all in one place.</p>
+          <p>Scanner V2 keeps everything on one page so you can scan, analyze, and decide fast without losing your place in-store.</p>
         </div>
       </div>
-      <div class="top-pill">Live sourcing dashboard</div>
+      <div class="top-pill">Scanner V2</div>
     </div>
 
     <div class="grid">
       <section class="card hero">
-        <div class="badge">Fast scan + live research + HEIC support + verdict engine</div>
-        <h2>Scan or search an item and get the buy or pass answer first, then review the comps underneath.</h2>
+        <div class="badge">One-page scanner + live research + verdict engine</div>
+        <h2>Choose the right scan mode first, then let the app guide the fastest path to a buy or pass decision.</h2>
         <p class="hero-sub">
-          Fast Scan is built for in-store use. Snap the item, auto-fill the search, switch shipping to Buyer Pays Shipping, run research automatically, and show the sourcing verdict at the top right away.
+          Tag Scan is best for clothing labels and style tags. Item Scan is best for the whole product. UPC Scan is best for boxed goods. Fast Scan tries to auto-run research when it gets a strong match.
         </p>
 
-        <div class="top-insights" style="margin-top:18px;">
+        <div class="scanner-modes">
+          <div class="mode-card active" id="modeTagCard" data-mode="tag">
+            <h3>Tag Scan</h3>
+            <p>Best for clothing tags, brand labels, style tags, and size labels. Recommended default for apparel.</p>
+          </div>
+          <div class="mode-card" id="modeItemCard" data-mode="item">
+            <h3>Item Scan</h3>
+            <p>Best for full-item photos when the tag is missing or hard to read. Good fallback for shoes and apparel.</p>
+          </div>
+          <div class="mode-card" id="modeUpcCard" data-mode="upc">
+            <h3>UPC Scan</h3>
+            <p>Best for boxed goods, toys, electronics, and retail arbitrage items with a barcode or UPC.</p>
+          </div>
+        </div>
+
+        <div class="top-insights">
           <div class="verdict-card">
             <h3 class="section-title">Buy / Pass</h3>
             <div id="verdictBadge" class="verdict-badge verdict-maybe">ANALYZE</div>
@@ -813,7 +790,7 @@
           </label>
 
           <label class="btn btn-secondary">
-            Photo Scan Only
+            Scan Only
             <input
               id="photoInput"
               type="file"
@@ -822,6 +799,8 @@
               hidden
             />
           </label>
+
+          <button id="upcLookupBtn" class="btn btn-secondary" type="button">UPC Lookup</button>
         </div>
 
         <div id="statusBar" class="status">Ready.</div>
@@ -843,18 +822,13 @@
         <div id="resultsGrid" class="results-grid"></div>
         <div id="resultsEmpty" class="empty">Run a search or use Fast Scan to see results.</div>
         <div class="footer-note">
-          Fast Scan uploads the photo, tries to extract the best match, sets shipping to Buyer Pays Shipping, and only runs research when a valid title string is found.
+          Tag Scan is the best default for apparel. Fast Scan only auto-runs research when it gets a usable title string.
         </div>
       </section>
     </div>
   </div>
 
   <script>
-    const cameraHome = document.getElementById("cameraHome");
-    const dashboardApp = document.getElementById("dashboardApp");
-    const openDashboardBtn = document.getElementById("openDashboardBtn");
-    const homeFastPhotoInput = document.getElementById("homeFastPhotoInput");
-
     const statusBar = document.getElementById("statusBar");
     const resultsGrid = document.getElementById("resultsGrid");
     const resultsEmpty = document.getElementById("resultsEmpty");
@@ -875,6 +849,7 @@
     const saveBtn = document.getElementById("saveBtn");
     const photoInput = document.getElementById("photoInput");
     const fastPhotoInput = document.getElementById("fastPhotoInput");
+    const upcLookupBtn = document.getElementById("upcLookupBtn");
 
     const queryInput = document.getElementById("queryInput");
     const shippingTypeInput = document.getElementById("shippingTypeInput");
@@ -882,13 +857,30 @@
     const savedMeta = document.getElementById("savedMeta");
     const savedList = document.getElementById("savedList");
 
-    let lastResult = null;
-    const STORAGE_KEY = "goodfinds_saved_results_v6";
+    const modeCards = document.querySelectorAll(".mode-card");
 
-    function showDashboard() {
-      cameraHome.classList.add("hidden");
-      dashboardApp.classList.remove("hidden");
+    let lastResult = null;
+    let activeScanMode = "tag";
+    const STORAGE_KEY = "goodfinds_saved_results_v7";
+
+    function setActiveMode(mode) {
+      activeScanMode = mode;
+      modeCards.forEach(card => {
+        card.classList.toggle("active", card.dataset.mode === mode);
+      });
+
+      if (mode === "tag") {
+        setStatus("Tag Scan selected. Best for apparel labels and tags.", "success");
+      } else if (mode === "item") {
+        setStatus("Item Scan selected. Best for whole-item photos.", "success");
+      } else {
+        setStatus("UPC Scan selected. Best for boxed items and retail goods.", "success");
+      }
     }
+
+    modeCards.forEach(card => {
+      card.addEventListener("click", () => setActiveMode(card.dataset.mode));
+    });
 
     function isValidTitle(value) {
       return typeof value === "string" && value.trim().length > 0;
@@ -1246,12 +1238,15 @@
 
     async function scanPhotoOnly(file) {
       const payload = await preparePhotoForUpload(file);
-      setStatus("Scanning photo...", "warning");
+      setStatus(`Scanning ${activeScanMode} photo...`, "warning");
 
       const response = await fetch("/api/photo-scan", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
+        body: JSON.stringify({
+          ...payload,
+          scanMode: activeScanMode
+        })
       });
 
       const data = await response.json();
@@ -1269,7 +1264,7 @@
 
       verdictBadge.className = "verdict-badge verdict-maybe";
       verdictBadge.textContent = "SCAN";
-      verdictText.textContent = "Photo scan found visually similar listings. The best match will only auto-analyze if it returns a usable title.";
+      verdictText.textContent = "Scan completed. Research will auto-run only when a usable title comes back.";
 
       heatMarker.style.left = "50%";
       heatScore.textContent = "50 / 100";
@@ -1277,24 +1272,24 @@
       marketSummary.innerHTML = `
         <div class="summary-grid">
           <div class="summary-box">
+            <div class="label">Scan Mode</div>
+            <div class="value">${escapeHtml(activeScanMode.toUpperCase())}</div>
+            <div class="sub">selected scanner</div>
+          </div>
+          <div class="summary-box">
             <div class="label">Scan Results</div>
             <div class="value">${data?.total || 0}</div>
             <div class="sub">matching listings</div>
           </div>
           <div class="summary-box">
-            <div class="label">Source</div>
-            <div class="value">${escapeHtml(data?.source || "—")}</div>
-            <div class="sub">image search</div>
-          </div>
-          <div class="summary-box">
-            <div class="label">Mime Type</div>
-            <div class="value">${escapeHtml(data?.mimeType || "—")}</div>
-            <div class="sub">uploaded image</div>
-          </div>
-          <div class="summary-box">
             <div class="label">Best Match</div>
             <div class="value" style="font-size:16px;line-height:1.3;">${escapeHtml(data?.bestMatchTitle || "—")}</div>
-            <div class="sub">used for auto-fill when available</div>
+            <div class="sub">used for search when available</div>
+          </div>
+          <div class="summary-box">
+            <div class="label">Source</div>
+            <div class="value">${escapeHtml(data?.source || "—")}</div>
+            <div class="sub">scan engine</div>
           </div>
         </div>
       `;
@@ -1309,18 +1304,16 @@
       return data;
     }
 
-    async function handlePhotoScan(event) {
+    async function handleScanOnly(event) {
       const file = event.target.files?.[0];
       if (!file) return;
 
-      showDashboard();
-
       try {
         await scanPhotoOnly(file);
-        setStatus("Photo scan complete. Search updated when a usable title was found.", "success");
+        setStatus("Scan complete. Search updated when a usable match was found.", "success");
       } catch (error) {
         console.error(error);
-        setStatus(error.message || "Photo scan failed.", "error");
+        setStatus(error.message || "Scan failed.", "error");
       } finally {
         event.target.value = "";
       }
@@ -1330,10 +1323,8 @@
       const file = event.target.files?.[0];
       if (!file) return;
 
-      showDashboard();
-
       try {
-        setStatus("Starting Fast Scan...", "warning");
+        setStatus(`Starting Fast Scan in ${activeScanMode} mode...`, "warning");
         const data = await scanPhotoOnly(file);
 
         if (isValidTitle(data?.bestMatchTitle)) {
@@ -1350,13 +1341,46 @@
       }
     }
 
-    openDashboardBtn.addEventListener("click", showDashboard);
+    async function handleUpcLookup() {
+      if (activeScanMode !== "upc") {
+        setStatus("Switch to UPC Scan mode first for barcode or UPC items.", "warning");
+        return;
+      }
+
+      const raw = queryInput.value.trim();
+      if (!raw) {
+        setStatus("Enter or scan a UPC first.", "warning");
+        return;
+      }
+
+      setStatus("Running UPC lookup...", "warning");
+
+      try {
+        const response = await fetch(`/api/upc?query=${encodeURIComponent(raw)}`);
+        const data = await response.json();
+
+        if (!response.ok || !data.ok) {
+          throw new Error(data.error || "UPC lookup failed");
+        }
+
+        if (isValidTitle(data?.title)) {
+          queryInput.value = data.title.trim();
+          setStatus("UPC matched. Search field updated with product title.", "success");
+        } else {
+          setStatus("UPC lookup finished, but no clean title came back.", "warning");
+        }
+      } catch (error) {
+        console.error(error);
+        setStatus(error.message || "UPC lookup failed.", "error");
+      }
+    }
+
     researchBtn.addEventListener("click", runResearch);
     analyzeBtn.addEventListener("click", runResearch);
     saveBtn.addEventListener("click", saveCurrentResult);
-    photoInput.addEventListener("change", handlePhotoScan);
+    photoInput.addEventListener("change", handleScanOnly);
     fastPhotoInput.addEventListener("change", handleFastScan);
-    homeFastPhotoInput.addEventListener("change", handleFastScan);
+    upcLookupBtn.addEventListener("click", handleUpcLookup);
 
     queryInput.addEventListener("keydown", (e) => {
       if (e.key === "Enter") runResearch();

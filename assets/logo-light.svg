@@ -1,0 +1,29 @@
+<svg width="1200" height="320" viewBox="0 0 1200 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="320" fill="#F6F9FC"/>
+  <g transform="translate(70 50)">
+    <rect x="0" y="18" width="150" height="150" rx="34" stroke="#3C86FF" stroke-width="12"/>
+    <path d="M58 44H154C165 44 174 53 174 64V160C174 171 165 180 154 180H58C47 180 38 171 38 160V64C38 53 47 44 58 44Z" fill="url(#g1)" transform="rotate(-45 106 112)"/>
+    <rect x="66" y="88" width="78" height="36" rx="8" fill="#091A38"/>
+    <g fill="#7FD6FF">
+      <rect x="75" y="93" width="5" height="26" rx="2"/>
+      <rect x="84" y="93" width="5" height="26" rx="2"/>
+      <rect x="93" y="93" width="5" height="26" rx="2"/>
+      <rect x="102" y="93" width="5" height="26" rx="2"/>
+      <rect x="111" y="93" width="5" height="26" rx="2"/>
+      <rect x="120" y="93" width="5" height="26" rx="2"/>
+      <rect x="129" y="93" width="5" height="26" rx="2"/>
+    </g>
+    <circle cx="144" cy="62" r="8" fill="#DDF4FF"/>
+    <circle cx="166" cy="166" r="24" stroke="#3C86FF" stroke-width="12" fill="none"/>
+    <path d="M181 181L211 211" stroke="#3C86FF" stroke-width="12" stroke-linecap="round"/>
+    <path d="M208 26L214 39L227 45L214 51L208 64L202 51L189 45L202 39L208 26Z" fill="#7FD6FF"/>
+  </g>
+  <text x="335" y="180" font-family="Inter, Arial, sans-serif" font-size="96" font-weight="800" fill="#17366C">GoodFinds</text>
+  <text x="900" y="180" font-family="Inter, Arial, sans-serif" font-size="96" font-weight="800" fill="#3C86FF">AI</text>
+  <defs>
+    <linearGradient id="g1" x1="38" y1="44" x2="174" y2="180" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#9BE1FF"/>
+      <stop offset="1" stop-color="#2F7BFF"/>
+    </linearGradient>
+  </defs>
+</svg>

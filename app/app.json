@@ -1,0 +1,23 @@
+{
+  "expo": {
+    "name": "GoodFinds AI",
+    "slug": "goodfinds-ai",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#f6f9fc"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.goodfinds.ai"
+    },
+    "android": {
+      "package": "com.goodfinds.ai"
+    },
+    "web": {
+      "bundler": "metro"
+    }
+  }
+}

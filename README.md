@@ -1,36 +1,62 @@
-# GoodFinds AI
+# GoodFinds AI Starter Pack
 
 Built by resellers, for resellers.
 
-GoodFinds AI is a smart sourcing and pricing tool that helps resellers:
+This starter pack includes:
+- Vercel backend for live product research
+- Web frontend (`index.html`)
+- Squarespace embed version
+- Expo app shell
+- Clean SVG logo files
 
-- Scan items (photo, tag, UPC)
-- Analyze resale demand
-- View marketplace insights
-- Calculate sell-through rate
-- Get BUY / PASS / HOLD decisions instantly
+## Folder Structure
 
-## Features
+```text
+api/
+  _lib/ebay.js
+  research.js
+lib/
+  pricing-engine.js
+squarespace/
+  scanner-embed.html
+app/
+  App.js
+  app.json
+  package.json
+assets/
+  logo-light.svg
+  logo-dark.svg
+  app-icon.svg
+index.html
+vercel.json
+.gitignore
+```
 
-- Live eBay data integration
-- AI-powered title cleaning
-- Marketplace comparison (eBay, Mercari, Poshmark, Depop)
-- Profit + ROI calculation
-- Mobile-first UI
+## Vercel Environment Variables
 
-## Tech Stack
+Add these in Vercel:
 
-- Frontend: HTML / JS (Squarespace + Web App)
-- Backend: Vercel Serverless Functions
-- APIs: eBay Browse API
+- `EBAY_CLIENT_ID`
+- `EBAY_CLIENT_SECRET`
+- `EBAY_MARKETPLACE_ID=EBAY_US`
 
-## Roadmap
+## What Works Now
 
-- Native mobile app (iOS + Android)
-- Cross-listing integrations
-- Advanced pricing engine
-- Seller analytics dashboard
+- Photo, tag, and UPC research flow
+- eBay Browse API live search structure
+- Pricing / ROI / BUY-HOLD-PASS logic
+- Website layout with pricing plans
+- Squarespace-ready embed
+- Expo wrapper app
 
----
+## What You Still Need To Do
 
-GoodFinds AI — Scan smarter. Sell faster.
+- Replace all placeholder URLs
+- Add your real eBay credentials in Vercel
+- Paste the Squarespace code into a code block
+- Point the Expo app at your live website
+
+## Notes About Subscriptions
+
+Subscriptions can live in Squarespace.
+This pack includes pricing sections in the frontend, but does not enforce plan access in the API yet.

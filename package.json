@@ -1,0 +1,9 @@
+{
+  "name": "goodfinds-ai-web",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "google-auth-library": "^9.14.2"
+  }
+}

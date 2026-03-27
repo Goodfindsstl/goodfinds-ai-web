@@ -1,18 +1,9 @@
 {
-  "name": "goodfinds-ai-app",
-  "version": "1.0.0",
+  "name": "goodfinds-ai-web",
   "private": true,
-  "main": "node_modules/expo/AppEntry.js",
-  "scripts": {
-    "start": "expo start",
-    "android": "expo run:android",
-    "ios": "expo run:ios"
-  },
+  "version": "1.0.0",
+  "type": "module",
   "dependencies": {
-    "expo": "~52.0.0",
-    "expo-status-bar": "~2.0.0",
-    "react": "18.3.1",
-    "react-native": "0.76.3",
-    "react-native-webview": "13.12.5"
+    "google-auth-library": "^9.14.2"
   }
 }

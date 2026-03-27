@@ -1,89 +1,99 @@
-const CORS_HEADERS = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type",
-};
+async function extractLikelyBarcodeText(imageBase64) {
+  const body = {
+    requests: [
+      {
+        image: { content: imageBase64 },
+        features: [{ type: "TEXT_DETECTION", maxResults: 10 }]
+      }
+    ]
+  };
 
-function setCors(res) {
-  Object.entries(CORS_HEADERS).forEach(([k, v]) => res.setHeader(k, v));
+  const rawCreds = process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON;
+  if (!rawCreds) throw new Error("Missing GOOGLE_APPLICATION_CREDENTIALS_JSON");
+
+  const { GoogleAuth } = await import("google-auth-library");
+  const auth = new GoogleAuth({
+    credentials: JSON.parse(rawCreds),
+    scopes: ["https://www.googleapis.com/auth/cloud-platform"]
+  });
+
+  const client = await auth.getClient();
+  const tokenResponse = await client.getAccessToken();
+  const token = tokenResponse?.token;
+  if (!token) throw new Error("Failed to get Google access token");
+
+  const visionRes = await fetch("https://vision.googleapis.com/v1/images:annotate", {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${token}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(body)
+  });
+
+  if (!visionRes.ok) {
+    const text = await visionRes.text();
+    throw new Error(`Vision API error: ${text}`);
+  }
+
+  const data = await visionRes.json();
+  const text = data?.responses?.[0]?.fullTextAnnotation?.text || data?.responses?.[0]?.textAnnotations?.[0]?.description || "";
+  const digits = (text.match(/\b\d{12,14}\b/g) || [])[0] || "";
+  return digits;
 }
 
-function send(res, status, data) {
-  setCors(res);
-  return res.status(status).json(data);
-}
+async function lookupUpc(upc) {
+  const apiKey = process.env.UPCITEMDB_API_KEY;
+  const url = new URL("https://api.upcitemdb.com/prod/trial/lookup");
+  url.searchParams.set("upc", upc);
 
-function clean(v = "") {
-  return String(v).trim();
-}
+  const headers = apiKey ? { "user_key": apiKey } : {};
+  const res = await fetch(url.toString(), { headers });
 
-function normalizeUPC(v = "") {
-  return String(v).replace(/\D/g, "");
-}
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`UPC lookup error: ${text}`);
+  }
 
-function buildSearchQuery(item) {
-  return [item.brand, item.title, item.category].filter(Boolean).join(" ");
+  return await res.json();
 }
 
 export default async function handler(req, res) {
-  if (req.method === "OPTIONS") {
-    setCors(res);
-    return res.status(200).end();
-  }
-
-  if (req.method !== "GET" && req.method !== "POST") {
-    return send(res, 405, { ok: false, error: "Method not allowed" });
-  }
-
   try {
-    const input = req.method === "POST" ? (req.body || {}) : (req.query || {});
-    const raw = input.upc || input.code || input.barcode || "";
-    const upc = normalizeUPC(raw);
-
-    if (!upc) {
-      return send(res, 400, { ok: false, error: "Missing UPC" });
+    if (req.method !== "POST") {
+      return res.status(405).json({ error: "Method not allowed" });
     }
 
-    const response = await fetch(
-      `https://api.upcitemdb.com/prod/trial/lookup?upc=${encodeURIComponent(upc)}`
-    );
+    const { imageBase64 } = req.body || {};
+    if (!imageBase64) {
+      return res.status(400).json({ error: "Missing imageBase64" });
+    }
 
-    const data = await response.json();
-
-    if (!data.items || !data.items.length) {
-      return send(res, 404, {
-        ok: false,
-        error: "No product found",
-        upc,
+    const upc = await extractLikelyBarcodeText(imageBase64);
+    if (!upc) {
+      return res.status(200).json({
+        ok: true,
+        upc: "",
+        title: "",
+        query: ""
       });
     }
 
-    const item = data.items[0];
+    const lookup = await lookupUpc(upc);
+    const item = lookup?.items?.[0] || {};
+    const title = item.title || "";
 
-    const product = {
-      upc,
-      title: clean(item.title),
-      brand: clean(item.brand),
-      category: clean(item.category),
-      image: item.images?.[0] || "",
-      offers: (item.offers || []).slice(0, 5).map((o) => ({
-        merchant: o.merchant,
-        price: Number(o.price || 0),
-        condition: o.condition,
-        link: o.link,
-      })),
-    };
-
-    return send(res, 200, {
+    return res.status(200).json({
       ok: true,
       upc,
-      product,
-      searchQuery: buildSearchQuery(product),
+      title,
+      query: title || upc,
+      bestMatchTitle: title || upc
     });
   } catch (err) {
-    return send(res, 500, {
+    return res.status(500).json({
       ok: false,
-      error: err.message || "UPC lookup failed",
+      error: err.message || "Server error"
     });
   }
 }

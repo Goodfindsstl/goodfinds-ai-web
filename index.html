@@ -8,367 +8,478 @@
     * { box-sizing: border-box; }
     body {
       margin: 0;
-      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #f6f9fc;
-      color: #153160;
+      font-family: Inter, Arial, sans-serif;
+      background:
+        radial-gradient(circle at top, rgba(35, 85, 255, 0.28), transparent 35%),
+        radial-gradient(circle at bottom, rgba(0, 180, 255, 0.18), transparent 30%),
+        linear-gradient(180deg, #07111f 0%, #091423 45%, #050b14 100%);
+      color: #fff;
+      min-height: 100vh;
     }
-    .wrap { max-width: 1180px; margin: 0 auto; padding: 24px 16px 56px; }
-    .hero { text-align: center; margin-bottom: 24px; }
-    .logo { width: 320px; max-width: 90%; display: block; margin: 0 auto 10px; }
-    .subtitle { max-width: 760px; margin: 0 auto; color: #59729a; font-size: 18px; }
-    .grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 18px; }
+    .wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 24px 18px 60px;
+    }
+    .logo-wrap {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 18px;
+    }
+    .logo {
+      max-width: 280px;
+      width: 70%;
+      filter: drop-shadow(0 0 24px rgba(69, 147, 255, 0.35));
+    }
     .card {
-      background: rgba(255,255,255,.95);
-      border: 1px solid #dbe6f5;
-      border-radius: 28px;
-      box-shadow: 0 16px 50px rgba(25,58,118,.08);
-      padding: 20px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(14px);
+      border-radius: 24px;
+      padding: 18px;
+      box-shadow: 0 18px 60px rgba(0,0,0,0.35);
+      margin-bottom: 18px;
     }
-    .section-label { font-size: 13px; font-weight: 800; letter-spacing: .12em; color: #7189ad; text-transform: uppercase; margin-bottom: 12px; }
-    .tabs { display: flex; gap: 8px; margin-bottom: 14px; }
-    .tab {
-      flex: 1; border: none; border-radius: 14px; padding: 12px 10px; background: #e9f0fa; color: #33527f;
-      font-weight: 700; cursor: pointer;
+    h1, h2, h3, p { margin-top: 0; }
+    h1 {
+      font-size: 28px;
+      text-align: center;
+      margin-bottom: 8px;
     }
-    .tab.active { background: linear-gradient(135deg, #4aa3ff, #2c67f2); color: #fff; }
-    .field-grid { display: grid; gap: 12px; }
-    .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .field label { display: block; font-size: 13px; font-weight: 700; color: #667f9f; margin-bottom: 6px; }
-    .field input, .field select {
-      width: 100%; border: 1px solid #d8e4f3; border-radius: 16px; padding: 14px; background: #fff; color: #1f3d6d;
-      font-size: 16px;
+    .sub {
+      text-align: center;
+      color: rgba(255,255,255,0.75);
+      margin-bottom: 20px;
+      line-height: 1.45;
     }
-    .upload {
-      border: 2px dashed #b8cff0; border-radius: 22px; background: linear-gradient(180deg, #f8fbff, #eef5fc);
-      padding: 18px; text-align: center;
+    .grid {
+      display: grid;
+      gap: 12px;
     }
-    .preview { margin-top: 12px; border-radius: 18px; overflow: hidden; display: none; border: 1px solid #d8e4f3; }
-    .preview img { width: 100%; display: block; }
-    .btn {
-      width: 100%; border: none; border-radius: 18px; padding: 16px 18px; background: linear-gradient(135deg, #35c66d, #28b85e);
-      color: white; font-weight: 800; font-size: 22px; cursor: pointer; margin-top: 8px;
-      box-shadow: 0 12px 24px rgba(40,184,94,.24);
+    .grid-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-    .phone { border-radius: 28px; padding: 14px; background: linear-gradient(180deg, #f7fbff, #edf4fb); border: 1px solid #dbe6f5; }
-    .live { display: flex; justify-content: space-between; align-items: center; color: #5d7699; font-size: 13px; margin-bottom: 10px; }
-    .live-dot { width: 10px; height: 10px; background: #33c766; border-radius: 50%; display: inline-block; margin-left: 8px; box-shadow: 0 0 0 6px rgba(51,199,102,.12); }
-    .cam-box {
-      min-height: 280px; border-radius: 24px; background: linear-gradient(180deg, #edf4fb, #dfeaf7); border: 1px solid #d2e0f0;
-      display: flex; align-items: center; justify-content: center; color: #6991c8; font-weight: 700; text-align: center; padding: 20px; margin-bottom: 14px;
+    @media (max-width: 640px) {
+      .grid-2 { grid-template-columns: 1fr; }
     }
-    .stats, .result-box {
-      background: #fff; border: 1px solid #dbe6f5; border-radius: 22px; padding: 16px;
+    label {
+      font-size: 13px;
+      color: rgba(255,255,255,0.8);
+      display: block;
+      margin-bottom: 6px;
     }
-    .stats h3 { margin: 0 0 14px; text-align: center; color: #5b7399; font-size: 18px; }
-    .stat { display: flex; justify-content: space-between; gap: 14px; padding: 8px 0; font-size: 18px; color: #4d6487; }
-    .stat strong { color: #153160; }
-    .results { margin-top: 16px; display: grid; gap: 14px; }
-    .result-title { font-size: 13px; font-weight: 800; letter-spacing: .08em; color: #7a90b0; text-transform: uppercase; margin-bottom: 8px; }
-    .big { font-size: 26px; font-weight: 800; color: #17366c; }
-    .badge { display: inline-block; margin-top: 10px; padding: 8px 12px; border-radius: 999px; font-size: 13px; font-weight: 800; }
-    .buy { background: #e7f9ef; color: #1e9d50; }
-    .hold { background: #fff6df; color: #b98300; }
-    .pass { background: #ffe8e8; color: #c43d3d; }
-    .market-list { display: grid; gap: 8px; }
-    .market-row {
-      display: grid; grid-template-columns: 1fr auto auto; gap: 12px; align-items: center; padding: 10px 12px;
-      border-radius: 14px; background: #f7fafd; border: 1px solid #e2ebf6; color: #35517f;
+    input, select, button, textarea {
+      width: 100%;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.08);
+      color: #fff;
+      padding: 13px 14px;
+      font-size: 15px;
+      outline: none;
     }
-    .note { font-size: 14px; color: #6780a1; }
-    .error { display: none; margin-top: 12px; background: #fff1f1; color: #b93a3a; border: 1px solid #f0caca; padding: 12px 14px; border-radius: 14px; font-size: 14px; }
-    .pricing { margin-top: 28px; }
-    .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-    .plan { background: #fff; border: 1px solid #dbe6f5; border-radius: 24px; padding: 22px; box-shadow: 0 10px 30px rgba(25,58,118,.05); }
-    .plan h3 { margin: 0 0 8px; font-size: 24px; }
-    .price { font-size: 34px; font-weight: 800; color: #17366c; margin-bottom: 12px; }
-    .plan ul { margin: 0 0 18px 18px; padding: 0; color: #59729a; }
-    .plan button { width: 100%; border: none; border-radius: 14px; padding: 14px; font-weight: 800; cursor: pointer; }
-    .btn-light { background: #eef5ff; color: #2356d8; }
-    .btn-primary { background: linear-gradient(135deg, #4aa3ff, #2c67f2); color: white; }
-    .btn-dark { background: #153160; color: white; }
-    @media (max-width: 900px) {
-      .grid, .pricing-grid, .row-2 { grid-template-columns: 1fr; }
+    input::placeholder, textarea::placeholder {
+      color: rgba(255,255,255,0.45);
+    }
+    button {
+      cursor: pointer;
+      font-weight: 700;
+      transition: transform .12s ease, opacity .12s ease;
+    }
+    button:hover { transform: translateY(-1px); }
+    .primary {
+      background: linear-gradient(135deg, #2d67ff, #00a8ff);
+      border: none;
+      box-shadow: 0 8px 30px rgba(45,103,255,0.28);
+    }
+    .secondary {
+      background: rgba(255,255,255,0.08);
+    }
+    .preview {
+      width: 100%;
+      border-radius: 18px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      min-height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .preview img {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+      max-height: 420px;
+    }
+    .scan-line {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #6ed0ff, transparent);
+      box-shadow: 0 0 18px rgba(110,208,255,0.9);
+      animation: scan 2.1s linear infinite;
+    }
+    @keyframes scan {
+      0% { top: 14%; }
+      50% { top: 82%; }
+      100% { top: 14%; }
+    }
+    .pill-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+    .pill {
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.06);
+      cursor: pointer;
+      user-select: none;
+    }
+    .pill.active {
+      background: rgba(45,103,255,0.22);
+      border-color: rgba(110,170,255,0.65);
+    }
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+    @media (max-width: 640px) {
+      .kpi-grid { grid-template-columns: 1fr; }
+    }
+    .kpi {
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .kpi .label {
+      font-size: 12px;
+      color: rgba(255,255,255,0.62);
+      margin-bottom: 6px;
+    }
+    .kpi .value {
+      font-size: 22px;
+      font-weight: 800;
+    }
+    .verdict {
+      font-size: 34px;
+      font-weight: 900;
+      margin-bottom: 4px;
+    }
+    .buy { color: #28d17c; }
+    .hold { color: #ffab2e; }
+    .pass { color: #ff5b5b; }
+    .tiny {
+      font-size: 12px;
+      color: rgba(255,255,255,0.62);
+    }
+    .result-list {
+      margin: 0;
+      padding-left: 18px;
+      color: rgba(255,255,255,0.88);
+      line-height: 1.5;
+    }
+    .hidden { display: none; }
+    .loading {
+      opacity: 0.75;
+      pointer-events: none;
+    }
+    .title-input {
+      min-height: 48px;
     }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <div class="hero">
-      <img class="logo" src="./assets/logo-light.svg" alt="GoodFinds AI logo" />
-      <p class="subtitle">Scan any product, analyze resale demand, compare marketplaces, and know instantly if it will sell.</p>
+    <div class="logo-wrap">
+      <img class="logo" src="/assets/logo-dark.svg" alt="GoodFinds AI Logo" onerror="this.style.display='none'">
     </div>
 
-    <div class="grid">
-      <div class="card">
-        <div class="section-label">Research Inputs</div>
-        <div class="tabs">
-          <button class="tab" data-scan="tag">Tag</button>
-          <button class="tab active" data-scan="photo">Photo</button>
-          <button class="tab" data-scan="upc">UPC</button>
+    <h1>GoodFinds AI</h1>
+    <p class="sub">Built by resellers, for resellers. Scan faster. Buy smarter. Stop wasting money on inventory that does not move.</p>
+
+    <div class="card">
+      <div class="pill-row" id="modeRow">
+        <div class="pill active" data-mode="item">Item Scan</div>
+        <div class="pill" data-mode="tag">Tag Scan</div>
+        <div class="pill" data-mode="upc">UPC Scan</div>
+      </div>
+
+      <div class="grid grid-2">
+        <div>
+          <label for="buyCost">Your Cost</label>
+          <input id="buyCost" type="number" step="0.01" min="0" placeholder="6.00" />
         </div>
-
-        <div class="field-grid">
-          <div class="upload">
-            <div style="font-weight:800;color:#476892;margin-bottom:8px;">Upload item photo</div>
-            <input id="gf-photo" type="file" accept="image/*" />
-            <div class="preview" id="gf-preview"><img id="gf-preview-img" alt="Preview" /></div>
-          </div>
-
-          <div class="row-2">
-            <div class="field"><label for="gf-brand">Brand</label><input id="gf-brand" placeholder="Nike" /></div>
-            <div class="field"><label for="gf-size">Size</label><input id="gf-size" placeholder="Large / 10 / XXL" /></div>
-          </div>
-
-          <div class="field"><label for="gf-description">Item Description</label><input id="gf-description" placeholder="Golf polo, hoodie, sandals, tote, etc." /></div>
-
-          <div class="row-2">
-            <div class="field">
-              <label for="gf-condition">Condition</label>
-              <select id="gf-condition">
-                <option value="Pre-Owned">Pre-Owned</option>
-                <option value="New With Tags">New With Tags</option>
-                <option value="New Without Tags">New Without Tags</option>
-                <option value="Used">Used</option>
-              </select>
-            </div>
-            <div class="field"><label for="gf-gtin">UPC / GTIN</label><input id="gf-gtin" placeholder="123456789012" /></div>
-          </div>
-
-          <div class="row-2">
-            <div class="field"><label for="gf-buy-cost">Buy Cost</label><input id="gf-buy-cost" type="number" step="0.01" placeholder="5.93" /></div>
-            <div class="field"><label for="gf-shipping-cost">Shipping Cost</label><input id="gf-shipping-cost" type="number" step="0.01" placeholder="6.25" /></div>
-          </div>
-
-          <div class="field">
-            <label for="gf-shipping-type">Shipping Type</label>
-            <select id="gf-shipping-type">
-              <option value="buyer_pays" selected>Buyer Pays Shipping</option>
-              <option value="seller_pays">Seller Pays Shipping</option>
-            </select>
-          </div>
-
-          <button id="gf-run" class="btn">Run Research</button>
-          <div id="gf-error" class="error"></div>
+        <div>
+          <label for="shippingMode">Shipping</label>
+          <select id="shippingMode">
+            <option value="buyer_pays" selected>Buyer Pays</option>
+            <option value="free_shipping">Free Shipping</option>
+            <option value="flat">Flat Shipping</option>
+          </select>
         </div>
       </div>
 
-      <div class="card">
-        <div class="live"><span>Scanner Preview</span><span>GoodFinds AI Live <span class="live-dot"></span></span></div>
-        <div class="phone">
-          <div class="cam-box" id="gf-cam-box">Upload a product photo to run live scan</div>
-          <div class="stats">
-            <h3>Live Scan Output</h3>
-            <div class="stat"><span>Estimated Value</span><strong id="out-value">$0.00</strong></div>
-            <div class="stat"><span>Sell-Through Rate</span><strong id="out-str">0%</strong></div>
-            <div class="stat"><span>Demand Signal</span><strong id="out-demand">Waiting</strong></div>
-          </div>
+      <div class="grid grid-2" style="margin-top: 12px;">
+        <div>
+          <label for="flatShipping">Flat Shipping Cost</label>
+          <input id="flatShipping" type="number" step="0.01" min="0" placeholder="0.00" />
         </div>
-        <div class="results">
-          <div class="result-box"><div class="result-title">Cleaned Title</div><div class="big" id="out-title">Waiting for scan…</div></div>
-          <div class="result-box">
-            <div class="result-title">Decision</div>
-            <div class="note" id="out-range">Estimated Range: —</div>
-            <div class="note" id="out-profit">Estimated Profit: —</div>
-            <div class="note" id="out-roi">ROI: —</div>
-            <div id="out-decision-badge" class="badge hold">HOLD</div>
-          </div>
-          <div class="result-box">
-            <div class="result-title">Marketplace Insight</div>
-            <div id="out-market-list" class="market-list"></div>
-          </div>
-          <div class="result-box">
-            <div class="result-title">Best Platforms</div>
-            <div class="note">Highest Sale Platform: <strong id="out-highest">—</strong></div>
-            <div class="note">Fastest Moving Platform: <strong id="out-fastest">—</strong></div>
-            <div class="note">Best Overall Platform: <strong id="out-best">—</strong></div>
-          </div>
-          <div class="result-box">
-            <div class="result-title">AI Recommendation</div>
-            <div class="note" id="out-recommendation">Run a scan to get a live recommendation.</div>
-          </div>
+        <div>
+          <label for="sizeValue">Optional Size</label>
+          <select id="sizeValue">
+            <option value="">Not selected</option>
+            <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
+            <option>XXL</option><option>2X</option><option>3X</option><option>4X</option>
+            <option>28</option><option>30</option><option>32</option><option>34</option>
+            <option>36</option><option>38</option><option>40</option><option>42</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="margin-top: 12px;">
+        <label for="manualQuery">Manual Title / Search Override</label>
+        <textarea id="manualQuery" class="title-input" placeholder="Example: Nike Golf Polo Men Large Blue Dri-FIT"></textarea>
+      </div>
+
+      <div style="margin-top: 14px;" class="grid grid-2">
+        <div>
+          <label for="imageInput">Upload Photo</label>
+          <input id="imageInput" type="file" accept="image/*" />
+        </div>
+        <div style="display:flex;align-items:flex-end;">
+          <button class="primary" id="analyzeBtn">Analyze Item</button>
         </div>
       </div>
     </div>
 
-    <div class="pricing">
-      <div class="section-label">Plans</div>
-      <div class="pricing-grid">
-        <div class="plan">
-          <h3>Free</h3>
-          <div class="price">$0</div>
-          <ul>
-            <li>Basic research layout</li>
-            <li>Starter scan access</li>
-            <li>Preview workflow</li>
-          </ul>
-          <button class="btn-light">Start Free</button>
+    <div class="card">
+      <div class="preview" id="previewBox">
+        <span id="previewPlaceholder" style="color: rgba(255,255,255,0.55);">Upload an image to scan</span>
+        <div class="scan-line hidden" id="scanLine"></div>
+        <img id="previewImg" class="hidden" alt="Preview" />
+      </div>
+    </div>
+
+    <div class="card hidden" id="resultsCard">
+      <div id="verdictWrap">
+        <div class="verdict" id="verdictText">BUY</div>
+        <div class="tiny" id="confidenceText">Confidence: --</div>
+      </div>
+
+      <div class="kpi-grid" style="margin-top: 16px;">
+        <div class="kpi">
+          <div class="label">Reseller Score</div>
+          <div class="value" id="resellerScore">--</div>
         </div>
-        <div class="plan">
-          <h3>Pro</h3>
-          <div class="price">$19/mo</div>
-          <ul>
-            <li>Unlimited scans</li>
-            <li>Marketplace insights</li>
-            <li>ROI and profit view</li>
-          </ul>
-          <button class="btn-primary">Upgrade to Pro</button>
+        <div class="kpi">
+          <div class="label">Demand Score</div>
+          <div class="value" id="demandScore">--</div>
         </div>
-        <div class="plan">
-          <h3>Premium</h3>
-          <div class="price">$39/mo</div>
-          <ul>
-            <li>Everything in Pro</li>
-            <li>Priority feature access</li>
-            <li>Advanced sourcing tools</li>
-          </ul>
-          <button class="btn-dark">Choose Premium</button>
+        <div class="kpi">
+          <div class="label">Median Active Price</div>
+          <div class="value" id="medianPrice">--</div>
+        </div>
+        <div class="kpi">
+          <div class="label">Recommended Price</div>
+          <div class="value" id="recommendedPrice">--</div>
+        </div>
+        <div class="kpi">
+          <div class="label">Projected Profit</div>
+          <div class="value" id="profitValue">--</div>
+        </div>
+        <div class="kpi">
+          <div class="label">ROI</div>
+          <div class="value" id="roiValue">--</div>
+        </div>
+      </div>
+
+      <div class="grid grid-2" style="margin-top: 16px;">
+        <div>
+          <h3>Query Used</h3>
+          <p id="queryUsed"></p>
+        </div>
+        <div>
+          <h3>Listing Tier</h3>
+          <p id="listingTier"></p>
+        </div>
+      </div>
+
+      <div class="grid grid-2">
+        <div>
+          <h3>Why</h3>
+          <ul class="result-list" id="whyList"></ul>
+        </div>
+        <div>
+          <h3>Photo Plan</h3>
+          <ul class="result-list" id="photoPlan"></ul>
         </div>
       </div>
     </div>
   </div>
 
   <script>
-    const API_BASE = "https://YOUR-VERCEL-APP.vercel.app";
-    const els = {
-      photo: document.getElementById("gf-photo"),
-      preview: document.getElementById("gf-preview"),
-      previewImg: document.getElementById("gf-preview-img"),
-      camBox: document.getElementById("gf-cam-box"),
-      run: document.getElementById("gf-run"),
-      error: document.getElementById("gf-error"),
-      brand: document.getElementById("gf-brand"),
-      size: document.getElementById("gf-size"),
-      description: document.getElementById("gf-description"),
-      condition: document.getElementById("gf-condition"),
-      gtin: document.getElementById("gf-gtin"),
-      buyCost: document.getElementById("gf-buy-cost"),
-      shippingCost: document.getElementById("gf-shipping-cost"),
-      shippingType: document.getElementById("gf-shipping-type"),
-      outValue: document.getElementById("out-value"),
-      outStr: document.getElementById("out-str"),
-      outDemand: document.getElementById("out-demand"),
-      outTitle: document.getElementById("out-title"),
-      outRange: document.getElementById("out-range"),
-      outProfit: document.getElementById("out-profit"),
-      outRoi: document.getElementById("out-roi"),
-      outDecisionBadge: document.getElementById("out-decision-badge"),
-      outMarketList: document.getElementById("out-market-list"),
-      outHighest: document.getElementById("out-highest"),
-      outFastest: document.getElementById("out-fastest"),
-      outBest: document.getElementById("out-best"),
-      outRecommendation: document.getElementById("out-recommendation")
-    };
+    const modeRow = document.getElementById("modeRow");
+    const pills = [...document.querySelectorAll(".pill")];
+    const imageInput = document.getElementById("imageInput");
+    const previewImg = document.getElementById("previewImg");
+    const previewPlaceholder = document.getElementById("previewPlaceholder");
+    const analyzeBtn = document.getElementById("analyzeBtn");
+    const scanLine = document.getElementById("scanLine");
+    const resultsCard = document.getElementById("resultsCard");
+    const manualQuery = document.getElementById("manualQuery");
 
-    let scanMode = "photo";
-    document.querySelectorAll(".tab").forEach(btn => {
-      btn.addEventListener("click", () => {
-        document.querySelectorAll(".tab").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        scanMode = btn.dataset.scan;
-      });
+    let currentMode = "item";
+    let imageBase64 = "";
+
+    modeRow.addEventListener("click", (e) => {
+      const pill = e.target.closest(".pill");
+      if (!pill) return;
+      pills.forEach(p => p.classList.remove("active"));
+      pill.classList.add("active");
+      currentMode = pill.dataset.mode;
     });
 
-    els.photo.addEventListener("change", () => {
-      const file = els.photo.files && els.photo.files[0];
+    imageInput.addEventListener("change", async (e) => {
+      const file = e.target.files?.[0];
       if (!file) return;
+
       const reader = new FileReader();
-      reader.onload = e => {
-        els.previewImg.src = e.target.result;
-        els.preview.style.display = "block";
-        els.camBox.innerHTML = '<img src="' + e.target.result + '" style="max-width:100%;max-height:240px;border-radius:18px;display:block;margin:auto;">';
+      reader.onload = () => {
+        const result = reader.result;
+        imageBase64 = String(result).split(",")[1] || "";
+        previewImg.src = result;
+        previewImg.classList.remove("hidden");
+        previewPlaceholder.classList.add("hidden");
       };
       reader.readAsDataURL(file);
     });
 
-    function money(v) {
-      return "$" + Number(v || 0).toFixed(2);
+    function setLoading(isLoading) {
+      document.body.classList.toggle("loading", isLoading);
+      scanLine.classList.toggle("hidden", !isLoading);
+      analyzeBtn.textContent = isLoading ? "Analyzing..." : "Analyze Item";
     }
 
-    function renderMarkets(markets) {
-      const rows = Array.isArray(markets) && markets.length ? markets : [
-        { platform: "eBay", medianSold: 0, speed: "—" },
-        { platform: "Mercari", medianSold: 0, speed: "—" },
-        { platform: "Poshmark", medianSold: 0, speed: "—" },
-        { platform: "Depop", medianSold: 0, speed: "—" }
-      ];
-      els.outMarketList.innerHTML = rows.map(m => `
-        <div class="market-row">
-          <span>${m.platform}</span>
-          <span>${money(m.medianSold)}</span>
-          <span>${m.speed || "—"}</span>
-        </div>
-      `).join("");
+    function money(n) {
+      if (n === null || n === undefined || Number.isNaN(Number(n))) return "--";
+      return `$${Number(n).toFixed(2)}`;
     }
 
-    async function fileToBase64(file) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(String(reader.result).split(",")[1]);
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
+    function percent(n) {
+      if (n === null || n === undefined || Number.isNaN(Number(n))) return "--";
+      return `${Number(n).toFixed(0)}%`;
+    }
+
+    function fillList(id, items) {
+      const ul = document.getElementById(id);
+      ul.innerHTML = "";
+      (items || []).forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = item;
+        ul.appendChild(li);
       });
     }
 
-    function badgeClass(decision) {
-      const value = String(decision || "").toLowerCase();
-      if (value === "buy") return "badge buy";
-      if (value === "pass") return "badge pass";
-      return "badge hold";
+    async function analyzePhotoIfNeeded() {
+      if (!imageBase64) return null;
+      if (manualQuery.value.trim()) return { bestMatchTitle: manualQuery.value.trim() };
+
+      const endpoint = currentMode === "upc" ? "/api/upc" : "/api/photo-scan";
+      const payload = currentMode === "upc"
+        ? { imageBase64 }
+        : { imageBase64, mode: currentMode };
+
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      if (!res.ok) throw new Error("Scan failed");
+      return await res.json();
     }
 
-    renderMarkets();
+    async function runResearch(querySource) {
+      const buyCost = parseFloat(document.getElementById("buyCost").value || "0");
+      const shippingMode = document.getElementById("shippingMode").value;
+      const flatShipping = parseFloat(document.getElementById("flatShipping").value || "0");
+      const sizeValue = document.getElementById("sizeValue").value || "";
 
-    els.run.addEventListener("click", async () => {
-      els.error.style.display = "none";
-      els.run.disabled = true;
-      els.run.textContent = "Running...";
+      const query = manualQuery.value.trim()
+        || querySource?.bestMatchTitle
+        || querySource?.query
+        || querySource?.title
+        || "";
 
+      if (!query) throw new Error("No query found from scan");
+
+      const res = await fetch("/api/research", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          query,
+          buyCost,
+          shippingMode,
+          flatShipping,
+          sizeValue,
+          scanMode: currentMode
+        })
+      });
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || "Research failed");
+      }
+
+      return await res.json();
+    }
+
+    function renderResults(data) {
+      resultsCard.classList.remove("hidden");
+
+      const verdictText = document.getElementById("verdictText");
+      verdictText.textContent = data.verdict || "HOLD";
+      verdictText.className = "verdict " + (String(data.verdict || "").toLowerCase());
+
+      document.getElementById("confidenceText").textContent = `Confidence: ${data.confidence ?? "--"}%`;
+      document.getElementById("resellerScore").textContent = data.resellerScore ?? "--";
+      document.getElementById("demandScore").textContent = data.demandScore ?? "--";
+      document.getElementById("medianPrice").textContent = money(data.medianPrice);
+      document.getElementById("recommendedPrice").textContent = money(data.recommendedPrice);
+      document.getElementById("profitValue").textContent = money(data.projectedProfit);
+      document.getElementById("roiValue").textContent = percent(data.roi);
+      document.getElementById("queryUsed").textContent = data.queryUsed || "--";
+      document.getElementById("listingTier").textContent = `${data.listingTier || "FAST"} • ${data.estimatedListTime || "45 sec"}`;
+
+      fillList("whyList", data.why || []);
+      fillList("photoPlan", data.photoPlan || []);
+    }
+
+    analyzeBtn.addEventListener("click", async () => {
       try {
-        const file = els.photo.files && els.photo.files[0];
-        const imageBase64 = file ? await fileToBase64(file) : "";
+        setLoading(true);
+        resultsCard.classList.add("hidden");
 
-        const payload = {
-          scanMode,
-          imageBase64,
-          brand: els.brand.value.trim(),
-          titleHint: els.description.value.trim(),
-          size: els.size.value.trim(),
-          condition: els.condition.value,
-          gtin: els.gtin.value.trim(),
-          buyCost: Number(els.buyCost.value || 0),
-          shippingCost: Number(els.shippingCost.value || 0),
-          shippingType: els.shippingType.value
-        };
+        const scan = await analyzePhotoIfNeeded();
+        if (scan?.bestMatchTitle && !manualQuery.value.trim()) {
+          manualQuery.value = scan.bestMatchTitle;
+        }
 
-        const res = await fetch(API_BASE + "/api/research", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        });
-        const data = await res.json();
-        if (!res.ok || !data.ok) throw new Error(data.error || "Research failed");
-
-        const r = data.result || {};
-        els.outTitle.textContent = r.cleanedTitle || "No title returned";
-        els.outValue.textContent = money(r.suggestedPrice || 0);
-        els.outStr.textContent = `${Math.round(Number(r.sellThrough || 0))}%`;
-        els.outDemand.textContent = r.demandSignal || "Moderate";
-        els.outRange.textContent = `Estimated Range: ${money(r.lowPrice || 0)} – ${money(r.highPrice || 0)}`;
-        els.outProfit.textContent = `Estimated Profit: ${money(r.estimatedProfit || 0)}`;
-        els.outRoi.textContent = `ROI: ${Math.round(Number(r.roi || 0))}%`;
-        els.outDecisionBadge.textContent = (r.decision || "HOLD").toUpperCase();
-        els.outDecisionBadge.className = badgeClass(r.decision);
-        renderMarkets(r.marketplaces);
-        els.outHighest.textContent = r.highestSalePlatform || "—";
-        els.outFastest.textContent = r.fastestMovingPlatform || "—";
-        els.outBest.textContent = r.bestOverallPlatform || "—";
-        els.outRecommendation.textContent = r.recommendation || "No recommendation returned.";
+        const data = await runResearch(scan);
+        renderResults(data);
       } catch (err) {
-        els.error.textContent = err.message || "Something went wrong.";
-        els.error.style.display = "block";
+        alert(err.message || "Something went wrong");
       } finally {
-        els.run.disabled = false;
-        els.run.textContent = "Run Research";
+        setLoading(false);
       }
     });
   </script>
